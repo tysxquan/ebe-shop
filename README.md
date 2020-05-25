@@ -2,7 +2,7 @@
 
 **记得安装lombok插件**
 
-![https://img.shields.io/badge/springboot-2.2.5-red.svg?style=flat-square](https://img.shields.io/badge/springboot-2.2.5-red.svg?style=flat-square)![https://img.shields.io/badge/shiro-1.4.0-blue.svg?longCache=true&style=flat-square](https://img.shields.io/badge/shiro-1.4.0-blue.svg?longCache=true&style=flat-square)![https://img.shields.io/badge/layui-2.5.4-brightgreen.svg?longCache=true&style=flat-square](https://img.shields.io/badge/layui-2.5.4-green.svg?longCache=true&style=flat-square)![https://img.shields.io/badge/license-Apache%202.0-4EB1BA.svg?longCache=true&style=flat-square](https://img.shields.io/badge/license-Apache%202.0-4EB1BA.svg?longCache=true&style=flat-square)
+![https://img.shields.io/badge/springboot-2.2.5-red.svg?style=flat-square](https://img.shields.io/badge/springboot-2.2.5-red.svg?style=flat-square) ![https://img.shields.io/badge/shiro-1.4.0-blue.svg?longCache=true&style=flat-square](https://img.shields.io/badge/shiro-1.4.0-blue.svg?longCache=true&style=flat-square) ![https://img.shields.io/badge/layui-2.5.4-brightgreen.svg?longCache=true&style=flat-square](https://img.shields.io/badge/layui-2.5.4-green.svg?longCache=true&style=flat-square)  ![https://img.shields.io/badge/license-Apache%202.0-4EB1BA.svg?longCache=true&style=flat-square](https://img.shields.io/badge/license-Apache%202.0-4EB1BA.svg?longCache=true&style=flat-square)
 
 ebe-shop是一款简单美观高效的商城系统，使用SpringBoot、Shiro架构，数据持久化层为Mybatis+Mybatis-Plus构建及Layui+Thymeleaf模板引擎搭建的前端视图模型，适合新零售、商店、连锁商店等系统使用。
 
@@ -28,6 +28,8 @@ ebe-shop是一款简单美观高效的商城系统，使用SpringBoot、Shiro架
 
 > 开发环境：IDE：IntelliJ IDEA、DB：Mysql 5.7.28、JDK：JAVA8
 
+> 部署教程CSDN博客：https://blog.csdn.net/sx_4567/article/details/106225757
+
 **账户：**
 
 | 账户  | 密码                       | 说明                                                     |
@@ -49,12 +51,12 @@ ebe-shop是一款简单美观高效的商城系统，使用SpringBoot、Shiro架
 
 - [x] 系统管理模块  --  完成
 - [x] 业务管理模块  --  完成
-
 - [x] 系统监控模块  --  完成
 - [x] 分类规格模块  --  完成
 - [x] C端数据模块  --  完成
 - [x] 图片上传 --  完成
 - [x] 权限管理 --  完成
+- [x] 代码生成 --  完成
 - [ ] 导出导入 --  进行
 - [ ] 接口限流  --  未开始
 
@@ -86,7 +88,7 @@ ebe-shop是一款简单美观高效的商城系统，使用SpringBoot、Shiro架
 
 #### 注意
 
-- layui的element.js模块修改了源码（替换版本注意）
+layui的element.js模块修改了源码（替换版本注意）
 
 #### 鸣谢
 

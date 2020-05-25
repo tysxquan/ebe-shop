@@ -1,0 +1,12 @@
+.layui-layer-admin {
+     border-radius: 3px
+ }
+.layui-layer-admin .layui-layer-btn0{
+    border-color:#009688;
+    background-color: #009688;
+}
+.layui-layer-admin-modal {
+    border: 1px solid #fff !important;
+    box-shadow: 3px 2px 9px rgba(0, 0, 0, 0.1) !important;
+    overflow: hidden;
+}

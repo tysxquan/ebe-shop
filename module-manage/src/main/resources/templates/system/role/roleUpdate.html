@@ -1,0 +1,132 @@
+<link rel="stylesheet" href="/lib/lay-module/eleTree/eleTree.css">
+<style>
+    #role-update {
+        padding: 20px 25px 20px 10px;
+    }
+    #role-update .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+</style>
+<div class="layui-fluid" id="role-update">
+    <form class="layui-form" action="" lay-filter="role-update-form">
+        <div class="layui-form-item ebe-hide">
+            <label class="layui-form-label ebe-require">角色id：</label>
+            <div class="layui-input-block">
+                <input type="text" name="roleId" data-th-value="${role.roleId}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">角色名：</label>
+            <div class="layui-input-inline">
+                <input type="text" name="roleName" minlength="4" maxlength="10"
+                       lay-verify="requiredAuto" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">状态：</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="status" value="1" lay-skin="switch" lay-text="启用|禁用" checked>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注：</label>
+            <div class="layui-input-block">
+                <textarea name="roleDesc" maxlength="100" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">权限分配：</label>
+            <div class="layui-input-block" style="height: 150px">
+                <div class="eleTree" id="eleTree"></div>
+            </div>
+        </div>
+        <div class="layui-form-item ebe-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="role-update-form-submit" id="submit"></button>
+            <button type="reset" class="layui-btn" id="reset"></button>
+        </div>
+    </form>
+</div>
+<script data-th-inline="javascript">
+    layui.use(['layuimini', 'form', 'validate', 'table', 'eleTree'], function () {
+        var $ = layui.$,
+            layer = layui.layer,
+            table = layui.table,
+            layuimini = layui.layuimini,
+            eleTree = layui.eleTree,
+            form = layui.form,
+            role = [[${role}]];
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+
+        //加载选择树
+        var ele = eleTree.render({
+            elem: '#eleTree',
+            url: '/menu/loadTree',
+            renderAfterExpand: false,
+            accordion:true,
+            showCheckbox: true,
+            checkStrictly:true,
+            request: {
+                name: "menuName",
+                key: "nodeId",
+                children: "child",
+                checked: "checked",
+            },
+            response: {
+                statusName: "code",
+                statusCode: 200,
+                dataName: "data"
+            },
+            done: function(res){
+                if (role.menuIds) {
+                    ele.setChecked(role.menuIds.split(',').map(Number), true);
+                }
+            }
+        });
+        form.on('submit(role-update-form-submit)', function (data) {
+            var params = updateParams(data.field);
+            var  selected = ele.getChecked(false,true);
+            var menuIds = [];
+            layui.each(selected,function (index,item) {
+                menuIds.push(item.nodeId);
+            });
+            params.menuIds = menuIds.join(",");
+            if (layuimini.nativeEqual(params, role)) {
+                layuimini.alert.warn('数据未作任何修改！');
+                return false;
+            }
+            layuimini.put('/role',params,function () {
+               layer.closeAll();
+               layuimini.alert.success('修改角色成功！');
+               table.reload('roleTable', {
+                   where: {key:{field:data.field}}
+               }, 'data');
+            });
+            return false;
+        });
+        function initValue() {
+            form.val("role-update-form", {
+                "roleName": role.roleName,
+                "status": role.status,
+                "roleDesc": role.roleDesc
+            });
+        }
+        function updateParams(data) {
+            var params = {
+                roleId: data.roleId.trim(),
+                roleName: data.roleName.trim(),
+               roleDesc: data.roleDesc.trim()
+            };
+            if (data.status === '1') {
+                params.status = data.status;
+            } else {
+                params.status = 0;
+            }
+            return params;
+        }
+        initValue();
+    });
+</script>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>规格组管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/font.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+</head>
+<body class="ebe-body">
+<div class="layui-fluid" id="ebe-group">
+    <div class="layui-card">
+        <div class="layui-card-body ebe-table-full">
+            <form class="layui-form ebe-search">
+                <div class="layui-row">
+                    <div class="layui-col-md10">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-sm">规格组名</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="groupName"  autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-sm">标准</label>
+                                <div class="layui-input-inline">
+                                    <select name="standard">
+                                        <option value=""></option>
+                                        <option value="0">非标准</option>
+                                        <option value="1">标准</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md2 layui-col-sm12 layui-col-xs12  table-action-area">
+                        <div class="layui-btn layui-btn-sm layui-btn-primary table-action" lay-submit
+                             lay-filter="data-search-btn" id="query">
+                            <i class="layui-icon layui-icon-search"></i>
+                        </div>
+                        <div class="layui-btn layui-btn-sm layui-btn-primary table-action action-more"
+                             shiro:hasAnyPermissions="specGroup:add,specGroup:delete">
+                            <i class="layui-icon layui-icon-unorderedlist"></i>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <table class="layui-hide" id="groupTable" lay-filter="currentTableFilter"></table>
+            <script type="text/html" id="currentTableBar">
+                <span shiro:lacksPermission="specGroup:update,specGroup:delete">
+        				<span class="layui-badge-dot"></span> 无权限
+    			</span>
+                <a shiro:hasPermission="specGroup:update" class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+                <a shiro:hasPermission="specGroup:delete" class="layui-btn layui-btn-xs layui-btn-red data-count-delete" lay-event="delete">删除</a>
+            </script>
+        </div>
+    </div>
+
+
+</div>
+</div>
+<script src="/lib/layui/layui.js" charset="utf-8"></script>
+<script src="/lib/lay-config.js" charset="utf-8"></script>
+<script type="text/html" id="group-status">
+    {{#
+    var standard = {
+    true: {title: '标准', color: 'green'},
+    false: {title: '非标准', color: 'red'}
+    }[d.standard];
+    }}
+    <span class="ebe-badge ebe-tag-{{standard.color}}">{{ standard.title }}</span>
+</script>
+<script data-th-inline="none">
+    layui.use(['form', 'table', 'layuimini', 'dropdown', 'laydate'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            layuimini = layui.layuimini,
+            dropdown = layui.dropdown,
+            table = layui.table;
+
+        //表格
+        layuimini.table.init({
+            elem: '#groupTable',
+            url: '/spec/group/list',
+            cols: [[
+                {type: "checkbox", width: 50, fixed: "left"},
+                {field: 'specGroupId', title: 'ID', type: 'numbers' ,align: "center",width:50},
+                {field: 'groupName', title: '规格组名',align: "center", minWidth: 100},
+                {field: 'description', title: '描述',align: "center"},
+                {title: '标准', templet: "#group-status", align: "center"},
+                {field: 'createTime', title: '创建时间', align: "center", minWidth: 180, sort: true},
+                {title: '操作', minWidth: 150, fixed: "right", align: "center", templet: "#currentTableBar"}
+            ]],
+        });
+        dropdown.render({
+            elem: $('.action-more'),
+            click: function (name, elem, event) {
+                var checkStatus = table.checkStatus('groupTable');
+                let checkLen = checkStatus.data.length;
+                if (name === 'add') {
+                    layuimini.model.open('新增规格组', '/spec/group/add', {
+                        btn: ['提交', '重置'],
+                        area: $(window).width() <= 750 ? '90%' : '50%',
+                        yes: function (index, layero) {
+                            $('#group-add').find('#submit').trigger('click');
+                        },
+                        btn2: function () {
+                            $('#group-add').find('#reset').trigger('click');
+                            return false;
+                        }
+                    });
+                }
+                if (name === 'delete') {
+                    if (!checkLen) {
+                        layuimini.alert.warn('请选择需要删除的规格组');
+                    } else {
+                        layuimini.modal.confirm('删除规格组', '确定删除所选规格组？', function () {
+                            let groupIds = [];
+                            layui.each(checkStatus.data, function (key, item) {
+                                groupIds.push(item.specGroupId)
+                            });
+                            layuimini.delete('/spec/group/' + groupIds.join(','),function() {
+                                table.reload('groupTable', {
+                                    page: {
+                                        curr: layuimini.judgeRemoveTablePage('groupTable',checkLen)
+                                    }
+                                }, 'data');
+                                layuimini.alert.success('删除规格组成功');
+                            });
+                        });
+                    }
+                }
+            },
+            options: [{
+                name: 'add',
+                title: '新增规格组',
+                perms: 'specGroup:add'
+            }, {
+                name: 'delete',
+                title: '删除规格组',
+                perms: 'specGroup:delete'
+            }]
+        });
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            var result = data.field;
+            //执行搜索重载
+            table.reload('groupTable', {
+                page: {
+                    curr: 1
+                },
+                where: result
+
+            }, 'data');
+
+            return false;
+        });
+
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            if (layEvent === 'delete') {
+                layuimini.modal.confirm('删除规格组', '确定删除该规格组？', function () {
+                    layuimini.delete('/spec/group/' + data.specGroupId,function() {
+                        table.reload('groupTable', {
+                            page: {
+                                curr: layuimini.judgeRemoveTablePage('groupTable',1)
+                            }
+                        }, 'data');
+                        layuimini.alert.success('删除规格组成功');
+                    });
+                });
+            }
+            if (layEvent === 'edit') {
+                layuimini.model.openMax('修改规格组', '/spec/group/update/' + data.specGroupId);
+            }
+        });
+
+    });
+</script>
+<script>
+
+</script>
+
+</body>
+</html>

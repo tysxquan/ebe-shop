@@ -1,0 +1,469 @@
+body {
+	background: #f2f2f2;
+}
+
+html {
+	background-color: #f2f2f2;
+	color: #666
+}
+/*叠加禁用样式*/
+.layui-disabled ,.layui-disabled:hover{
+	background-color: #f6f7fa;
+	border-color: #e4e7ed;
+	color: #bac7de!important;
+}
+
+/*弹窗皮肤*/
+.layui-layer-ebe-modal {
+	border: 1px solid #fff !important;
+	box-shadow: 3px 2px 9px rgba(0, 0, 0, 0.1) !important;
+	overflow: hidden;
+}
+.layui-layer-ebe {
+	border-radius: 3px!important;
+}
+.layui-layer-ebe .layui-layer-btn0{
+	border-color:#009688!important;
+	background-color: #009688!important;
+}
+.ebe-layer-modelMax .layui-layer-setwin {
+	top: 20px!important;
+}
+.ebe-layer-modelMax {
+	background-color: #F9FAFB!important;
+}
+.ebe-layer-modelMax .layui-form-item {
+	margin-bottom: 32px;
+}
+.ebe-layer-modelMax  .layui-input-block {
+	width: 65% !important;
+}
+.layui-ebe-btn {
+	padding: 35px 0 35px 150px;
+}
+.ebe-layer-btn{
+	padding: 0 18px;
+	height: 32px;
+	line-height: 32px;
+}
+/**自定义滚动条样式 */
+::-webkit-scrollbar {
+	width: 6px;
+	height: 6px
+}
+
+::-webkit-scrollbar-track {
+	background-color: transparent;
+	-webkit-border-radius: 2em;
+	-moz-border-radius: 2em;
+	border-radius: 2em;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #9c9da0;
+	-webkit-border-radius: 2em;
+	-moz-border-radius: 2em;
+	border-radius: 2em
+}
+/* treeTable*/
+.ew-tree-tips{
+	padding: 0 10px;
+}
+/* 图标按钮 */
+.ebe-icon-edit {
+	font-size: 19px;
+	cursor: pointer;
+}
+/*颜色*/
+.ebe-blue {
+	color: #3B97FF;
+}
+/* 按钮颜色定义 */
+.layui-btn-red {
+	background-color: #f56c6c;
+}
+
+.layui-btn-blue {
+	background-color: #1c90d2;
+}
+
+.layui-badge-dot {
+	width: 6px !important;
+	height: 6px !important;
+	vertical-align: middle;
+	background-color: #ff5652;
+}
+.layuimini-container {
+	border: 1px solid #f2f2f2;
+	border-radius: 5px;
+	background-color: #ffffff
+}
+.ebe-bg-blue {
+	 background-color: #2faae3!important;
+	 /*color: #009688;*/
+ }
+.ebe-bg-orange {
+	background-color: #fdb002!important;
+	/*color: #009688;*/
+}
+.ebe-bg-prasinous {
+	background-color: #74c84a!important;
+	/*color: #009688;*/
+}
+/* 卡片配色 */
+.ebe-badge {
+	height: 21px;
+	line-height: 16px;
+	padding: 2px 8px;
+	border-radius: 2px;
+	display: inline-block;
+	font-size: 12px;
+}
+.ebe-tag-green {
+	background-color: rgba(0, 150, 136, 0.1)!important;
+	color: #009688;
+	border: 1px solid  rgba(0, 150, 136, 0.7);
+}
+.ebe-tag-red {
+	background-color: rgba(245,108,108, 0.2)!important;
+	color: #fa541c;
+	border: 1px solid rgba(245,108,108, 0.7);
+}
+.ebe-circle-badge{
+	display: inline-block;
+	padding: 0 13px;
+	height: 24px;
+	line-height: 24px;
+	border-radius: 12px;
+	font-size: 12px;
+}
+.ebe-tag-info {
+	background-color: #f4f4f5;
+	border:1px solid #e9e9eb;
+	color: #909399;
+}
+.ebe-tag-success {
+	background-color: #e6f9f4;
+	border:1px solid #ccf3e9;
+	color: #00c292;
+}
+.ebe-tag-warning {
+	background-color: #fffaf1;
+	border:1px solid #fff5e3;
+	color: #ffcb71;
+}
+.ebe-tag-danger{
+background-color: #feeef0;
+border-color: #fddce2;
+color: #f4516c;
+}
+.ebe-body {
+	/*滚动条闪烁*/
+	overflow: scroll;
+	padding: 6px 6px 30px 6px;
+}
+.layui-card-body{
+	padding: 20px 15px;
+}
+.layui-fluid {
+	padding: 0;
+}
+
+/**必填红点 */
+.layui-form-item>.ebe-required:before {
+	display: inline-block;
+	margin-right: 4px;
+	content: "*";
+	line-height: 1;
+	font-size: 13px;
+	color: #f5222d
+}
+/*隐藏*/
+.ebe-hide {
+	display: none
+}
+/*表单*/
+.layui-input ,.layui-textarea{
+	border-radius: 4px !important;
+	color: #4a4a4a;
+}
+.layui-form .layui-form-item>.layui-form-label {
+	width: 120px !important;
+}
+
+.layui-form .layui-form-item>.layui-input-block {
+	margin-left: 150px !important;
+}
+
+.layui-form>.layui-form-item>.layui-input-block>tip {
+	display: inline-block;
+	margin-top: 10px;
+	line-height: 10px;
+	font-size: 10px;
+	color: #a29c9c;
+}
+
+/* 定义 */
+.layui-table,
+.layui-table-view {
+	margin: 0;
+}
+
+.layuiebe-card-list p.layuiebe-big-font {
+	font-size: 36px;
+	color: #666;
+	line-height: 36px;
+	padding: 5px 0 10px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	word-break: break-all;
+	white-space: nowrap
+}
+
+.layuiebe-badge,
+.layuiebe-btn-group,
+.layuiebe-span-color {
+	position: absolute;
+	right: 15px
+}
+
+.layuiebe-badge {
+	top: 50%;
+	margin-top: -9px;
+	color: #01AAED
+}
+
+.ebe-card {
+	border: 1px solid #ebeef5;
+	border-radius: 4px;
+}
+.ebe-table-full {
+	padding: 20px 15px 30px 15px;
+}
+/* 检索区 */
+.layui-form-item .layui-inline {
+	margin-right: 0 !important;
+}
+
+.layui-card-header.ebe-search {
+	padding-top: 15px;
+}
+
+.layui-card-header .layui-form-item {
+	margin-bottom: 0.6rem !important;
+}
+
+.layui-card-header {
+	color: #666666;
+}
+
+.table-action-area {
+	padding-top: 2px;
+	margin-bottom: 16px;
+}
+
+.table-action-area .layui-icon {
+	margin-right: 0
+}
+
+.layui-form-label-sm {
+	width: 56px;
+}
+
+/* 表格 */
+.layui-table td,
+.layui-table th,
+.layui-table-col-set,
+.layui-table-fixed-r,
+.layui-table-grid-down,
+.layui-table-header,
+.layui-table-page,
+.layui-table-tips-main,
+.layui-table-tool,
+.layui-table-total,
+.layui-table-view,
+.layui-table[lay-skin=line],
+.layui-table[lay-skin=row] {
+	border-color: #f4f4f4;
+}
+
+.layui-table thead tr,
+.layui-table tbody tr:hover,
+.layui-table-header,
+.layui-table-hover,
+.layui-table-mend,
+.layui-table-patch,
+.layui-table-tool {
+	background-color: #f7f7f7 !important;
+}
+/*自定义表格样式*/
+.ebe-table .layui-table-body .layui-table-cell{
+	line-height: 75px;
+	height: 75px;
+}
+
+/*定义表格图片大小*/
+.layui-table .ebe-table-img{
+	width:auto;
+	height: 60px;
+}
+.layui-card-body .layui-table td,
+.layui-card-body .layui-table th {
+	padding: 8px 0;
+}
+.ebe-card-body{
+	position: relative;
+	padding: 10px 15px;
+	line-height: 24px;
+}
+.ebe-card-body .layui-table td,
+.ebe-card-body .layui-table th {
+	padding: 11px 0;
+}
+.layui-table-page {
+	height: 42px;
+}
+
+.layui-table-page a,
+.layui-table-page button,
+.layui-table-page span,
+.layui-table-page select {
+	color: #666;
+}
+
+.layui-table-page .layui-laypage a,
+.layui-table-page .layui-laypage span {
+	height: 28px;
+	line-height: 28px;
+}
+
+.layui-laypage a,
+.layui-laypage span {
+	font-size: 13px !important;
+}
+/* 表单错误提示*/
+.ebe-form-danger {
+	border-color: #FF5722 !important;
+}
+
+/* 表单控件 */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+}
+input[type="number"]{
+	-moz-appearance: textfield;
+}
+.ebe-search .layui-input {
+	height: 34px !important;
+}
+.layui-input:focus,
+.layui-textarea:focus{
+	/* border-color: #009688 !important; */
+	box-shadow: 0 0 0 2px rgba(0, 150, 136, 0.2);
+}
+
+.table-action-area .layui-btn-primary:hover {
+	border-color: #949494;
+}
+/*下拉选中配色*/
+.layui-form-select dl dd.layui-this{
+	background-color: rgba(0, 150, 136, 0.1)!important;
+	color:#009688 ;
+	border-radius: 9px;
+	border: 5px solid #fff;
+}
+/*时间组件配色*/
+.layui-laydate td.layui-this, .layui-laydate td.layui-this:hover{
+	font-weight: bold;
+	background-color: rgba(0, 150, 136, 0.2)!important;
+	color:#009688 !important;
+	border: 1px solid #009688!important;
+}
+.layui-laydate-content td.laydate-selected{
+	background-color: rgba(0, 150, 136, 0.2)!important;
+}
+.layui-laydate .layui-laydate-footer span:hover{
+	color:#009688 !important;
+}
+.layui-input:hover,
+.layui-textarea:hover {
+	border-color: #d1d1d1 ;
+}
+
+/* 选择项 */
+.layui-dropdown {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 99999;
+	opacity: 0;
+	background-color: #FFFFFF;
+	text-align:center;
+}
+
+.ebe-arrow-up {
+	width: 0;
+	height: 0;
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+	border-bottom: 8px solid #fff;
+}
+
+.layui-dropdown .ebe-arrow-up {
+	position: absolute;
+	top: -6px;
+	left: 10px;
+}
+
+.layui-dropdown-right .ebe-arrow-up {
+	left: auto;
+	right: 10px;
+}
+
+.layui-dropdown .layui-dropdown-select {
+	border-radius: 3px;
+	border: 1px solid #f1f1f1;
+	box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
+}
+
+.layui-dropdown .layui-dropdown-option {
+	position: relative;
+	height: 38px;
+	line-height: 38px;
+	/*padding-left: 20px;*/
+	cursor: pointer;
+	transition: all 0.3s ease
+}
+
+.layui-dropdown .layui-dropdown-option .layui-icon {
+	margin-right: 10px;
+	font-size: 14px
+}
+
+.layui-dropdown .layui-dropdown-option .layui-dropdown-select {
+	position: absolute;
+	top: 0;
+	display: none
+}
+.layui-dropdown .layui-dropdown-option:hover {
+	background-color: rgba(0, 150, 136, 0.1)!important;
+	color:#009688 ;
+}
+
+
+.layui-dropdown .layui-dropdown-option:hover>.layui-dropdown-select {
+	display: block
+}
+
+.layui-dropdown .layui-icon-right {
+	float: right;
+	position: absolute;
+	right: 0;
+	top: 0;
+	color: #aaa;
+}
+
+.layui-dropdown .layui-dropdown-title {
+	padding-right: 15px;
+}

@@ -1,0 +1,178 @@
+<style>
+    #sku-add {
+        padding: 25px;
+        margin-bottom: 120px;
+    }
+     .xm-body .xm-option{
+        padding: 0 20px!important;
+    }
+</style>
+<div class="layui-fluid" id="sku-add">
+    <form class="layui-form" action="" lay-filter="sku-add-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">标题：</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" minlength="2" maxlength="100"
+                       lay-verify="required|range" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">价格：</label>
+            <div class="layui-input-inline">
+                <input type="number" name="originPrice" lay-verify="required"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label  ebe-required">库存：</label>
+            <div class="layui-input-inline">
+                <input type="number" name="inventory" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">SPU：</label>
+            <div class="layui-input-block">
+                <div id="spuId"></div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">图片：</label>
+            <div class="layui-input-inline">
+                <ul class="upload-ul clearfix"></ul>
+                <div class="upload-pick" id="image"></div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">状态：</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="status" value="1" lay-skin="switch" lay-text="启用|禁用" checked>
+            </div>
+        </div>
+        <div id="specParam">
+
+        </div>
+        <div class="layui-form-item layui-ebe-btn">
+            <button class="layui-btn ebe-layer-btn" lay-submit="" lay-filter="sku-add-form-submit" id="submit">提交
+            </button>
+            <button type="reset" class="layui-btn ebe-layer-btn layui-btn-primary" id="reset">重置</button>
+        </div>
+
+    </form>
+
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['layuimini', 'form', 'validate', 'table', 'scrollTop', 'diyUploader','xmSelect','selectPlus'], function () {
+        var $ = layui.jquery,
+            layer = layui.layer,
+            xmSelect = layui.xmSelect,
+            scrollTop = layui.scrollTop,
+            selectPlus = layui.selectPlus,
+            diyUploader = layui.diyUploader,
+            table = layui.table,
+            layuimini = layui.layuimini,
+            form = layui.form,
+            validate = layui.validate,
+            categoryIds,mergerCategoryName;
+
+        form.verify(validate);
+        form.render();
+
+        //加载滚动图标
+        scrollTop.load();
+        //动态加载选择SPU
+        var $spuId = xmSelect.render({
+            el: '#spuId',
+            radio: true,
+            name:'spuId',
+            layVerify: 'required',
+            layVerType: 'msg',
+            clickClose: true,
+            filterable: true,
+            prop: {
+                name: 'title',
+                value: 'spuId',
+            },
+            model: {
+                icon: 'hidden',
+                label: {
+                    type: 'text'
+                },
+            },
+            template({ item, sels, name, value }){
+                return '<span style="padding-right: 15px; font-size:12px;color: #b4b4b4">'+value+'</span>' +name
+            },
+            on: function(data){
+                //arr:  当前多选已选中的数据]
+                var arr = data.arr;
+                if (arr.length > 0){
+                    selectPlus.render({elem:'#specParam',spuId:arr[0].spuId});
+                }
+            },
+        });
+        $.get("/business/spu/form/all",function (res) {
+            if (res.code === 200){
+                $spuId.update({
+                    data: res.data,
+                    autoRow: true,
+                })
+            }
+        });
+
+        //图片
+        let $image = diyUploader.diyUpload({
+            pick: {
+                id: $("#image"),
+                multiple: false,
+                label: "文件大小 ≤ 2Mb"
+            },
+            server: '/business/sku/image',
+            fileVal: "imgFile",
+
+            //队列数
+            fileNumLimit: 1,
+        });
+       
+        form.on('submit(sku-add-form-submit)', function (data) {
+            layuimini.post('/business/sku', addParams(data.field), function () {
+                layer.closeAll();
+                layuimini.alert.success('新增sku成功!');
+                table.reload('skuTable', {
+                    data: data.field,
+                    page: {
+                        curr: layuimini.judgeAddTablePage('skuTable')
+                    }
+                });
+            });
+            return false;
+        });
+
+        function addParams(data) {
+            var image = $image.getFiles('complete'),
+                specParam = selectPlus.getData('#specParam');
+            var params = {
+                title: data.title.trim(),
+                originPrice: data.originPrice,
+                inventory: data.inventory,
+                spuId:data.spuId
+            };
+            if (specParam !== undefined) {
+                params.paramIds = specParam.ids.join(",");
+                params.code = specParam.arr.join("#")
+            }
+            if (data.status === '1') {
+                params.status = 1;
+            } else {
+                params.status = 2;
+            }
+            if (image.length !== 0) {
+                params.image = image[0].name;
+            }
+            if (data.description !== "") {
+                params.description = data.description;
+            }
+            return params;
+        }
+    });
+</script>

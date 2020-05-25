@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxquan.manage.system.mapper.SystemMenuMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sxquan.manage.system.pojo.SystemMenu">
+        <id column="menu_id" jdbcType="BIGINT" property="menuId" />
+        <result column="parent_id" property="parentId" />
+        <result column="menu_name"  property="menuName" />
+        <result column="icon" property="icon" />
+        <result column="url" property="url" />
+        <result column="perms" property="perms" />
+        <result column="type" property="type" />
+        <result column="sort_order" property="sortOrder" />
+        <result column="descpt" property="descpt" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        menu_id, parent_id,menu_name, icon, url, perms, type, sort_order, descpt, create_time, update_time
+    </sql>
+    <select id="findMenuByRoleIds" resultMap="BaseResultMap">
+        SELECT m.perms
+        from system_menu m
+	    LEFT JOIN system_role_menu rm on (m.menu_id = rm.menu_id)
+	    WHERE
+	    m.perms &lt;&gt; '' and
+        m.perms is not null and
+	    rm.role_id in
+	    <foreach collection="roleIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="findUserMenuByUserId" resultType="com.sxquan.manage.system.pojo.SystemMenu">
+         SELECT
+            m.*
+        FROM
+            system_menu m
+        WHERE
+            m.type &lt;&gt; #{type}
+        AND m.menu_id IN (
+            SELECT DISTINCT
+                rm.menu_id
+            FROM
+                system_role_menu rm
+            LEFT JOIN system_role r ON (rm.role_id = r.role_id)
+            LEFT JOIN system_user_role ur ON (ur.role_id = r.role_id)
+            WHERE
+                ur.system_user_id = #{userId}
+        )
+        ORDER BY
+          m.sort_order
+    </select>
+    <select id="findParentIdsByParentId" resultType="java.lang.Long">
+        SELECT distinct a.parent_id
+        FROM `system_menu` a ,(select menu_id from `system_menu` where parent_id = #{parentId}) b
+        WHERE b.menu_id = a.parent_id
+    </select>
+
+</mapper>

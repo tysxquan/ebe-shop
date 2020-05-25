@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxquan.manage.business.mapper.SpuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sxquan.manage.business.pojo.Spu">
+        <id column="spu_id" property="spuId" />
+        <result column="category_id" property="categoryId" />
+        <result column="title" property="title" />
+        <result column="subhead" property="subhead" />
+        <result column="cover" property="cover" />
+        <result column="banner_images" property="bannerImages" />
+        <result column="detail_img" property="detailImg" />
+        <result column="origin_price" property="originPrice" />
+        <result column="sell_price" property="sellPrice" />
+        <result column="discount" property="discount" />
+        <result column="collect" property="collect" />
+        <result column="limit_num" property="limitNum" />
+        <result column="unit" property="unit" />
+        <result column="total_sales" property="totalSales" />
+        <result column="month_sales" property="monthSales" />
+        <result column="praise_rate" property="praiseRate" />
+        <result column="description" property="description" />
+        <result column="status" property="status" />
+        <result column="is_deleted" property="deleted" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        spu_id, category_id, title, subhead, cover, banner_images, detail_img, origin_price, sell_price, discount, collect, limit_num, unit, total_sales, month_sales, praise_rate,description, status,is_deleted, create_time, update_time
+    </sql>
+
+    <select id="selectSpuList" resultType="com.sxquan.manage.business.pojo.Spu">
+        select * from `spu` s,`category_product_spu` cs,`category_product`c
+        where s.spu_id = cs.spu_id AND cs.category_id = c.category_id
+        AND is_deleted = false
+        <if test="spu.title != null">
+            AND title like  CONCAT('%',#{spu.title},'%')
+        </if>
+        <if test="spu.status != null">
+            AND s.status = #{spu.status}
+        </if>
+    </select>
+
+</mapper>

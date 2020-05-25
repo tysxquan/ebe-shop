@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>订单管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/font.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+</head>
+<body>
+<div class="ebe-body">
+    <div class="layui-fluid" id="ebe-order">
+        <div class="layui-card">
+            <div class="layui-card-body ebe-table-full">
+                <form class="layui-form ebe-search">
+                    <div class="layui-row">
+                        <div class="layui-col-md10">
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label layui-form-label-sm">订单编号</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="username" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label layui-form-label-sm">下单时间</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="createTimeRange" id="createTime" autocomplete="off"
+                                               class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label layui-form-label-sm">手机</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="mobile" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label layui-form-label-sm">姓名</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="trueName" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+
+                                <div class="layui-inline">
+                                    <label class="layui-form-label layui-form-label-sm">状态</label>
+                                    <div class="layui-input-inline">
+                                        <select name="status">
+                                            <option value=""></option>
+                                            <option value="0">已取消</option>
+                                            <option value="1">待付款</option>
+                                            <option value="2">已支付</option>
+                                            <option value="3">待送货</option>
+                                            <option value="6">已完成</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md2 layui-col-sm12 layui-col-xs12  table-action-area">
+                            <div class="layui-btn layui-btn-sm layui-btn-primary table-action" lay-submit
+                                 lay-filter="data-search-btn" id="query">
+                                <i class="layui-icon layui-icon-search"></i>
+                            </div>
+                            <div class="layui-btn layui-btn-sm layui-btn-primary table-action action-more"
+                                 shiro:hasAnyPermissions="user:add,user:update,user:password:reset">
+                                <i class="layui-icon layui-icon-unorderedlist"></i>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <table class="layui-hide" id="orderTable" lay-filter="currentTableFilter"></table>
+                <script type="text/html" id="currentTableBar">
+                    <span shiro:lacksPermission="order:view,order:delete">
+        				<span class="layui-badge-dot"></span> 无权限
+    				</span>
+                    <a  shiro:hasPermission="order:view" class="layui-btn layui-btn-xs layui-btn-blue" lay-event="detail">详情</a>
+                    <a class="layui-btn layui-btn-xs layui-btn-red data-count-delete" lay-event="delete"
+                       shiro:hasPermission="order:delete">删除</a>
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/lib/layui/layui.js" charset="utf-8"></script>
+<script src="/lib/lay-config.js" charset="utf-8"></script>
+
+<script type="text/html" id="order-status">
+    {{#
+    var status = {
+    0: {title: '已取消', color: 'warning'},
+    1: {title: '待付款', color: 'info'},
+    2: {title: '已支付', color: 'success'},
+    3: {title: '待送货', color: 'warning'},
+    6: {title: '已完成', color: 'success'}
+    }[d.status];
+    }}
+    <span class="ebe-circle-badge ebe-tag-{{status.color}}">{{ status.title }}</span>
+</script>
+<script data-th-inline="none">
+    layui.use(['form', 'table', 'layuimini', 'dropdown', 'laydate'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            layuimini = layui.layuimini,
+            dropdown = layui.dropdown,
+            laydate = layui.laydate,
+            table = layui.table;
+        // 时间组件
+        laydate.render({
+            elem: '#createTime',
+            range: true,
+            trigger: 'click'
+        });
+        //表格
+        layuimini.table.init({
+            elem: '#orderTable',
+            url: '/order/list',
+            cols: [[
+                {type: "checkbox", width: 50, fixed: "left"},
+                {field: 'id', title: 'ID', type: 'numbers'},
+                {field: 'orderId', title: '订单编号'},
+                {field: 'sendCost', title: '配送费'},
+                {field: 'totalMoney', title: '总价'},
+                {title: '状态', templet: "#order-status",align:"center"},
+                {field: 'createTime', title: '下单时间', minWidth: 180, sort: true, align: "center"},
+                {title: '操作', minWidth: 180, toolbar: '#currentTableBar', fixed: "right", align: "center"}
+            ]]
+        });
+        dropdown.render({
+            elem: $('.action-more'),
+            click: function (name, elem, event) {
+                var checkStatus = table.checkStatus('orderTable');
+                let checkLen = checkStatus.data.length;
+                if (name === 'delete') {
+                    if (!checkStatus.data.length) {
+                        layuimini.alert.warn('请选择需要删除的订单');
+                    } else {
+                        layuimini.modal.confirm('删除订单', '确定删除所选订单？', function () {
+                            var orderIds = [];
+                            layui.each(checkStatus.data, function (key, item) {
+                                orderIds.push(item.orderId)
+                            });
+                            layuimini.delete('/order/' + orderIds.join(','), function () {
+                                table.reload('orderTable', {
+                                    page: {
+                                        curr: layuimini.judgeRemoveTablePage('orderTable',checkLen)
+                                    }
+                                }, 'data');
+                                layuimini.alert.success('删除订单成功');
+                            });
+                        });
+                    }
+                }
+
+            },
+            options: [ {
+                name: 'delete',
+                title: '删除订单',
+                perms: 'order:delete'
+            }]
+        });
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            let result = data.field;
+            //执行搜索重载
+            table.reload('orderTable', {
+                page: {
+                    curr: 1
+                },
+                where: result
+
+            }, 'data');
+
+            return false;
+        });
+
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            if (layEvent === 'detail') {
+                layuimini.model.viewMax('订单信息', '/order/' + data.orderId);
+            }
+            if (layEvent === 'delete') {
+                layuimini.modal.confirm('删除订单', '确定删除该订单？', function () {
+                    layuimini.delete('/order/' + data.orderId, function () {
+                        table.reload('orderTable', {
+                            page: {
+                                curr: layuimini.judgeRemoveTablePage('orderTable',1)
+                            }
+                        }, 'data');
+                        layuimini.alert.success('删除订单成功');
+                    });
+                });
+            }
+        });
+
+    });
+</script>
+</body>
+</html>

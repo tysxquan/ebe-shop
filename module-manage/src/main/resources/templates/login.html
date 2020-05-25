@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8">
+		<title>登录</title>
+		<script>
+				// 登录过期的时候，跳出ifram框架
+				if (top.location !== window.location) {
+					top.location = window.location;
+				}
+		</script>
+		<link rel="stylesheet" href="/css/login.css">
+		<link rel="stylesheet" href="/lib/layui/css/layui.css" media="all">
+	</head>
+	<body >
+		<div class="content">
+			<div class="form sign-in">
+				<form class="layui-form login" action="">
+					<div class="layui-form-item logo-title">
+						<h2>欢迎回来</h2>
+					</div>
+					<div class="layui-form-item">
+						<div class="err">
+							<span></span>
+						</div>
+						<label class="layui-icon layui-icon-username" for="username"></label>
+						<input type="text" name="username"  placeholder="用户名" autocomplete="off" class="layui-input">
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-icon layui-icon-password" for="password"></label>
+						<input type="password" name="password" placeholder="密码" autocomplete="off" class="layui-input">
+					</div>
+					<div class="layui-form-item">
+						<div class="layui-inline" style="width: 190px;margin-bottom: 0">
+						<label class="layui-icon label-icon layui-icon-vercode"></label>
+						<input type="text" maxlength="4" name="verifyCode"  placeholder="验证码" class="layui-input" autocomplete="off">
+					
+						</div>
+						<div class="layui-inline" style="margin: 0">
+							<img id="code">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<input type="checkbox" name="rememberMe" value="true" lay-skin="primary" title="记住我">
+					</div>
+					<div class="layui-form-item">
+						<div class="layui-btn-container">
+							<button class="layui-btn " lay-submit="" lay-filter="login">
+								<i style="display: none" class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i>
+								登录</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="sub-cont">
+				<div class="img">
+					<div class="img_text m-up">
+						<h2>还未注册？</h2>
+						<p>立即注册，发现大量机会！</p>
+					</div>
+					<div class="img_text m-in">
+						<h2>已有帐号？</h2>
+						<p>有帐号就登录吧，好久不见了！</p>
+					</div>
+					<div class="img_btn">
+						<span class="m-up">注 册</span>
+						<span class="m-in">登 录</span>
+					</div>
+				</div>
+				<div class="form sign-up">
+					<div class="layui-form-item logo-title">
+						<h2>立即注册</h2>
+					</div>
+					<form class="layui-form register" action="">
+						<div class="layui-form-item">
+							<div class="err">
+								<span></span>
+							</div>
+							<label class="layui-icon layui-icon-username" for="username"></label>
+							<input type="text" name="username" placeholder="用户名" autocomplete="off" class="layui-input">
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-icon layui-icon-password" for="password"></label>
+							<input type="password" name="password" minlength="6" placeholder="密码" autocomplete="off" class="layui-input">
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-icon layui-icon-password" for="passwordEnsure"></label>
+							<input type="password" name="passwordEnsure" minlength="6" placeholder="确定密码" autocomplete="off" class="layui-input">
+						</div>
+
+						<div class="layui-form-item" style="margin-top: 30px;">
+							<div class="layui-btn-container" >
+								<button class="layui-btn " lay-submit="" lay-filter="register">
+									<i style="display: none" class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i>
+									注册</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<script src="lib/layui/layui.js" charset="utf-8"></script>
+		<script src="lib/lay-config.js" charset="utf-8"></script>
+		<script src="/js/login.js"></script>
+	</body>
+
+</html>

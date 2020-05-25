@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxquan.manage.business.mapper.RegionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sxquan.manage.business.pojo.Region">
+        <id column="id" property="id" />
+        <result column="city_code" property="cityCode" />
+        <result column="parent_code" property="parentCode" />
+        <result column="name" property="name" />
+        <result column="merger_name" property="mergerName" />
+        <result column="short_name" property="shortName" />
+        <result column="merger_short_name" property="mergerShortName" />
+        <result column="level" property="level" />
+        <result column="level_type" property="levelType" />
+        <result column="telephone_code" property="telephoneCode" />
+        <result column="zip_code" property="zipCode" />
+        <result column="name_pinyin" property="namePinyin" />
+        <result column="name_jianpin" property="nameJianpin" />
+        <result column="center" property="center" />
+        <result column="name_first_char" property="nameFirstChar" />
+        <result column="longitude" property="longitude" />
+        <result column="latitude" property="latitude" />
+        <result column="status" property="status" />
+        <result column="version" property="version" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, city_code, parent_code, name, merger_name, short_name, merger_short_name, level, level_type, telephone_code, zip_code, name_pinyin, name_jianpin, center, name_first_char, longitude, latitude, status, version, create_time, update_time
+    </sql>
+    <select id="findParentCodeByParentCode" resultType="java.lang.String">
+        SELECT distinct a.parent_code FROM `region` a,(select city_code from `region` where parent_code = #{parentCode}) b
+	WHERE a.parent_code = b.city_code
+
+
+    </select>
+
+</mapper>

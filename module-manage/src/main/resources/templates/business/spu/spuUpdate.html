@@ -1,0 +1,289 @@
+<style>
+    #spu-update {
+        pupdateing: 25px;
+        margin-bottom: 120px;
+    }
+</style>
+<link rel="stylesheet" href="/lib/lay-module/formSelects/formSelects-v4.css" media="all">
+<div class="layui-fluid" id="spu-update">
+    <form class="layui-form" action="" lay-filter="spu-update-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">标题：</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" minlength="2" maxlength="100"
+                       lay-verify="required|range" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">副标题：</label>
+            <div class="layui-input-block">
+                <input type="text" name="subhead" minlength="2" maxlength="200"
+                       lay-verify="required|range" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">价格：</label>
+            <div class="layui-input-inline">
+                <input type="number" name="originPrice"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">分类：</label>
+            <div class="layui-input-block">
+                <input type="hidden" name="categoryId" id="categoryId" lay-verify="required">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">主图：</label>
+            <div class="layui-input-inline">
+                <ul class="upload-ul clearfix"></ul>
+                <div class="upload-pick" id="cover"></div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">轮播图：</label>
+            <div class="layui-input-block">
+                <ul class="upload-ul clearfix"></ul>
+                <div class="upload-pick" id="bannerImages"></div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">详情图：</label>
+            <div class="layui-input-inline">
+                <ul class="upload-ul clearfix"></ul>
+                <div class="upload-pick" id="detailImg"></div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">状态：</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="status" value="1" lay-skin="switch" lay-text="上架|下架" checked>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">单位：</label>
+            <div class="layui-input-inline">
+                <select name="unit" lay-verify="required" lay-search="">
+                    <option value=""></option>
+                    <option value="份">份</option>
+                    <option value="盒">盒</option>
+                    <option value="包">包</option>
+                    <option value="瓶">瓶</option>
+                    <option value="组">组</option>
+                    <option value="箱">箱</option>
+                    <option value="袋">袋</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">规格组：</label>
+            <div class="layui-input-block">
+                <select name="specGroup"
+                        lay-verify="required"
+                        xm-select-direction="down"
+                        xm-select="specGroup"
+                        xm-select-skin="default">
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">描述：</label>
+            <div class="layui-input-block">
+                <input type="text" name="description"  minlength="2" maxlength="200"
+                       lay-verify="range" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-ebe-btn">
+            <button class="layui-btn ebe-layer-btn" lay-submit="" lay-filter="spu-update-form-submit" id="submit">提交
+            </button>
+            <button type="reset" class="layui-btn ebe-layer-btn layui-btn-primary" id="reset">重置</button>
+        </div>
+
+    </form>
+
+</div>
+<script data-th-inline="javascript">
+    layui.use(['layuimini', 'form', 'validate', 'table', 'scrollTop', 'diyUploader', 'selectY','formSelects'], function () {
+        var $ = layui.jquery,
+            layer = layui.layer,
+            formSelects = layui.formSelects,
+            scrollTop = layui.scrollTop,
+            selectY = layui.selectY,
+            diyUploader = layui.diyUploader,
+            spu = [[${spu}]],
+            table = layui.table,
+            layuimini = layui.layuimini,
+            form = layui.form,
+            validate = layui.validate,
+            categoryIds,mergerCategoryName;
+
+        form.verify(validate);
+        form.render();
+        initValue();
+        //加载滚动图标
+        scrollTop.load();
+        //动态加载选择规格组
+        formSelects.config('specGroup', {
+            searchUrl: '/spec/group/form/all',
+            keyName: 'groupName',
+            keyVal: 'specGroupId',
+            response: {
+                statusCode: 200,          //成功状态码
+                statusName: 'code',     //code key
+                msgName: 'message',         //msg key
+                dataName: 'data'        //data key
+            },
+            success: function () {
+                formSelects.value('specGroup', spu.specGroup.split(','));
+            },
+            error: function (id, url, searchVal, err) {
+                console.error(err);
+                layuimini.alert.error('获取规格组列表失败');
+            }
+        });
+        var $selectY = selectY({
+            elem: '#categoryId',
+            //url为ajax 获取json数据，当url属性有值时，不提取data属性值
+            url: '/category/product/tree',
+            placeholder: '请选择分类',
+            disabledTips: '当前区域没有分类',
+            key: {
+                idKey: "categoryId",
+                pIdKey: "parentId",
+                name: "categoryName",
+                rootPId: '0'
+            },
+            success: function (e) {
+                mergerCategoryName = e.data;
+                categoryIds = e.ids;
+            }
+        });
+        $('#reset').click(function () {
+            $selectY.refresh();
+        });
+        //主图
+        let $cover = diyUploader.diyUpload({
+            pick: {
+                id: $("#cover"),
+                multiple: false,
+                label: "文件大小 ≤ 2Mb"
+            },
+            server: '/business/spu/image/cover',
+            fileVal: "imgFile",
+            initFileUrl:spu.cover,
+            //队列数
+            fileNumLimit: 1,
+        });
+        //轮播图
+        let $bannerImages = diyUploader.diyUpload({
+            pick: {
+                id: $("#bannerImages"),
+                multiple: true,
+                label: "文件大小 ≤ 2Mb"
+            },
+            server: '/business/spu/image/bannerImages',
+            fileVal: "imgFile",
+            initFileUrl:spu.bannerImages !== undefined && spu.bannerImages !== ""  ? spu.bannerImages.split(","):"",
+            //队列数
+            fileNumLimit: 5,
+        });
+        //详情图
+        let $detailImg = diyUploader.diyUpload({
+            pick: {
+                id: $("#detailImg"),
+                multiple: false,
+                label: "文件大小 ≤ 2Mb"
+            },
+            server: '/business/spu/image/detailImg',
+            fileVal: "imgFile",
+            initFileUrl:spu.detailImg,
+            //队列数
+            fileNumLimit: 1,
+        });
+        //修正更新的图片数据校验
+        spu.cover = layuimini.subImageName(spu.cover);
+        spu.bannerImages = layuimini.subImageName(spu.bannerImages);
+        spu.detailImg = layuimini.subImageName(spu.detailImg);
+
+        form.on('submit(spu-update-form-submit)', function (data) {
+            var params = updateParams(data.field);
+
+            if (layuimini.nativeEqual(params, spu)) {
+                layuimini.alert.warn('数据未作任何修改！');
+                return false;
+            }
+            layuimini.put('/business/spu', params, function () {
+                layer.closeAll();
+                layuimini.alert.success('修改SPU成功!');
+                var currTable = table.reload('spuTable');
+                var pageTemp = currTable.config.page;
+                var currTemp = Math.ceil((pageTemp.count + 1) / pageTemp.limit);
+                table.reload('spuTable', {
+                    data: data.field,
+                    page: {
+                        curr: currTemp
+                    }
+                });
+            });
+            return false;
+        });
+        function initValue() {
+            form.val("spu-update-form", {
+                "title": spu.title,
+                "subhead": spu.subhead,
+                "originPrice": spu.originPrice,
+                "status": spu.status,
+                "categoryId": spu.mergerCategoryId,
+                "unit": spu.unit
+            });
+        }
+        function updateParams(data) {
+            var cover = $cover.getFiles('complete'),
+                bannerImages = $bannerImages.getFiles('complete'),
+                detailImg = $detailImg.getFiles('complete'),
+                category = $selectY.getDate();
+
+            var params = {
+                spuId: spu.spuId,
+                title: data.title.trim(),
+                subhead: data.subhead.trim(),
+                originPrice: data.originPrice,
+                specGroup: data.specGroup,
+                unit:data.unit,
+                description: data.description,
+                mergerCategoryId: category.ids.join(","),
+                categoryId: category.ids.pop()
+            };
+            if (data.status === '1') {
+                params.status = 1;
+            } else {
+                params.status = 2;
+            }
+            if (cover.length !== 0) {
+                params.cover = cover[0].name;
+            } else {
+                params.cover = "";
+            }
+            if (bannerImages.length !== 0) {
+                var arr = [];
+                layui.each(bannerImages,function (index,item) {
+                    arr.push(item.name)
+                });
+                params.bannerImages = arr.join(",");
+            } else {
+                params.bannerImages = "";
+            }
+            if (detailImg.length !== 0) {
+                params.detailImg = detailImg[0].name;
+            } else {
+                params.detailImg = "";
+            }
+            return params;
+        }
+    });
+</script>

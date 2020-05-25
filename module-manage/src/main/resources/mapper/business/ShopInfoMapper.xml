@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxquan.manage.business.mapper.ShopInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sxquan.manage.business.pojo.ShopInfo">
+        <id column="shop_info_id" property="shopInfoId" />
+        <result column="shop_name" property="shopName" />
+        <result column="contact_man" property="contactMan" />
+        <result column="contact_mobile" property="contactMobile" />
+        <result column="cate_id" property="cateId" />
+        <result column="begin_time" property="beginTime" />
+        <result column="end_time" property="endTime" />
+        <result column="store_img" property="storeImg" />
+        <result column="instore_img" property="instoreImg" />
+        <result column="logo_img" property="logoImg" />
+        <result column="longitude" property="longitude" />
+        <result column="latitude" property="latitude" />
+        <result column="province" property="province" />
+        <result column="city" property="city" />
+        <result column="district" property="district" />
+        <result column="region" property="region" />
+        <result column="address" property="address" />
+        <result column="street" property="street" />
+        <result column="email" property="email" />
+        <result column="images" property="images" />
+        <result column="notice" property="notice" />
+        <result column="send_time" property="sendTime" />
+        <result column="send_cost" property="sendCost" />
+        <result column="floor_send_cost" property="floorSendCost" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        shop_info_id, shop_name, contact_man, contact_mobile, cate_id, begin_time, end_time, store_img, instore_img, logo_img, longitude, latitude, province, city, district, region, address, street, email, images, notice, send_time, send_cost, floor_send_cost, status, create_time, update_time
+    </sql>
+
+</mapper>

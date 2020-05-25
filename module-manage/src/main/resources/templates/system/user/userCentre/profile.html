@@ -1,0 +1,192 @@
+<style>
+
+    #user-profile #user-profile-header img {
+        width: 7rem;
+        border-radius: 50%;
+
+    }
+    #user-profile #user-profile-header .ebe-avatar {
+        position: relative;
+        left: 0;
+        top: 0;
+        display: inline-block;
+        width: 7rem;
+        margin: 0 1rem 1rem 0;
+        border-radius: 50%;
+        cursor: pointer;
+
+    }
+    #user-profile #user-profile-header .ebe-avatar-control{
+        position: absolute;
+        display: flex;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        border-radius: 50%;
+        opacity: 0;
+        background-color: rgba(0, 0, 0, .3);
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+
+    }
+    #user-profile #user-profile-header .ebe-avatar-control i {
+        font-size: 23px;
+        color: #fff;
+    }
+    #user-profile #user-profile-header .ebe-avatar:hover .ebe-avatar-control{
+        opacity: 1;
+    }
+    #user-profile .user-profile-info {
+        vertical-align: top;
+        padding-top: 10px;
+    }
+
+    #user-profile .user-profile-info div {
+        height: 30px;
+        font-size: 14px;
+    }
+
+    #user-profile .user-profile-info h2 {
+        color: #525252;
+    }
+    #user-profile #options-wrapper{
+        margin: 30px 0 0 50px;
+    }
+    #user-profile .user-profile-info span {
+        font-size: 14px;
+    }
+    #user-profile .layui-form input, #user-profile .layui-form textarea{
+        width: 60%;
+        height: 30px;
+        border-radius: 10px;
+    }
+    #user-profile .layui-form label{
+        padding: 6px;
+    }
+    #user-profile .layui-form .layui-form-item>.layui-input-block{
+        margin-left: 132px !important;
+    }
+    #user-profile .layui-ebe-btn{
+        padding-left: 132px;
+    }
+</style>
+<div id="user-profile">
+    <div id="user-profile-header">
+
+    </div>
+    <div id="options-wrapper">
+        <form action="" class="layui-form" lay-filter="user-update-info">
+            <div class="layui-form-item">
+                <label class="layui-form-label ">姓名：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="trueName" minlength="2" maxlength="10"
+                           lay-verify="range"  placeholder="请输入姓名" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">手机：</label>
+                <div class="layui-input-block">
+                    <input type="number" name="mobile" lay-verify="phone" placeholder="请输入手机号码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="padding-top: 10px">性别：</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="sex" value="0" title="保密" checked>
+                    <input type="radio" name="sex" value="1" title="男性">
+                    <input type="radio" name="sex" value="2" title="女性">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">个人简介：</label>
+                <div class="layui-input-block">
+		                <textarea name="description" maxlength="100"  placeholder="请输入个人简介" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-ebe-btn">
+                <button class="layui-btn ebe-layer-btn" lay-submit="" lay-filter="user-update-info-submit" id="submit">提交</button>
+                <button type="reset" class="layui-btn ebe-layer-btn layui-btn-primary">重置</button>
+            </div>
+        </form>
+    </div>
+    <script type="text/html" id="user-profile-info">
+        <div class="ebe-avatar" title="点我更换头像">
+            <img alt="头像" title="点我更换头像" data-th-src="@{/images/avatar/{{d.avatar}}}">
+            <span class="ebe-avatar-control"><i class="layui-icon layui-icon-redact1"></i></span>
+        </div>
+        <div class="layui-inline user-profile-info">
+            <div><h2>{{d.username}}</h2></div>
+            <div><span>{{d.description || '暂无简介'}}</span></div>
+            <div><span class="layui-icon layui-icon-rolePermission"></span> {{d.roleName || '暂无简介'}}</div>
+        </div>
+
+    </script>
+    <script data-th-inline="none" type="text/javascript">
+        layui.use(['jquery', 'form', 'layuimini', 'laytpl','validate'], function () {
+            var $ = layui.jquery,
+                laytpl = layui.laytpl,
+                form = layui.form,
+                layuimini = layui.layuimini,
+                validate = layui.validate,
+                $view = $("#user-profile"),
+                $header =$view.find("#user-profile-header");
+            var currentUser = parent.currentUser;
+
+
+            form.verify(validate);
+            form.val("user-update-info", {
+                "trueName": currentUser.trueName,
+                "mobile": currentUser.mobile,
+                "sex": currentUser.sex,
+                "description": currentUser.description
+            });
+            form.render();
+
+            laytpl($("#user-profile-info").html()).render(currentUser, function (html) {
+                $header.html(html)
+            });
+
+            form.on('submit(user-update-info-submit)', function (data) {
+                let params = updateParams(data.field);
+                if (layuimini.nativeEqual(params, currentUser)) {
+                    layuimini.alert.warn('数据未作任何修改！');
+                    return false;
+                }
+                layuimini.put('/system-user/profile/update', params, function () {
+                    layuimini.modal.confirm('修改成功','是否马上刷新页面生效？',function () {
+                        parent.location.reload();
+                    });
+                });
+                return false;
+            });
+            $view.on('click', '#user-profile-header .ebe-avatar', function () {
+                layuimini.model.view('点击更换', '/system/user/userCentre/avatar', {
+                    area: $(window).width() <= 750 ? '90%' : '650px',
+                    offset: '100px'
+                });
+            });
+
+            function updateParams(data) {
+                var params = {
+                    systemUserId: currentUser.systemUserId,
+                    sex: data.sex
+                };
+                if (data.mobile !== '') {
+                    params.mobile = data.mobile.trim();
+                }
+                if (data.description !== "" ) {
+                    params.description = data.description.trim();
+                }
+                if (data.trueName !== '') {
+                    params.trueName = data.trueName.trim();
+                }
+                return params;
+            }
+        })
+    </script>
+</div>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxquan.manage.order.mapper.OrdersMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sxquan.manage.order.pojo.Orders">
+        <id column="id" property="id" />
+        <result column="order_id" property="orderId" />
+        <result column="pay_type" property="payType" />
+        <result column="user_id" property="userId" />
+        <result column="user_true_name" property="userTrueMame" />
+        <result column="user_receiver_area_name" property="userReceiverAreaName" />
+        <result column="user_address" property="userAddress" />
+        <result column="user_mobile" property="userMobile" />
+        <result column="shop_info_id" property="shopInfoId" />
+        <result column="send_cost" property="sendCost" />
+        <result column="total_money" property="totalMoney" />
+        <result column="discount_money" property="discountMoney" />
+        <result column="coupon_id" property="couponId" />
+        <result column="pay_money" property="payMoney" />
+        <result column="system_user_id" property="systemUserId" />
+        <result column="system_user_name" property="systemUserName" />
+        <result column="system_user_mobile" property="systemUserMobile" />
+        <result column="payment_time" property="paymentTime" />
+        <result column="status" property="status" />
+        <result column="end_time" property="endTime" />
+        <result column="demand_time" property="demandTime" />
+        <result column="reserve_time" property="reserveTime" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+
+    <resultMap id="OrderInfoResultMap" type="com.sxquan.manage.order.pojo.vo.OrderInfoVO">
+        <id column="id" property="id" />
+        <result column="order_id" property="orderId" />
+        <result column="pay_type" property="payType" />
+        <result column="user_id" property="userId" />
+        <result column="user_true_name" property="userTrueMame" />
+        <result column="user_receiver_area_name" property="userReceiverAreaName" />
+        <result column="user_address" property="userAddress" />
+        <result column="user_mobile" property="userMobile" />
+        <result column="shop_info_id" property="shopInfoId" />
+        <result column="send_cost" property="sendCost" />
+        <result column="total_money" property="totalMoney" />
+        <result column="discount_money" property="discountMoney" />
+        <result column="coupon_id" property="couponId" />
+        <result column="pay_money" property="payMoney" />
+        <result column="system_user_id" property="systemUserId" />
+        <result column="system_user_name" property="systemUserName" />
+        <result column="system_user_mobile" property="systemUserMobile" />
+        <result column="payment_time" property="paymentTime" />
+        <result column="status" property="status" />
+        <result column="end_time" property="endTime" />
+        <result column="demand_time" property="demandTime" />
+        <result column="reserve_time" property="reserveTime" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <collection property="orderItems" ofType="com.sxquan.manage.order.pojo.OrderItem">
+            <result column="order_id" property="orderId" />
+            <result column="spu_id" property="spuId" />
+            <result column="spec_info" property="specInfo" />
+            <result column="title" property="title" />
+            <result column="cover" property="cover" />
+            <result column="price" property="price" />
+            <result column="total_price" property="totalPrice" />
+            <result column="num" property="num" />
+        </collection>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, order_id, pay_type, user_id, user_true_name, user_mobile,user_receiver_area_name, user_address, shop_info_id, send_cost, total_money, discount_money, coupon_id, pay_money, system_user_id, system_user_name, system_user_mobile, payment_time, status, end_time, demand_time, reserve_time, create_time, update_time
+    </sql>
+    <select id="selectOrderInfoByOrderId" resultMap="OrderInfoResultMap">
+        SELECT * FROM `orders` o,order_item oi
+        WHERE o.order_id = oi.order_id
+        AND o.order_id = #{orderId}
+    </select>
+
+
+</mapper>

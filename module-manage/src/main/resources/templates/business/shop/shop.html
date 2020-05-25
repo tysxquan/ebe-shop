@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head >
+    <meta charset="utf-8">
+    <title>店铺管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/font.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+</head>
+<body class="ebe-body" >
+<div class="layui-fluid ebe-table" id="ebe-shopInfo">
+    <div class="layui-card">
+        <div class="layui-card-body ebe-table-full">
+            <form class="layui-form ebe-search" >
+                <div class="layui-row">
+                    <div class="layui-col-md10">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-sm">店铺名</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="shopName" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-sm">创建时间</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="createTimeRange" id="createTime" autocomplete="off" class="layui-input" readonly>
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-sm">联系电话</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="contactMobile" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-sm">联系人</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="contactMan" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-sm">状态</label>
+                                <div class="layui-input-inline">
+                                    <select name="status">
+                                        <option value=""></option>
+                                        <option value="0">休息</option>
+                                        <option value="1">营业</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md2 layui-col-sm12 layui-col-xs12  table-action-area">
+                        <div class="layui-btn layui-btn-sm layui-btn-primary table-action" lay-submit lay-filter="data-search-btn" id="query">
+                            <i class="layui-icon layui-icon-search"></i>
+                        </div>
+                        <div class="layui-btn layui-btn-sm layui-btn-primary table-action action-more" shiro:hasAnyPermissions="shopInfo:add,shopInfo:delete">
+                            <i class="layui-icon layui-icon-unorderedlist"></i>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <table class="layui-hide" id="shopTable" lay-filter="currentTableFilter"></table>
+            <script type="text/html" id="currentTableBar">
+                <span shiro:lacksPermission="shopInfo:view,shopInfo:update,shopInfo:delete">
+        				<span class="layui-badge-dot"></span> 无权限
+    				</span>
+                <a  shiro:hasPermission="shopInfo:view" class="layui-btn layui-btn-xs layui-btn-blue" lay-event="detail">查看</a>
+                <a shiro:hasPermission="shopInfo:update" class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+                <a shiro:hasPermission="shopInfo:delete" class="layui-btn layui-btn-xs layui-btn-red data-count-delete" lay-event="delete">删除</a>
+            </script>
+        </div>
+
+    </div>
+</div>
+<script src="/lib/layui/layui.js" charset="utf-8"></script>
+<script src="/lib/lay-config.js" charset="utf-8"></script>
+<script type="text/html" id="shop-status">
+    {{#
+    var status = {
+    1: {title: '营业', color: 'green'},
+    0: {title: '休息', color: 'red'}
+    }[d.status];
+    }}
+    <span class="ebe-badge ebe-tag-{{status.color}}">{{ status.title }}</span>
+</script>
+<script data-th-inline="none">
+    layui.use(['form', 'table','layuimini','dropdown','laydate'], function() {
+        var $ = layui.jquery,
+            form = layui.form,
+            layuimini = layui.layuimini,
+            dropdown = layui.dropdown,
+            laydate = layui.laydate,
+            table = layui.table;
+        // 时间组件
+        laydate.render({
+            elem: '#createTime',
+            range: true,
+            trigger: 'click',
+
+        });
+        //表格
+        layuimini.table.init({
+            elem: '#shopTable',
+            url: '/shopInfo/list',
+            limit: 5,
+            cols: [
+                [
+                {type: "checkbox",width: 50,fixed:"letf"},
+                {field: 'shopInfoId',title: 'ID',type:'numbers'},
+                {field: 'storeImg',title: '店面图片',minWidth:140,align:"center",templet:function (d) {
+                    if (d.storeImg !== undefined) {
+                      return '<div ><img class="ebe-table-img" src="'+d.storeImg+'"></div>';
+                    }
+                    return '';
+                }},
+                {field: 'shopName',title: '店铺名称', minWidth:100},
+                {field: 'contactMan',title: '联系人'},
+                {field: 'contactMobile',title: '联系电话', minWidth:110},
+                {field: 'businessHours',title:'营业时间',align:"center", minWidth:180,},
+                {title: '状态',templet:"#shop-status",align:"center"},
+                {field: 'createTime',title: '创建时间', minWidth: 180 ,sort: true, align: "center"},
+                {title: '操作', minWidth: 180, templet: '#currentTableBar', fixed:"right",align: "center"}
+                ]
+            ]
+        });
+        dropdown.render({
+            elem: $('.action-more'),
+            click: function (name, elem, event) {
+                var checkStatus = table.checkStatus('shopTable');
+                let checkLen = checkStatus.data.length;
+                if (name === 'add') {
+                    layuimini.model.openMax('新增店铺', '/business/shopInfo/add');
+                }
+                if (name === 'delete') {
+                    if (!checkLen) {
+                        layuimini.alert.warn('请选择需要删除的店铺');
+                    } else {
+                        layuimini.modal.confirm('删除店铺', '确定删除所选店铺？', function () {
+                            var ids = [];
+                            layui.each(checkStatus.data, function (key, item) {
+                                ids.push(item.shopInfoId);
+                            });
+                            layuimini.delete('/shopInfo/' + ids.join(','), function() {
+                                table.reload('shopTable', {
+                                    page: {
+                                        curr: layuimini.judgeRemoveTablePage('shopTable',checkLen)
+                                    }
+                                }, 'data');
+                                layuimini.alert.success('删除店铺成功');
+                            });
+                        });
+                    }
+                }
+            },
+            options: [{
+                name: 'add',
+                title: '新增店铺',
+                perms: 'shopInfo:add'
+            }, {
+                name: 'delete',
+                title: '删除店铺',
+                perms: 'shopInfo:delete'
+            }]
+        });
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function(data) {
+            var result = data.field;
+            //执行搜索重载
+            table.reload('shopTable', {
+                page: {
+                    curr: 1
+                },
+                where: result
+
+            }, 'data');
+
+            return false;
+        });
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            if (layEvent === 'detail') {
+                layuimini.model.viewMax('店铺信息','/business/shopInfo/detail/' + data.shopInfoId,{
+
+                });
+            }
+            if (layEvent === 'delete') {
+                layuimini.modal.confirm('删除店铺', '确定删除该店铺？', function() {
+                    layuimini.delete('/shopInfo/' + data.shopInfoId,function() {
+                        table.reload('shopTable', {
+                            page: {
+                                curr:  layuimini.judgeRemoveTablePage('shopTable',1)
+                            }
+                        }, 'data');
+                        layuimini.alert.success('删除店铺成功');
+                    });
+                });
+            }
+            if (layEvent === 'edit') {
+                layuimini.model.openMax('修改店铺', '/business/shopInfo/update/' + data.shopInfoId);
+            }
+        });
+
+    });
+</script>
+</body>
+</html>

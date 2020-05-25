@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>操作日志管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/font.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+</head>
+<body>
+<div class="ebe-body">
+    <div class="layui-fluid" id="ebe-operationLog">
+        <div class="layui-card">
+            <div class="layui-card-body ebe-table-full">
+                <form class="layui-form ebe-search">
+                    <div class="layui-row">
+                        <div class="layui-col-md10">
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label layui-form-label-sm">操作人</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="username" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label layui-form-label-sm">操作时间</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="createTimeRange" id="createTime" autocomplete="off"
+                                               class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label layui-form-label-sm">状态</label>
+                                    <div class="layui-input-inline">
+                                        <select name="result">
+                                            <option value=""></option>
+                                            <option value="false">失败</option>
+                                            <option value="true">成功</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md2 layui-col-sm12 layui-col-xs12  table-action-area">
+                            <div class="layui-btn layui-btn-sm layui-btn-primary table-action" lay-submit
+                                 lay-filter="data-search-btn" id="query">
+                                <i class="layui-icon layui-icon-search"></i>
+                            </div>
+                            <div class="layui-btn layui-btn-sm layui-btn-primary table-action action-more"
+                                 shiro:hasAnyPermissions="operationLog:delete">
+                                <i class="layui-icon layui-icon-unorderedlist"></i>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <table class="layui-hide" id="operationLogTable" lay-filter="operationLogTable"></table>
+                <script type="text/html" id="currentTableBar">
+                    <span shiro:lacksPermission="operationLog:delete">
+        				<span class="layui-badge-dot"></span> 无权限
+    				</span>
+                    <a class="layui-btn layui-btn-xs layui-btn-red data-count-delete" lay-event="delete"
+                       shiro:hasPermission="operationLog:delete">删除</a>
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/lib/layui/layui.js" charset="utf-8"></script>
+<script src="/lib/lay-config.js" charset="utf-8"></script>
+<script type="text/html" id="log-result">
+    {{#
+    var result = {
+    true: {title: '成功', color: 'green'},
+    false: {title: '失败', color: 'red'}
+    }[d.result];
+    }}
+    <span class="ebe-badge ebe-tag-{{result.color}}">{{ result.title }}</span>
+</script>
+<script data-th-inline="none">
+    layui.use(['form', 'table', 'layuimini', 'dropdown', 'laydate'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            layuimini = layui.layuimini,
+            dropdown = layui.dropdown,
+            laydate = layui.laydate,
+            table = layui.table;
+        // 时间组件
+        laydate.render({
+            elem: '#createTime',
+            range: true,
+            trigger: 'click'
+        });
+        //表格
+        layuimini.table.init({
+            elem: '#operationLogTable',
+            url: '/monitor/operationLog/list',
+            cols: [[
+                {type: "checkbox", width: 50, fixed: "left"},
+                { title: 'ID', type: 'numbers'},
+                {field: 'username', title: '操作人'},
+                {field: 'operation', title: '操作描述'},
+                {field: 'method', title: '操作方法'},
+                {field: 'param', title: '方法参数'},
+                {field: 'ip', title: 'IP地址'},
+                {field: 'location', title: '操作地点'},
+                {title: '状态', templet: "#log-result"},
+                {field: 'createTime', title: '操作时间', minWidth: 180, sort: true, align: "center"},
+                {title: '操作', minWidth: 150, toolbar: '#currentTableBar', fixed: "right", align: "center"}
+            ]]
+        });
+
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            let result = data.field;
+            //执行搜索重载
+            table.reload('operationLogTable', {
+                page: {
+                    curr: 1
+                },
+                where: result
+
+            }, 'data');
+
+            return false;
+        });
+        dropdown.render({
+            elem: $('.action-more'),
+            click: function (name, elem, event) {
+                var checkStatus = table.checkStatus('operationLogTable');
+                let checkLen = checkStatus.data.length;
+                if (name === 'delete') {
+                    if (!checkLen) {
+                        layuimini.alert.warn('请选择需要删除的操作日志');
+                    } else {
+                        layuimini.modal.confirm('删除日志', '确定删除所选日志？', function () {
+                            var logIds = [];
+                            layui.each(checkStatus.data, function (key, item) {
+                                logIds.push(item.logId)
+                            });
+                            layuimini.delete('/monitor/operationLog/' + logIds.join(','), function () {
+                                table.reload('operationLogTable', {
+                                    page: {
+                                        curr: layuimini.judgeRemoveTablePage('operationLogTable',checkLen)
+                                    }
+                                }, 'data');
+                                layuimini.alert.success('删除日志成功');
+                            });
+                        });
+                    }
+                }
+            },
+            options: [{
+                name: 'delete',
+                title: '删除日志',
+                perms: 'operationLog:delete'
+            }]
+        });
+        table.on('tool(operationLogTable)', function (obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            if (layEvent === 'delete') {
+                layuimini.modal.confirm('删除用户', '确定删除该日志？', function () {
+
+                    layuimini.delete('/monitor/operationLog/' + data.logId, function () {
+                        table.reload('operationLogTable', {
+                            page: {
+                                curr: layuimini.judgeRemoveTablePage('operationLogTable',1)
+                            }
+                        }, 'data');
+                        layuimini.alert.success('删除日志成功');
+                    });
+                });
+            }
+        });
+
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>生成配置</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/font.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <style>
+        #ebe-generator-configure .layui-form-label {
+            width: 125px!important;
+        }
+
+        #ebe-generator-configure .layui-input-block {
+            margin-left: 155px!important;
+            width: 60%;
+        }
+    </style>
+</head>
+<body>
+<div class="ebe-body">
+    <div class="layui-fluid" id="ebe-generator-configure">
+        <div class="layui-card">
+            <div class="layui-card-body" style="padding: 15px;">
+                <form class="layui-form" action="" lay-filter="generator-configure-form">
+                    <div class="layui-form-item ebe-hide">
+                        <label class="layui-form-label ebe-required">ID：</label>
+                        <div class="layui-input-block">
+                            <input type="number" name="id" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label ebe-required">作者名称：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="author" autocomplete="off" maxlength="20" lay-verify="required"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label ebe-required">基础包名：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="basePackage" autocomplete="off" maxlength="50"
+                                   lay-verify="required" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label ebe-required">模块名：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="modulePackage" autocomplete="off" maxlength="30"
+                                   lay-verify="required" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label ebe-required">entity包名：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="entityPackage" autocomplete="off" maxlength="20"
+                                   lay-verify="required" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label ebe-required">service包名：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="servicePackage" autocomplete="off" maxlength="20"
+                                   lay-verify="required" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label ebe-required">serviceImpl包名：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="serviceImplPackage" autocomplete="off" maxlength="20"
+                                   lay-verify="required" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label ebe-required">mapper包名：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="mapperPackage" autocomplete="off" maxlength="20"
+                                   lay-verify="required" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label ebe-required">mapperXml包名：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="mapperXmlPackage" autocomplete="off" maxlength="20"
+                                   lay-verify="required" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label ebe-required">controller包名：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="controllerPackage" autocomplete="off" maxlength="20"
+                                   lay-verify="required" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否去除表前缀：</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="isTrim" value="1" lay-filter="isTrim" title="是" checked="">
+                            <input type="radio" name="isTrim" value="0" lay-filter="isTrim" title="否">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">表前缀：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="trimValue" autocomplete="off" maxlength="20" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item" shiro:hasPermission="generator:configure:update">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit="" lay-filter="generator-configure-form-submit">保存配置
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/lib/layui/layui.js" charset="utf-8"></script>
+<script src="/lib/lay-config.js" charset="utf-8"></script>
+<script data-th-inline="javascript">
+    layui.use(['layuimini', 'form'], function () {
+        var $ = layui.$,
+            layuimini = layui.layuimini,
+            form = layui.form,
+            $view = $('#ebe-generator-configure'),
+            $trimValue = $view.find('input[name="trimValue"]'),
+            $trimValueItem = $trimValue.parents('.layui-form-item');
+
+        var config = [[${config}]];
+
+        form.render();
+        initFormValue();
+
+        form.on("radio(isTrim)", function (data) {
+            if (data.value === '1') {
+                trimValueItemShow();
+            } else {
+                trimValueItemHide();
+            }
+        });
+
+        function initFormValue() {
+            form.val("generator-configure-form", {
+                "id": config.id,
+                "author": config.author,
+                "basePackage": config.basePackage,
+                "modulePackage": config.modulePackage,
+                "entityPackage": config.entityPackage,
+                "mapperPackage": config.mapperPackage,
+                "mapperXmlPackage": config.mapperXmlPackage,
+                "servicePackage": config.servicePackage,
+                "serviceImplPackage": config.serviceImplPackage,
+                "controllerPackage": config.controllerPackage,
+                "isTrim": config.isTrim,
+                "trimValue": config.trimValue
+            });
+
+            if (config.isTrim === '1') {
+                trimValueItemShow();
+            } else {
+                trimValueItemHide();
+            }
+        }
+
+        function trimValueItemShow() {
+            $trimValueItem.show();
+        }
+
+        function trimValueItemHide() {
+            form.val("generator-configure-form", {
+                "trimValue": ''
+            });
+            $trimValueItem.hide();
+        }
+
+        form.on('submit(generator-configure-form-submit)', function (data) {
+            if (layuimini.nativeEqual(data.field, config)) {
+                layuimini.alert.warn('数据未作任何修改！');
+                return false;
+            }
+            layuimini.put('/generator/config', data.field, function (r) {
+                layuimini.alert.success('修改成功');
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

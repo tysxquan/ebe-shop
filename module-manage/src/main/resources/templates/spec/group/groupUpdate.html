@@ -1,0 +1,272 @@
+<style>
+    #group-update {
+       margin: 8px 8px 30px 8px;
+    }
+
+    #group-update .layui-textarea, #group-update .layui-input {
+        border-radius: 4px !important;
+    }
+</style>
+<div class="layui-fluid " id="group-update">
+<div class="layui-row layui-col-space10">
+    <div class="layui-col-md5">
+        <div class="layui-card">
+        <form class="layui-form layui-card-body" action="" lay-filter="group-update-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label ebe-required">规格组名：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="groupName" minlength="2" maxlength="10"
+                           lay-verify="required|range" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">描述：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="description" minlength="2" maxlength="100"
+                           lay-verify="range" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label ebe-required">状态：</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="standard" value="true" lay-skin="switch" lay-text="标准|非标准" checked>
+                </div>
+            </div>
+            <div class="layui-form-item layui-ebe-btn">
+                <button class="layui-btn ebe-layer-btn" lay-submit="" lay-filter="group-update-form-submit"
+                        id="submit">提交
+                </button>
+                <button type="reset" class="layui-btn ebe-layer-btn layui-btn-primary" id="reset">重置</button>
+            </div>
+        </form>
+        </div>
+    </div>
+    <div class="layui-col-md7 ">
+        <div class="layui-card">
+            <div class="layui-card-body">
+        <form class="layui-form ebe-search">
+            <div class="layui-row">
+                <div class="layui-col-md10 layui-col-sm10">
+                    <div class="layui-inline ebe-hide">
+                        <label class="layui-form-label layui-form-label-sm"></label>
+                        <div class="layui-input-inline">
+                            <input type="text" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label layui-form-label-sm">规格名</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="paramName" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md2 layui-col-sm2 layui-col-xs12  table-action-area">
+                    <div class="layui-btn layui-btn-sm layui-btn-primary table-action" lay-submit
+                         lay-filter="data-search-btn" id="query">
+                        <i class="layui-icon layui-icon-search"></i>
+                    </div>
+                    <div class="layui-btn layui-btn-sm layui-btn-primary table-action action-more-update"
+                         shiro:hasAnyPermissions="specParam:add,specParam:delete">
+                        <i class="layui-icon">&#xe875;</i>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <table class="layui-hide" id="paramTable" lay-filter="paramTable"></table>
+        <script type="text/html" id="paramTableBar">
+            <span shiro:lacksPermission="specParam:update,specParam:delete">
+        				<span class="layui-badge-dot"></span> 无权限
+    		</span>
+            <a shiro:hasPermission="specParam:update" class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+            <a shiro:hasPermission="specParam:delete" class="layui-btn layui-btn-xs layui-btn-red data-count-delete" lay-event="delete">删除</a>
+        </script>
+        </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['layuimini', 'form', 'validate', 'dropdown','table'], function () {
+        let $ = layui.jquery,
+            table = layui.table,
+            dropdown = layui.dropdown,
+            layuimini = layui.layuimini,
+            specGroup = [[${specGroup}]],
+            form = layui.form,
+            validate = layui.validate;
+
+        sessionStorage.setItem("specGroupId",specGroup.specGroupId);
+
+        form.verify(validate);
+        form.render();
+        initValue();
+        //表格
+        layuimini.table.init({
+            elem: '#paramTable',
+            url: '/spec/param/list',
+            where: {
+                specGroupId: specGroup.specGroupId
+            },
+            cols: [
+             //   一定要换行否则会被thymeleaf识别
+             [
+                {type: "checkbox", width: 50, fixed: "left"},
+                {field: 'specParamId', title: 'ID', type: 'numbers', align: "center", width: 50},
+                {field: 'paramName', title: '规格名', align: "center", minWidth: 100},
+                {field: 'createTime', title: '创建时间', align: "center", minWidth: 180, sort: true},
+                {title: '操作', width: 150, fixed: "right", align: "center", templet: "#paramTableBar"}
+            ]
+            ],
+        });
+
+        dropdown.render({
+            elem: $('.action-more-update'),
+            click: function (name, elem, event) {
+                var checkStatus = table.checkStatus('paramTable');
+                if (name === 'add') {
+                    layuimini.model.open('新增规格', '/spec/param/add', {
+                        btn: ['提交', '重置'],
+                        area: $(window).width() <= 750 ? '90%' : '50%',
+                        yes: function (index, layero) {
+                            $('#param-add').find('#submit').trigger('click');
+                        },
+                        btn2: function () {
+                            $('#gparam-add').find('#reset').trigger('click');
+                            return false;
+                        }
+                    });
+                }
+                if (name === 'delete') {
+                    if (!checkStatus.data.length) {
+                        layuimini.alert.warn('请选择需要删除的规格！');
+                    } else {
+                        layuimini.modal.confirm('删除规格', '确定删除所选规格？', function () {
+                            let paramIds = [];
+                            layui.each(checkStatus.data, function (key, item) {
+                                paramIds.push(item.specParamId)
+                            });
+                            let curr = $(".layui-laypage-skip").find("input").val(); //当前页码值
+                            let len = table.cache['groupTable'].length;
+                            layuimini.delete('/spec/param/' + paramIds.join(','),function() {
+                                if (len === 1 && curr > 1) {
+                                    curr = curr - 1;
+                                }
+                                table.reload('paramTable', {
+                                    page: {
+                                        curr: curr
+                                    }
+                                }, 'data');
+                                layuimini.alert.success('删除规格成功');
+                            });
+                        });
+                    }
+                }
+            },
+            options: [{
+                name: 'add',
+                title: '新增规格',
+                perms: 'specParam:add'
+            }, {
+                name: 'delete',
+                title: '删除规格',
+                perms: 'specParam:delete'
+            }]
+        });
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function(data) {
+            let result = data.field;
+            //执行搜索重载
+            table.reload('paramTable', {
+                page: {
+                    curr: 1
+                },
+                where: result
+
+            }, 'data');
+
+            return false;
+        });
+        //监听工具条
+        table.on('tool(paramTable)', function (obj) {
+            let data = obj.data,
+                layEvent = obj.event;
+            if (layEvent === 'delete') {
+                layuimini.modal.confirm('删除规格', '确定删除该规格？', function () {
+                    let curr = $(".layui-laypage-skip").find("input").val(); //当前页码值
+                    let len = table.cache['paramTable'].length;
+                    layuimini.delete('/spec/param/' + data.specParamId, function () {
+                        layuimini.alert.success('删除规格成功');
+                        if (len === 1 && curr > 1) {
+                            curr = curr - 1;
+                        }
+                        table.reload('paramTable', {
+                            page: {
+                                curr: curr
+                            }
+                        }, 'data');
+                    });
+                });
+            }
+            if (layEvent === 'edit') {
+                layuimini.model.open('修改规格', '/spec/param/update/' + data.specParamId, {
+                    area: $(window).width() <= 750 ? '90%' : '50%',
+                    btn: ['提交', '取消'],
+                    yes: function (index, layero) {
+                        $('#param-update').find('#submit').trigger('click');
+                    },
+                    btn2: function (index) {
+                        layer.close(index);
+                    }
+                });
+            }
+        });
+
+        //规格组的修改
+        form.on('submit(group-update-form-submit)', function (data) {
+            let params = updateParams(data.field);
+            if (layuimini.nativeEqual(params, specGroup)) {
+                layuimini.alert.warn('数据未作任何修改！');
+                return false;
+            }
+            layuimini.put('/spec/group', params, function () {
+                layer.closeAll();
+                layuimini.alert.success('修改规格组成功!');
+                let currTable = table.reload('groupTable');
+                let pageTemp = currTable.config.page;
+                let currTemp = Math.ceil((pageTemp.count + 1) / pageTemp.limit);
+                table.reload('groupTable', {
+                    data: data.field,
+                    page: {
+                        curr: currTemp
+                    }
+                });
+            });
+            return false;
+        });
+
+        function initValue() {
+            form.val("group-update-form", {
+                "groupName": specGroup.groupName,
+                "standard": specGroup.standard,
+                "description": specGroup.description,
+            });
+        }
+
+        function updateParams(data) {
+            let params = {
+                specGroupId: specGroup.specGroupId,
+                groupName: data.groupName.trim(),
+                description: data.description.trim(),
+            };
+            if (data.standard === "true") {
+                params.standard = true;
+            } else {
+                params.standard = false;
+            }
+            return params;
+        }
+    });
+</script>

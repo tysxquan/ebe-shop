@@ -1,0 +1,285 @@
+<style>
+    #menu-update {
+        padding: 20px 25px 0 0;
+    }
+
+    #menu-update .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+</style>
+<div class="layui-fluid" id="menu-update">
+    <form class="layui-form" action="" lay-filter="menu-update-form">
+        <div class="layui-form-item ebe-hide">
+            <label class="layui-form-label ebe-required">菜单id：</label>
+            <div class="layui-input-block">
+                <input type="text" name="menuId" autocomplete="off" class="layui-input" data-th-value="${menu.menuId}">
+            </div>
+        </div>
+        <div class="layui-form-item ebe-hide">
+            <label class="layui-form-label ebe-required">上级菜单：</label>
+            <div class="layui-input-block">
+                <input type="text" lay-filter="tree" name="parentId" id="tree" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">名称：</label>
+            <div class="layui-input-block">
+                <input type="tel" name="menuName" lay-verify="requiredAuto" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">图标：</label>
+            <div class="layui-input-block">
+                <input type="text" lay-verify="selectIcon" name="icon" id="iconPicker" lay-filter="iconPicker"
+                       style="display: none;">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">类型：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="type" lay-filter="type" value="0" title="目录" checked="">
+                <input type="radio" name="type" lay-filter="type" value="1" title="菜单">
+                <input type="radio" name="type" lay-filter="type" value="2" title="按钮">
+            </div>
+        </div>
+        <div class="layui-form-item ebe-hide">
+            <label class="layui-form-label ebe-required">url：</label>
+            <div class="layui-input-block">
+                <input type="tel" name="url" lay-verify="requiredAuto" autocomplete="off" class="layui-input" placeholder="如：/system/user">
+            </div>
+        </div>
+        <div class="layui-form-item ebe-hide">
+            <label class="layui-form-label ebe-required">权限：</label>
+            <div class="layui-input-block">
+                <input type="tel" name="perms" lay-verify="requiredAuto" autocomplete="off" class="layui-input"  placeholder="如：user:view">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">排序：</label>
+            <div class="layui-input-block">
+                <input type="number" name="sortOrder" lay-verify="requiredAuto|number" autocomplete="off"
+                       class="layui-input" placeholder="如: 1">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">描述：</label>
+            <div class="layui-input-block">
+                <textarea name="descpt" maxlength="100" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item ebe-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="menu-update-form-submit" id="submit"></button>
+            <button type="reset" class="layui-btn" lay-filter="reset" id="reset"></button>
+        </div>
+    </form>
+</div>
+<script data-th-inline="javascript">
+    layui.use(['layuimini', 'form', 'validate', 'table', 'treeSelect', 'iconPicker', 'jquery'], function () {
+        var $ = layui.$,
+            jquery = layui.jquery;
+        layer = layui.layer,
+            table = layui.table,
+            iconPicker = layui.iconPicker,
+            treeSelect = layui.treeSelect,
+            layuimini = layui.layuimini,
+            form = layui.form,
+            validate = layui.validate,
+            menu = [[${menu}]],
+            $view = $('#menu-update'),
+            $parentId = $view.find('input[name="parentId"]'),
+            $icon = $view.find('input[name="icon"]'),
+            $perms = $view.find('input[name="perms"]'),
+            $url = $view.find('input[name="url"]'),
+            $sortOrder = $view.find('input[name="sortOrder"]'),
+            $icon_parent = $icon.parents('.layui-form-item'),
+            $perms_parent = $perms.parents('.layui-form-item'),
+            $url_parent = $url.parents('.layui-form-item'),
+            $sortOrder_parent = $sortOrder.parents('.layui-form-item'),
+            $parentId_parent = $parentId.parents('.layui-form-item'),
+            $header = $('.layui-layer-title');
+        var currentTreeId ;
+
+        form.verify(validate);
+        form.render();
+
+        treeSelect.render({
+            // 选择器
+            elem: '#tree',
+            // 数据
+            url: '/menu/load',
+            // 异步加载方式：get/post，默认get
+            type: 'get',
+            // 占位符
+            placeholder: '请选择',
+            search: true,
+            style: {
+                folder: {
+                    enable: false
+                },
+                line: {
+                    enable: true
+                }
+            },
+            data: {
+                key: {
+                    isParent: "isParent",
+                    children: "children",
+                    name: "menuName",
+                    title: "",
+                },
+                simpleData: {
+                    enable: true,
+                    idKey: "menuId",
+                    pIdKey: "parentId",
+                    rootPId: '0'
+                },
+                keep: {
+                    parent: false,
+                    leaf: false
+                }
+            },
+            click: function (d) {
+                currentTreeId = d.current.menuId;
+            },
+            success: function () {
+                currentTreeId = menu.parentId;
+                if (menu.type !== 0){
+                    treeSelect.checkNode('tree', menu.parentId);
+                }
+
+            }
+        });
+
+        iconPicker.render({
+            // 选择器，推荐使用input
+            elem: '#iconPicker',
+            // 数据类型：fontClass/unicode，推荐使用fontClass
+            // type: 'unicode',
+            url: "/css/font.css",
+            // 是否开启搜索：true/false，默认true
+            search: true,
+            // 是否开启分页：true/false，默认true
+            page: true,
+            // 每页显示数量，默认12
+            limit: 20,
+            // 每个图标格子的宽度：'43px'或'20%'
+            cellWidth: '17%',
+            success: function () {
+                if (menu.type !== 2 && menu.icon !== undefined && menu.icon !== '' && menu.icon !== null ) {
+                    iconPicker.checkIcon('iconPicker', menu.icon);
+                }
+            }
+        });
+
+        form.on('radio(type)', function (data) {
+            if (data.value === '0') {
+                currentTreeId = null;
+            }
+            handleTypeChange(data.value);
+        });
+        $('#reset').click(function () {
+            handleTypeChange('0');
+            iconPicker.refresh('iconPicker');
+        });
+        form.on('submit(menu-update-form-submit)', function (data) {
+            var params = updateParams(data.field);
+            if (layuimini.nativeEqual(params, menu)) {
+                layuimini.alert.warn('数据未作任何修改！');
+                return false;
+            }
+            layuimini.put('/menu',params,function (d) {
+                if (d.code === 200) {
+                    layer.closeAll();
+                    layuimini.alert.success($header.text() + '成功');
+                    window.menuTable.refresh();
+                } else {
+                    layer.close(index);
+                    layuimini.alert.error(d.message);
+                }
+            });
+            return false;
+        });
+
+        var handleTypeChange = function (type) {
+            if (type === '0') {
+                $header.text('修改目录');
+                $url_parent.hide();
+                $perms_parent.hide();
+                $parentId_parent.hide();
+                $icon_parent.show();
+                $sortOrder_parent.show();
+            } else if (type === '1') {
+                $header.text('修改菜单');
+                $url_parent.show();
+                $perms_parent.show();
+                $icon_parent.show();
+                $sortOrder_parent.show();
+                $parentId_parent.show();
+
+            } else {
+                //刷新选择树
+                // treeSelect.revokeNode('tree');
+                // iconPicker.refresh('iconPicker');
+                $header.text('修改按钮');
+                $url_parent.hide();
+                $icon_parent.hide();
+                $sortOrder_parent.hide();
+                $parentId_parent.show();
+                $perms_parent.show();
+            }
+        };
+        //初始化
+        function initValue() {
+            handleTypeChange(String(menu.type));
+            form.val("menu-update-form", {
+                "menuName": menu.menuName,
+                "type": menu.type,
+                "url": menu.url,
+                "perms": menu.perms,
+                "sortOrder": menu.sortOrder,
+                "descpt": menu.descpt
+            });
+        }
+        initValue();
+        // 封装数据
+        function updateParams(data) {
+            var params = {};
+            if (data.type === '0') {
+                params = {
+                    menuId: data.menuId,
+                    parentId: currentTreeId,
+                    menuName: data.menuName.trim(),
+                    icon: data.icon.trim(),
+                    type: data.type.trim(),
+                    sortOrder: data.sortOrder.trim(),
+                    descpt: data.descpt.trim()
+                }
+            } else if (data.type === '1') {
+                params = {
+                    menuId: data.menuId,
+                    parentId: currentTreeId,
+                    menuName: data.menuName.trim(),
+                    icon: data.icon.trim(),
+                    type: data.type.trim(),
+                    url: data.url.trim(),
+                    perms: data.perms.trim(),
+                    sortOrder: data.sortOrder.trim(),
+                    descpt: data.descpt.trim()
+                }
+            } else {
+                params = {
+                    menuId: data.menuId,
+                    parentId: currentTreeId,
+                    menuName: data.menuName.trim(),
+                    type: data.type.trim(),
+                    perms: data.perms.trim(),
+                    descpt: data.descpt.trim()
+                }
+            }
+            return params;
+        }
+    });
+</script>

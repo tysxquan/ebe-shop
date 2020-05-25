@@ -1,0 +1,100 @@
+<style>
+    #shop-Detail {
+        padding: 25px;
+        margin-bottom: 120px;
+    }
+
+    #shop-Detail .layui-textarea, #shop-Detail .layui-input {
+        border-radius: 4px !important;
+    }
+
+    .layui-input-block {
+        width: 60% !important;
+    }
+    .ebe-img{
+        width: 190px;
+    }
+</style>
+<div class="layui-fluid" id="shop-Detail">
+    <form class="layui-form" action="" lay-filter="shop-Detail-form" data-th-object="${shopInfo}">
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">店铺名称：</label>
+            <div class="layui-input-block">
+                <input type="text" name="shopName" data-th-value="*{shopName}"
+                       class="layui-input layui-disabled" disabled>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">联系人：</label>
+            <div class="layui-input-block">
+                <input type="text" name="contactMan" data-th-value="*{contactMan}"
+                       lay-verify="range" autocomplete="off" class="layui-disabled layui-input" disabled>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">联系电话：</label>
+            <div class="layui-input-block">
+                <input type="tel" name="contactMobile"  data-th-value="*{contactMobile}" class="layui-disabled layui-input" disabled>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">门店图片：</label>
+            <div class="layui-input-inline">
+               <img class="ebe-img" data-th-src="*{storeImg}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">营业时间：</label>
+            <div class="layui-input-inline" >
+                <input type="text"  name="businessHours" data-th-value="*{businessHours}" class="layui-disabled layui-input" disabled>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">状态：</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="status" value="1" lay-skin="switch" lay-text="营业|休息" checked disabled>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">经纬度：</label>
+            <div class="layui-inline">
+                <div class="layui-input-inline">
+                <input type="number" name="longitude"
+                       placeholder="经度" autocomplete="off"  data-th-value="*{longitude}" class="layui-disabled layui-input" disabled>
+                </div>
+                <div class="layui-form-mid">-</div>
+                <div class="layui-input-inline">
+                <input type="number" name="latitude" minlength="2" maxlength="30"
+                       lay-verify="range" placeholder="纬度" data-th-value="*{latitude}" class="layui-disabled layui-input" disabled>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">地址信息：</label>
+            <div class="layui-input-block">
+                <input type="text" data-th-value="*{province}+' '+ *{city} + ' ' +*{district}+' '+ *{street}"
+                       class="layui-input layui-disabled" disabled>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">详细地址：</label>
+            <div class="layui-input-block">
+                <input type="text" name="address" data-th-value="*{address}"
+                       class="layui-disabled layui-input">
+            </div>
+        </div>
+    </form>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['scrollTop'], function () {
+        let scrollTop = layui.scrollTop;
+        //加载滚动图标
+        scrollTop.load();
+
+    });
+</script>

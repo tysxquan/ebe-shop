@@ -1,0 +1,156 @@
+<style>
+    #order-info {
+        padding: 25px;
+        margin-bottom: 120px;
+    }
+
+    #order-info .layui-textarea, #order-info .layui-input {
+        border-radius: 4px !important;
+    }
+
+    .layui-input-block {
+        width: 60% !important;
+    }
+
+    .ebe-img {
+        width: 150px;
+    }
+
+    .ebe-tags {
+        line-height: 36px;
+    }
+    .header {
+        line-height: 39px;
+        font-weight: 600;
+    }
+
+    .detail {
+        line-height: 39px;
+    }
+
+    .name {
+        margin-right: 20px;
+    }
+</style>
+<div class="layui-fluid" id="order-info">
+    <form class="layui-form" action="" lay-filter="order-info-form" data-th-object="${orderInfo}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">订单编号：</label>
+            <div class="layui-input-block">
+                <input type="text" name="orderId" data-th-value="*{orderId}"
+                       class="layui-input layui-disabled" disabled>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">支付方式：</label>
+            <div class="layui-input-block">
+                <div class="ebe-tags" data-th-switch="*{payType}">
+                    <span data-th-case="1" class="ebe-circle-badge ebe-tag-success">在线支付</span>
+                    <span data-th-case="2" class="ebe-circle-badge ebe-tag-danger">货到付款</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">预约时间：</label>
+            <div class="layui-input-inline">
+                <div class="header">
+                    <span class="name" data-th-text="*{reserveTime}"></span>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">配送员：</label>
+            <div class="layui-input-inline">
+                <div class="header">
+                    <span class="name" data-th-text="*{systemUserName}"></span>
+                    <span data-th-text="*{systemUserMobile}"></span>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">地址：</label>
+            <div class="layui-input-block">
+                <div class="header">
+                    <span class="name" data-th-text="*{userTrueMame}"></span>
+                    <span data-th-text="*{userMobile}"></span>
+                </div>
+                <div class="detail">
+                    <span data-th-text="*{userReceiverAreaName}" style="margin-right: 10px;"></span>
+                    <span>**************</span>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态：</label>
+            <div class="ebe-tags" data-th-switch="*{status}">
+                <span data-th-case="0" class="ebe-circle-badge ebe-tag-warning">已取消</span>
+                <span data-th-case="1" class="ebe-circle-badge ebe-tag-info">待付款</span>
+                <span data-th-case="2" class="ebe-circle-badge ebe-tag-success">已支付</span>
+                <span data-th-case="3" class="ebe-circle-badge ebe-tag-warning">待送货</span>
+                <span data-th-case="6" class="ebe-circle-badge ebe-tag-success">已完成</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品总价：</label>
+            <div class="layui-input-inline">
+                <div class="header">
+                    <span class="name" data-th-text="*{'¥'+totalMoney}"></span>
+
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">实付金额：</label>
+            <div class="layui-input-inline">
+                <div class="header">
+                    <span class="name" data-th-text="*{'¥'+payMoney}"></span>
+
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品：</label>
+            <div class="layui-input-block ebe-table">
+                <table class="layui-hide" id="itemTable" lay-filter="currentTableFilter"></table>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['scrollTop','table'], function () {
+        var scrollTop = layui.scrollTop,
+            table = layui.table,
+            order = [[${orderInfo}]];
+        //加载滚动图标
+        scrollTop.load();
+
+        //表格
+        table.render({
+            elem:"#itemTable",
+            skin: 'line',
+            cols: [
+                [
+                    {field: 'spuId', title: '商品编号'},
+                    {field: 'cover',title: '图片',minWidth:140,templet:function (d) {
+                            if (d.cover !== undefined) {
+                                return '<div ><img class="ebe-table-img" src="'+d.cover+'"></div>';
+                            }
+                            return '';
+                        }},
+                    {field: 'title', title: '标题'},
+                    {field: 'price', title: '单价'},
+                    {field: 'num', title: '数量'},
+                    {field: 'totalPrice', title: '总价'},
+               ]
+            ],
+            data: order.orderItems,
+        });
+    });
+</script>

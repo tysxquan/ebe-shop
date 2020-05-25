@@ -1,0 +1,159 @@
+
+<link rel="stylesheet" href="/lib/lay-module/formSelects/formSelects-v4.css" media="all">
+<style>
+    #user-update {
+        padding: 20px 25px 0 0;
+    }
+
+    #user-update .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+</style>
+<div class="layui-fluid" id="user-update">
+    <form class="layui-form" action="" lay-filter="user-update-form">
+        <div class="layui-form-item ebe-hide">
+            <label class="layui-form-label ebe-require">用户id：</label>
+            <div class="layui-input-block">
+                <input type="text" name="systemUserId" data-th-value="${user.systemUserId}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">用户名：</label>
+            <div class="layui-input-block">
+                <input type="text" name="username" minlength="4" maxlength="10" data-th-id="${user.systemUserId}"
+                       lay-verify="range|username" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">姓名：</label>
+            <div class="layui-input-block">
+                <input type="text" name="trueName" minlength="2" maxlength="10"
+                       lay-verify="range" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">手机：</label>
+            <div class="layui-input-block">
+                <input type="tel" name="mobile" lay-verify="phone" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">角色：</label>
+            <div class="layui-input-block">
+                <select name="roleIds"
+                        lay-verify="required"
+                        xm-select-direction="down"
+                        xm-select="user-update-role"
+                        xm-select-skin="default">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">状态：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="status" value="1" title="有效">
+                <input type="radio" name="status" value="0" title="禁用">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">性别：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="sex" value="0" title="保密">
+                <input type="radio" name="sex" value="1" title="男性">
+                <input type="radio" name="sex" value="2" title="女性">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注：</label>
+            <div class="layui-input-block">
+                <textarea name="description" maxlength="100" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item ebe-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="user-update-form-submit" id="submit"></button>
+        </div>
+    </form>
+</div>
+<script data-th-inline="javascript">
+    layui.use(['layuimini', 'form', 'formSelects', 'validate', 'table'], function () {
+        var $ = layui.$,
+            layer = layui.layer,
+            table = layui.table,
+            formSelects = layui.formSelects,
+            layuimini = layui.layuimini,
+            form = layui.form,
+            user = [[${user}]],
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+        initValue();
+
+        formSelects.config('user-update-role', {
+            searchUrl: '/role/all',
+            response: {
+                statusCode: 200
+            },
+            beforeSuccess: function (id, url, searchVal, result) {
+                var data = result.data;
+                var tranData = [];
+                for (var i = 0; i < data.length; i++) {
+                    tranData.push({
+                        name: data[i].roleName,
+                        value: data[i].roleId
+                    })
+                }
+                result.data = tranData;
+                return result;
+            },
+            success: function () {
+                formSelects.value('user-update-role', user.roleIds.split(','));
+            },
+            error: function (id, url, searchVal, err) {
+                console.error(err);
+                layuimini.alert.error('获取角色列表失败');
+            }
+        });
+
+        function initValue() {
+            form.val("user-update-form", {
+                "username": user.username,
+                "trueName": user.trueName,
+                "mobile": user.mobile,
+                "status": user.status,
+                "sex": user.sex,
+                "description": user.description
+            });
+        }
+
+        form.on('submit(user-update-form-submit)', function (data) {
+            if (layuimini.nativeEqual(data.field, user)) {
+                layuimini.alert.warn('数据未作任何修改！');
+                return false;
+            }
+            layuimini.put('/system-user',updateParams(data.field), function() {
+                layer.closeAll();
+                layuimini.alert.success(user.username + ' 用户数据修改成功');
+                table.reload('userTable', {
+                    where: {key:{field:data.field}}
+                }, 'data');
+            });
+            return false;
+        });
+        function updateParams(data) {
+            var params = {
+                systemUserId: data.systemUserId,
+                username: data.username.trim(),
+                roleIds: data.roleIds.trim(),
+                status: data.status.trim(),
+                sex: data.sex.trim(),
+                mobile: data.mobile.trim(),
+                description: data.description.trim(),
+                trueName: data.trueName.trim(),
+            };
+            return params;
+        }
+    });
+</script>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxquan.manage.monitor.mapper.OperationLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sxquan.manage.monitor.pojo.OperationLog">
+        <id column="log_id" property="logId" />
+        <result column="system_user_id" property="systemUserId" />
+        <result column="username" property="username" />
+        <result column="operation" property="operation" />
+        <result column="method" property="method" />
+        <result column="param" property="param" />
+        <result column="ip" property="ip" />
+        <result column="location" property="location" />
+        <result column="result" property="result" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        log_id, system_user_id, username, operation, method, param, ip, location, result, create_time
+    </sql>
+
+</mapper>

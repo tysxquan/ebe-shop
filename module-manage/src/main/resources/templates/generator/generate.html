@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>生成代码</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/font.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+</head>
+<body>
+    <div class="ebe-body">
+        <div class="layui-fluid" id="ebe-generator">
+            <div class="layui-card">
+                <div class="layui-card-body ebe-table-full">
+                    <form class="layui-form ebe-search">
+                        <div class="layui-row">
+                            <div class="layui-col-md10">
+                                <div class="layui-form-item">
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label layui-form-label-sm">表名</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="tableName" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md2 layui-col-sm12 layui-col-xs12 table-action-area">
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" lay-submit
+                                     lay-filter="data-search-btn" id="query">
+                                    <i class="layui-icon layui-icon-search"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <table lay-filter="configureTable" id="configureTable"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script type="text/html" id="generator-option">
+    <span shiro:lacksPermission="generator:generate">
+        <span class="layui-badge-dot"></span> 无权限
+    </span>
+    <a lay-event="generate" shiro:hasPermission="generator:generate"><i class="layui-icon layui-icon-cloud-download ebe-icon-edit ebe-blue"></i></a>
+</script>
+<script src="/lib/layui/layui.js" charset="utf-8"></script>
+<script src="/lib/lay-config.js" charset="utf-8"></script>
+<script data-th-inline="none" type="text/javascript">
+    layui.use(['jquery', 'form', 'table', 'layuimini', 'laydate'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            layuimini = layui.layuimini,
+            laydate = layui.laydate,
+            $view = $('#ebe-generator'),
+            $searchForm = $view.find('form');
+
+        laydate.render({
+            elem: '#createTime',
+            range: true
+        });
+
+        form.render();
+        initTable();
+
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            var result = data.field;
+            //执行搜索重载
+            table.reload('configureTable', {
+                page: {
+                    curr: 1
+                },
+                where: result
+
+            }, 'data');
+
+            return false;
+        });
+        function initTable() {
+            layuimini.table.init({
+                elem: '#configureTable',
+                url: '/generator/table/list',
+                cols: [[
+                    {type: 'checkbox'},
+                    {field: 'name', title: '表名'},
+                    {field: 'remark', title: '备注'},
+                    {field: 'dataRows', title: '数据量（行）'},
+                    {field: 'createTime', title: '创建时间', minWidth: 180},
+                    {field: 'updateTime', title: '修改时间', minWidth: 180},
+                    {title: '操作', toolbar: '#generator-option', minWidth: 140}
+                ]]
+            });
+        }
+
+        table.on('tool(configureTable)', function (obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            if (layEvent === 'generate') {
+                layuimini.modal.confirm('代码生成', '确定生成数据表<strong> ' + data.name + ' </strong>对应的后端代码？', function () {
+                    layuimini.download( '/generator/code', data, data.name + '_code.zip');
+                });
+            }
+        });
+    })
+</script>
+</body>
+</html>

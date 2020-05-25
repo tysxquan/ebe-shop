@@ -1,0 +1,122 @@
+<link rel="stylesheet" href="/lib/lay-module/eleTree/eleTree.css">
+<style>
+    #role-add {
+        padding: 20px 25px 20px 10px;
+    }
+    #role-add .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+</style>
+<div class="layui-fluid" id="role-add">
+    <form class="layui-form" action="" lay-filter="role-add-form">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">角色名：</label>
+            <div class="layui-input-inline">
+                <input type="text" name="roleName" minlength="4" maxlength="10"
+                       lay-verify="requiredAuto" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">状态：</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="status" value="1" lay-skin="switch" lay-text="启用|禁用" checked>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注：</label>
+            <div class="layui-input-block">
+                <textarea name="roleDesc" maxlength="100" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">权限分配：</label>
+            <div class="layui-input-block" style="height: 150px">
+                <div class="eleTree" id="eleTree"></div>
+            </div>
+        </div>
+        <div class="layui-form-item ebe-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="role-add-form-submit" id="submit"></button>
+            <button type="reset" class="layui-btn" id="reset"></button>
+        </div>
+    </form>
+</div>
+<script data-th-inline="javascript">
+    layui.use(['layuimini', 'form', 'validate', 'table', 'eleTree'], function () {
+        var $ = layui.$,
+            layer = layui.layer,
+            table = layui.table,
+            eleTree = layui.eleTree,
+            layuimini = layui.layuimini,
+            form = layui.form,
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+        //加载选择树
+        var ele = eleTree.render({
+            elem: '#eleTree',
+            url: '/menu/loadTree',
+            renderAfterExpand: false,
+            accordion:true,
+            showCheckbox: true,
+            request: {
+                name: "menuName",
+                key: "nodeId",
+                children: "child",
+                checked: "checked",
+                disabled: "disabled"
+            },
+            response: {
+                statusName: "code",
+                statusCode: 200,
+                dataName: "data"
+            },
+
+        });
+        form.on('submit(role-add-form-submit)', function (data) {
+            var params = addParams(data.field);
+            var selected = ele.getChecked(false,true);
+            var menuIds = [];
+            layui.each(selected,function (index,item) {
+                menuIds.push(item.nodeId);
+            });
+            params.menuIds = menuIds.join(",");
+            if (!menuIds.length) {
+                layuimini.modal.confirm('提示', '当前角色未授予任何权限，是否继续？', function () {
+                    addRole(params);
+                });
+            } else {
+                addRole(params);
+            }
+            return false;
+        });
+        function addRole(params) {
+            layuimini.post('/role',params,function () {
+                layer.closeAll();
+                layuimini.alert.success('新增角色成功！');
+                table.reload('roleTable', {
+                    data: params,
+                    page: {
+                        curr: layuimini.judgeAddTablePage('roleTable')
+                    }
+                });
+            });
+        }
+        function addParams(data) {
+            var params = {
+                roleName: data.roleName.trim()
+            };
+            if (data.status === '1') {
+                params.status = data.status.trim();
+            } else {
+                params.status = 0;
+            }
+            if (data.roleDesc !== "" ) {
+                params.roleDesc = data.roleDesc.trim();
+            }
+
+            return params;
+        }
+    });
+</script>

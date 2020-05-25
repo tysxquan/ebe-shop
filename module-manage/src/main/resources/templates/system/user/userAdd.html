@@ -1,0 +1,143 @@
+<link rel="stylesheet" href="/lib/lay-module/formSelects/formSelects-v4.css" media="all">
+<style>
+    #user-add {
+        padding: 20px 25px 0 0;
+    }
+
+    #user-add .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+</style>
+<div class="layui-fluid" id="user-add">
+    <form class="layui-form" action="" lay-filter="user-add-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">用户名：</label>
+            <div class="layui-input-block">
+                <input type="text" name="username" minlength="4" maxlength="10"
+                       lay-verify="required|range|username" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">姓名：</label>
+            <div class="layui-input-block">
+                <input type="text" name="trueName" minlength="2" maxlength="10"
+                       lay-verify="range" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">手机：</label>
+            <div class="layui-input-block">
+                <input type="tel" name="mobile" lay-verify="phone" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">角色：</label>
+            <div class="layui-input-block">
+                <select name="roleIds"
+                        lay-verify="required"
+                        xm-select-direction="down"
+                        xm-select="user-role"
+                        xm-select-skin="default">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">状态：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="status" value="1" title="有效" checked="">
+                <input type="radio" name="status" value="0" title="禁用">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">性别：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="sex" value="0" title="保密" checked="">
+                <input type="radio" name="sex" value="1" title="男性">
+                <input type="radio" name="sex" value="2" title="女性">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注：</label>
+            <div class="layui-input-block">
+                <textarea name="description" maxlength="100" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item ebe-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="user-add-form-submit" id="submit"></button>
+            <button type="reset" class="layui-btn" id="reset"></button>
+        </div>
+    </form>
+</div>
+<script data-th-inline="javascript">
+    layui.use(['layuimini', 'form', 'formSelects', 'validate', 'table'], function () {
+        var $ = layui.$,
+            layer = layui.layer,
+            table = layui.table,
+            formSelects = layui.formSelects,
+            layuimini = layui.layuimini,
+            form = layui.form,
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+        formSelects.config('user-role', {
+            searchUrl: '/role/all',
+            response: {
+                statusCode: 200
+            },
+            beforeSuccess: function (id, url, searchVal, result) {
+                var data = result.data;
+                var tranData = [];
+                for (var i = 0; i < data.length; i++) {
+                    tranData.push({
+                        name: data[i].roleName,
+                        value: data[i].roleId
+                    })
+                }
+                result.data = tranData;
+                return result;
+            },
+            error: function (id, url, searchVal, err) {
+                console.error(err);
+                layuimini.alert.error('获取角色列表失败');
+            }
+        });
+
+
+        form.on('submit(user-add-form-submit)', function (data) {
+            layuimini.post('/system-user', addParams(data.field), function () {
+                layer.closeAll();
+                layuimini.alert.success('新增用户成功，初始密码为 qwerasd');
+
+                table.reload('userTable', {
+                    data: data.field,
+                    page: {
+                        curr: layuimini.judgeAddTablePage('userTable')
+                    }
+                });
+            });
+            return false;
+        });
+
+        function addParams(data) {
+            var params = {
+                username: data.username.trim(),
+                roleIds: data.roleIds.trim(),
+                status: data.status.trim(),
+                sex: data.sex.trim()
+            };
+            if (data.mobile !== '') {
+                params.mobile = data.mobile.trim();
+            }
+            if (data.description !== "") {
+                params.description = data.description.trim();
+            }
+            if (data.trueName !== '') {
+                params.trueName = data.trueName.trim();
+            }
+            return params;
+        }
+    });
+</script>

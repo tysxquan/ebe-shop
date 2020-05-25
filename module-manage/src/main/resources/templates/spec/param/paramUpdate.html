@@ -1,0 +1,75 @@
+<style>
+    #param-update {
+        margin: 20px 30px 10px 0;
+    }
+
+    #param-update .layui-textarea, #param-update .layui-input {
+        border-radius: 4px !important;
+    }
+</style>
+<div class="layui-fluid" id="param-update">
+    <form class="layui-form" action="" lay-filter="param-update-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">规格名：</label>
+            <div class="layui-input-block">
+                <input type="text" name="paramName" minlength="2" maxlength="10"
+                       lay-verify="required|range" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-ebe-btn ebe-hide">
+            <button class="layui-btn ebe-layer-btn" lay-submit="" lay-filter="param-update-form-submit" id="submit">提交</button>
+            <button type="reset" class="layui-btn ebe-layer-btn layui-btn-primary" id="reset">重置</button>
+        </div>
+    </form>
+</div>
+<script data-th-inline="javascript">
+    layui.use(['layuimini', 'form', 'validate', 'table','layer'], function () {
+        let $ = layui.jquery,
+            table = layui.table,
+            layer = layui.layer,
+            layuimini = layui.layuimini,
+            specParam = [[${specParam}]],
+            form = layui.form,
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+        initValue();
+
+        form.on('submit(param-update-form-submit)', function (data) {
+            let params = updateParams(data.field);
+            if (layuimini.nativeEqual(params, specParam)) {
+                layuimini.alert.warn('数据未作任何修改！');
+                return false;
+            }
+            let index = layer.index;
+            layuimini.put('/spec/param',params, function () {
+                layer.close(index);
+                layuimini.alert.success('修改规格成功!');
+                let currTable = table.reload('paramTable');
+                let pageTemp = currTable.config.page;
+                let currTemp = Math.ceil((pageTemp.count + 1) / pageTemp.limit);
+                table.reload('paramTable', {
+                    data: data.field,
+                    page: {
+                        curr: currTemp
+                    }
+                });
+            });
+            return false;
+        });
+        function initValue() {
+            form.val("param-update-form", {
+                "paramName": specParam.paramName,
+            });
+        }
+        function updateParams(data) {
+            let params = {
+                specParamId:specParam.specParamId,
+                paramName: data.paramName.trim(),
+            };
+            return params;
+        }
+    });
+</script>

@@ -1,0 +1,62 @@
+<style>
+    #param-add {
+        padding: 20px 30px 0 0;
+    }
+
+    #param-add .layui-textarea, #param-add .layui-input {
+        border-radius: 4px !important;
+    }
+</style>
+<div class="layui-fluid" id="param-add">
+    <form class="layui-form" action="" lay-filter="param-add-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">规格名：</label>
+            <div class="layui-input-block">
+                <input type="text" name="paramName" minlength="2" maxlength="10"
+                       lay-verify="required|range" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-ebe-btn ebe-hide">
+            <button class="layui-btn ebe-layer-btn" lay-submit="" lay-filter="param-add-form-submit" id="submit">提交</button>
+            <button type="reset" class="layui-btn ebe-layer-btn layui-btn-primary" id="reset">重置</button>
+        </div>
+    </form>
+</div>
+<script data-th-inline="javascript">
+    layui.use(['layuimini', 'form', 'validate', 'table','layer'], function () {
+        let $ = layui.jquery,
+            table = layui.table,
+            layer = layui.layer,
+            layuimini = layui.layuimini,
+            form = layui.form,
+            specGroupId = sessionStorage.getItem("specGroupId"),
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        form.on('submit(param-add-form-submit)', function (data) {
+            let index = layer.index;
+            layuimini.post('/spec/param', addParams(data.field), function () {
+                layer.close(index);
+                layuimini.alert.success('新增规格成功!');
+                table.reload('paramTable', {
+                    data: data.field,
+                    page: {
+                        curr: layuimini.judgeAddTablePage('paramTable')
+                    }
+                });
+            });
+            return false;
+        });
+
+        function addParams(data) {
+            let params = {
+                specGroupId:specGroupId,
+                paramName: data.paramName.trim(),
+            };
+            return params;
+        }
+    });
+</script>

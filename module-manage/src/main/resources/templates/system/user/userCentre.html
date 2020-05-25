@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>用户管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/font.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+</head>
+<style>
+    .ebe-nav-tree {
+        background-color: #fff;
+        border-right: 2px solid #f4f4f4;
+        color: #666666 !important;
+        width: 200px;
+        height: 100%;
+        float: left;
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 10px 0 10px 10px ;
+    }
+
+    .ebe-nav-tree .layui-nav-item a {
+        color: #666666 !important;
+    }
+
+    .ebe-nav-tree .layui-nav-item a:hover, .ebe-nav-tree .layui-nav-item a:hover + i {
+        background-color: #fff;
+        color: #009688 !important;
+    }
+
+    .ebe-nav-tree .layui-this:before {
+        content: '';
+        position: absolute;
+        top: 10px;
+        right: 0;
+        height: 25px;
+        width: 3px;
+        background-color: #009688;
+        z-index: 1;
+    }
+
+    .ebe-nav-tree .layui-nav-item:after {
+        content: '';
+        position: absolute;
+        top: 10px;
+        right: 0;
+        height: 0;
+        width: 3px;
+        background-color: #009688;
+        transition: all 400ms ease;
+        -webkit-transition: all 400ms ease; /* Safari */
+        z-index: 1;
+
+    }
+
+    .ebe-nav-tree .layui-nav-item:hover:after {
+        height: 25px;
+    }
+
+    .ebe-nav-tree .layui-this > a, .ebe-nav-tree .layui-this > i {
+        background-color: #fff;
+        color: #009688 !important;
+    }
+
+    .ebe-nav-tree .layui-nav-item i {
+        position: absolute;
+        top: 0;
+        right: 20px;
+        color: #666666;
+        font-size: 14px;
+    }
+
+    .ebe-nav-tree .layui-nav-bar {
+        left: auto;
+        right: 0;
+        width: 0;
+    }
+#ebe-user-centre .layui-tab-content{
+    margin-left: 220px;
+}
+</style>
+</head>
+<body class="ebe-body">
+<div class="layui-fluid" id="ebe-user-centre" lay-title="个人中心">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <div class="layui-colla-item">
+            <ul class="layui-nav layui-nav-tree ebe-nav-tree" lay-filter="userNav">
+                <li class="layui-nav-item layui-this">
+                    <a href="javascript:;" data-url="/system/user/userCentre/profile">基本资料</a>
+                    <i class="layui-icon layui-icon-right"></i>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;"  data-url="/system/user/userCentre/passwordUpdate">安全设置</a>
+                    <i class="layui-icon layui-icon-right"></i>
+                </li>
+                <li class="layui-nav-item"><a href="javascript:;" data-url="/system/user/userCentre/action">个人活动</a>
+                    <i class="layui-icon layui-icon-right"></i>
+                </li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-card-header"></div>
+                <div class="layui-card-body">
+                    <div style="height: 300px"></div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/lib/layui/layui.js" charset="utf-8"></script>
+<script src="/lib/lay-config.js" charset="utf-8"></script>
+<script data-th-inline="none" type="text/javascript">
+    layui.use(['jquery', 'form', 'layuimini','element'], function () {
+        var $ = layui.jquery,
+            layuimini = layui.layuimini,
+            element = layui.element,
+            form = layui.form,
+            $content = $(".layui-tab-content"),
+            $title = $content.find(".layui-card-header"),
+            $body = $content.find(".layui-card-body");
+
+        form.render();
+
+
+
+        element.on('nav(userNav)', function(elem){
+            var url = elem.attr("data-url");
+            if (url !== undefined && url !== ""){
+                $title.html(elem.context.text);
+                layuimini.SkipUrl( url,function (res) {
+                    $body.html(res.html);
+                })
+            }
+
+        });
+        initParams();
+        function initParams(){
+           $(".layui-this a").click();
+        }
+        form.on('submit(system-setting-form-submit)', function (data) {
+            if (febs.nativeEqual(data.field, _currentData)) {
+                febs.alert.warn('数据未作任何修改');
+                return false;
+            }
+            febs.post(ctx + 'user/theme/update', data.field, function () {
+                _currentData = data.field;
+                febs.modal.confirm('修改成功', '是否马上刷新页面生效？', function () {
+                    window.location.reload();
+                });
+            });
+            return false;
+        });
+
+
+    })
+</script>
+</body>
+</html>

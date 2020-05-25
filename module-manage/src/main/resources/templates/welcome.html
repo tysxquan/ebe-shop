@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>系统首页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/font.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+</head>
+<style>
+    .ebe-card-item{
+        padding: 15px;
+    }
+    .ebe-card-item p {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+    .ebe-card-item span {
+        padding-bottom: 10px;
+    }
+    .ebe-card-body {
+        padding: 20px;
+        line-height: normal;
+    }
+
+    .ebe-card-body .icon-l {
+        display: inline-block;
+        padding-right: 20px;
+    }
+
+    .ebe-card-body .icon-l i {
+        font-size: 60px;
+    }
+
+    .ebe-card-body .cart-r {
+        display: inline-block;
+
+    }
+
+    .ebe-card-body .cart-r i {
+        font-size: 30px;
+    }
+
+    .ebe-card-body .stat-text {
+        font-size: 24px;
+        padding-bottom: 5px;
+    }
+
+    .ebe-card-body .stat-heading {
+        color: #99abb4;
+    }
+</style>
+<body>
+<div class="ebe-body">
+    <div class="layui-fluid" id="ebe-welcome">
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-xs6 layui-col-md3">
+                <div class="layui-card">
+                    <div class="ebe-card-body">
+                        <div class="icon-l">
+                            <i class="layui-icon layui-icon-shoppingCard1" style="color: #A482E2"></i>
+                        </div>
+                        <div class="cart-r">
+                            <div class="stat-text incomes-num">0</div>
+                            <div class="stat-heading">商品</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-col-xs6 layui-col-md3">
+                <div class="layui-card">
+                    <div class="ebe-card-body">
+                        <div class="icon-l">
+                            <i class="layui-icon layui-icon-order1" style="color: #3FB1E3"></i>
+                        </div>
+                        <div class="cart-r">
+                            <div class="stat-text incomes-num">0</div>
+                            <div class="stat-heading">订单</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-col-xs6 layui-col-md3">
+                <div class="layui-card">
+                    <div class="ebe-card-body">
+                        <div class="icon-l">
+                            <i class="layui-icon layui-icon-income" style="color: #ace6ca"></i>
+                        </div>
+                        <div class="cart-r">
+                            <div class="stat-text incomes-num">0</div>
+                            <div class="stat-heading">今日收入</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-col-xs6 layui-col-md3">
+                <div class="layui-card">
+                    <div class="ebe-card-body">
+                        <div class="icon-l">
+                            <i class="layui-icon layui-icon-team" style="color: #D4716E"></i>
+                        </div>
+                        <div class="cart-r">
+                            <div class="stat-text incomes-num">0</div>
+                            <div class="stat-heading">用户</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md8">
+                <div class="layui-card">
+                    <div class="layui-card-header">用户排行榜</div>
+                    <div class="ebe-card-body">
+                        <div id="echarts-records" style="min-height:340px;width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md4">
+                <div class="layui-card">
+                    <div class="layui-card-header">数据对比</div>
+                    <div class="ebe-card-body" style="min-height:340px;">
+                        <div class="ebe-card-item">
+                            <p>月活跃用户数</p>
+                            <span>同比上期增长</span>
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar" lay-percent="20%"></div>
+                            </div>
+                        </div>
+                        <div class="ebe-card-item">
+                            <p>月订单数</p>
+                            <span>同比上期增长</span>
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar" lay-percent="40%"></div>
+                            </div>
+                        </div>
+                        <div class="ebe-card-item">
+                            <p>月收入</p>
+                            <span>同比上期增长</span>
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar " lay-percent="30%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+<script src="/lib/layui/layui.js" charset="utf-8"></script>
+<script src="/lib/lay-config.js" charset="utf-8"></script>
+<script type="text/javascript">
+    layui.use(['jquery', 'countUp', 'echarts','element'], function () {
+        var countUp = layui.countUp,
+            $ = layui.jquery,
+            element = layui.element,
+            echarts = layui.echarts;
+
+        /**
+         * 收入、商品、博客、用户
+         */
+        function statText() {
+            var elem_nums = $(".stat-text");
+            elem_nums.each(function (i, j) {
+                var ran = parseInt(Math.random() * 99 + 1);
+                !new countUp({
+                    target: j,
+                    endVal: 10 * ran
+                }).start();
+            });
+        }
+
+        /**
+         * 报表功能
+         */
+        var echartsRecords = echarts.init(document.getElementById('echarts-records'));
+        var optionRecords = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    label: {
+                        backgroundColor: '#6a7985'
+                    }
+                }
+            },
+            legend: {
+                data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value'
+                }
+            ],
+            series: [
+                {
+                    name: '邮件营销',
+                    type: 'line',
+                    stack: '总量',
+                    areaStyle: {},
+                    data: [120, 132, 101, 134, 90, 230, 210]
+                },
+                {
+                    name: '联盟广告',
+                    type: 'line',
+                    stack: '总量',
+                    areaStyle: {},
+                    data: [220, 182, 191, 234, 290, 330, 310]
+                },
+                {
+                    name: '视频广告',
+                    type: 'line',
+                    stack: '总量',
+                    areaStyle: {},
+                    data: [150, 232, 201, 154, 190, 330, 410]
+                },
+                {
+                    name: '直接访问',
+                    type: 'line',
+                    stack: '总量',
+                    areaStyle: {},
+                    data: [320, 332, 301, 334, 390, 330, 320]
+                },
+                {
+                    name: '搜索引擎',
+                    type: 'line',
+                    stack: '总量',
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top'
+                        }
+                    },
+                    areaStyle: {},
+                    data: [820, 932, 901, 934, 1290, 1330, 1320]
+                }
+            ]
+        };
+        // echarts 窗口缩放自适应
+        window.onresize = function(){
+            echartsRecords.resize();
+        }
+        echartsRecords.setOption(optionRecords);
+        statText();
+    });
+
+</script>
+</body>
+</html>

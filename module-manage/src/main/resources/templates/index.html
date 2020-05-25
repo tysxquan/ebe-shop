@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh"
+      xmlns:th="http://www.thymeleaf.org">
+<head >
+    <meta charset="utf-8">
+    <title>ebe-shop</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="lib/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/layuimini.css" media="all">
+    <link rel="stylesheet" href="css/font.css" media="all">
+    <link rel="stylesheet" href="/css/loading.css" media="all">
+    <script type="text/javascript" src="/lib/jq-module/loading/loading.js" ></script>
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="layui-layout-body layuimini-all">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header header">
+        <div class="layui-logo">
+        </div>
+        <a>
+            <div class="layuimini-tool"><i title="展开" class="layui-icon layui-icon-shrink-right" data-side-fold="1"></i>
+            </div>
+        </a>
+        <ul class="layui-nav layui-layout-right" style="margin-right: 20px;">
+            <li class="layui-nav-item" lay-unselect>
+                <a href="javascript:;" data-refresh="刷新"><i class="layui-icon layui-icon-refresh" ></i></a>
+            </li>
+            <li class="layui-nav-item layuimini-setting" lay-unselect>
+                <a href="javascript:;"><img id="avatar" src="images/avatar/empty.jpg" class="layui-nav-img" ><span id="username"></span></a>
+                <dl class="layui-nav-child">
+                    <dd lay-unselect>
+                        <a href="javascript:;" data-iframe-tab="/system/user/userCentre" data-title="个人中心"
+                           data-icon="layui-icon layui-icon-personalCenter">个人中心</a>
+                    </dd>
+                    <dd lay-unselect>
+                        <a href="javascript:;" class="updatePassword">修改密码</a>
+                    </dd>
+                    <hr/>
+                    <dd lay-unselect>
+                        <a href="javascript:;" class="login-out">退出登录</a>
+                    </dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll layui-left-menu">
+        </div>
+    </div>
+
+    <div class="layui-body ebe-tabs" >
+        <div class="layui-tab" id="top_tabs_box"  lay-filter="layuiminiTab" lay-unauto>
+            <ul class="layui-tab-title" id="top_tabs">
+                <li class="layui-this" id="layuiminiHomeTabId" lay-id=""></li>
+            </ul>
+            <span class="ebe-tabs-action ebe-tabs-prev" data-type="prev" admin-event="leftPage" > <i
+                    class="layui-icon layui-icon-left"></i>
+					</span>
+            <span class="ebe-tabs-action ebe-tabs-next" data-type="next" admin-event="rightPage"  > <i
+                    class="layui-icon layui-icon-right"></i>
+					</span>
+
+            <ul class="layui-nav ebe-tabs-action ebe-tabs-down " >
+                <li class="layui-nav-item">
+                    <a href="javascript:;"><i class="layui-icon layui-icon-close"></i></a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" data-page-close="this"></i> 关闭当前选项卡</a></dd>
+                        <dd><a href="javascript:;" data-page-close="other"></i> 关闭其他选项卡</a></dd>
+                        <dd><a href="javascript:;" data-page-close="all"></i> 关闭全部选项卡</a></dd>
+                    </dl>
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="layui-tab-content clildFrame">
+            <div id="layuiminiHomeTabIframe" class="layui-tab-item layui-show" >
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+<script src="lib/layui/layui.js" charset="utf-8"></script>
+<script src="lib/lay-config.js" charset="utf-8"></script>
+<script data-th-inline="javascript">
+    layui.use(['element', 'layuimini','adminLayer'], function () {
+        var $ = layui.jquery,
+            element = layui.element,
+            adminLayer = layui.adminLayer,
+            $setting = $(".layuimini-setting");
+            window.currentUser = [[${user}]];
+            currentUser.permissionSet = [[${permissions}]];
+
+
+        initVal();
+        layuimini.init('/menu/'+currentUser.username);
+        function initVal(){
+            $setting.find("#username").html(currentUser.username);
+            $setting.find("#avatar").attr("src","images/avatar/"+currentUser.avatar);
+        }
+        $(".updatePassword").on("click",function () {
+            layuimini.model.open("修改密码","/system/user/userCentre/passwordUpdate",{
+                area: $(window).width() <= 750 ? '90%' : '50%',
+                zIndex:1000
+            });
+        });
+        $('.login-out').on("click", function () {
+            adminLayer.modal.confirm("提示","是否确定退出登录!",function () {
+                window.location = "/logout";
+            })
+
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<style>
+    #shop-update {
+        padding: 25px;
+        margin-bottom: 120px;
+    }
+
+    #shop-update .layui-textarea, #shop-update .layui-input {
+        border-radius: 4px !important;
+    }
+
+    .layui-input-block {
+        width: 60% !important;
+    }
+</style>
+<div class="layui-fluid" id="shop-update">
+    <form class="layui-form" action="" lay-filter="shop-update-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">店铺名称：</label>
+            <div class="layui-input-block">
+                <input type="text" name="shopName" minlength="2" maxlength="10"
+                       lay-verify="required|range" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">联系人：</label>
+            <div class="layui-input-block">
+                <input type="text" name="contactMan" minlength="2" maxlength="10"
+                       lay-verify="range" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">联系电话：</label>
+            <div class="layui-input-block">
+                <input type="tel" name="contactMobile" lay-verify="phone" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">门店图片：</label>
+            <div class="layui-input-inline">
+                <ul class="upload-ul clearfix"></ul>
+                <div class="upload-pick" id="storeImg"></div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">营业时间：</label>
+            <div class="layui-input-inline">
+                <input type="text" lay-verify="required" name="businessHours" class="layui-input" readonly>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">状态：</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="status" value="1" lay-skin="switch" lay-text="营业|休息" checked>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">经纬度：</label>
+            <div class="layui-inline">
+                <div class="layui-input-inline">
+                    <input type="number" name="longitude" minlength="2" maxlength="30"
+                           lay-verify="range" placeholder="经度" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid">-</div>
+                <div class="layui-input-inline">
+                    <input type="number" name="latitude" minlength="2" maxlength="30"
+                           lay-verify="range" placeholder="纬度" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">地址信息：</label>
+            <div class="layui-input-block">
+                <cascader id="region"></cascader>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">详细地址：</label>
+            <div class="layui-input-block">
+                <input type="text" name="address" minlength="2" maxlength="120"
+                       lay-verify="required|range" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-ebe-btn">
+            <button class="layui-btn ebe-layer-btn" lay-submit="" lay-filter="shop-update-form-submit" id="submit">提交
+            </button>
+            <button type="reset" class="layui-btn ebe-layer-btn layui-btn-primary">重置</button>
+        </div>
+
+    </form>
+</div>
+<script data-th-inline="javascript">
+    layui.use(['layuimini', 'form', 'validate', 'table', 'scrollTop', 'laydate', 'diyUploader', 'ajaxCascader'], function () {
+        let $ = layui.jquery,
+            layer = layui.layer,
+            scrollTop = layui.scrollTop,
+            cascader = layui.ajaxCascader,
+            laydate = layui.laydate;
+            diyUploader = layui.diyUploader,
+            table = layui.table,
+            layuimini = layui.layuimini,
+            form = layui.form,
+            validate = layui.validate,
+            shopInfo = [[${shopInfo}]],
+            $content = $(".layui-layer-content");
+        var $layui_laydate, top;
+
+         form.verify(validate);
+         form.render();
+         initValue();
+         // 省级联动
+         cascader.load({
+            elem: '#region',
+            width: 380,
+            height: 38,
+            clicklast: true,
+            clear: true,
+            value: 100000,
+            getChildren: function (value, callback) {
+                let data = [];
+                $.ajax({
+                    url: '/region/' + value,
+                    type: 'get',
+                    success: function (res) {
+                        data = res.data;
+                        for (let i in data) {
+                            data[i].value = data[i].cityCode;
+                            data[i].label = data[i].name;
+                            delete data[i].cityCode;
+                            delete data[i].name;
+                            data[i].hasChild = data[i].haveChild;
+                        }
+                        callback(data);
+                    }
+                });
+            },
+            chooseData:  shopInfo.region.split(",")
+        });
+
+        // 时间组件
+        laydate.render({
+            elem: 'input[name=businessHours]',
+            format: 'HH:mm:ss',
+            range: true,
+            type: 'time',
+            trigger: 'click',
+            value: shopInfo.businessHours,
+            ready: function () {
+                $layui_laydate = $(".layui-laydate");
+                top = $layui_laydate.offset().top - 25;
+                //适配时间组件的滚动
+                $content.on("scroll", function () {
+                    if ($layui_laydate.length !== 0) {
+                        $layui_laydate.css("top", top - $content.scrollTop());
+                    }
+                });
+            }, done: function (value, date, endDate) {
+                $content.unbind("scroll");
+            }
+        });
+
+        //加载滚动图标
+        scrollTop.load();
+
+        //上传图片
+        var $imgUpload = diyUploader.diyUpload({
+            pick: {
+                id: $("#storeImg"),
+                multiple: false,
+                label: "文件大小 ≤ 3Mb"
+            },
+            server: '/shopInfo/image',
+            fileVal: "imgFile",
+            //队列数
+            fileNumLimit: 1,
+            fileSingleSizeLimit: 3000 * 1024,
+            initFileUrl: shopInfo.storeImg,
+        });
+        // 修正更新的图片数据校验
+        shopInfo.storeImg  = layuimini.subImageName(shopInfo.storeImg);
+
+        form.on('submit(shop-update-form-submit)', function (data) {
+            let params = updateParams(data.field);
+            if (layuimini.nativeEqual(params, shopInfo)) {
+                layuimini.alert.warn('数据未作任何修改！');
+                return false;
+            }
+
+            layuimini.put('/shopInfo', params, function () {
+                layer.closeAll();
+                layuimini.alert.success('修改店铺成功!');
+                table.reload('shopTable', {
+                    where: {key:{field:data.field}}
+                }, 'data');
+            });
+            return false;
+        });
+
+        function initValue() {
+            form.val("shop-update-form", {
+                "shopName": shopInfo.shopName,
+                "contactMan": shopInfo.contactMan,
+                "contactMobile": shopInfo.contactMobile,
+                "status": shopInfo.status,
+                "longitude": shopInfo.longitude,
+                "latitude": shopInfo.latitude,
+                "address": shopInfo.address
+            });
+        }
+
+        function updateParams(data) {
+            let file = $imgUpload.getFiles('complete');
+            let regionName = cascader.getContentData("#region");
+            let region = cascader.getChooseData("#region");
+            var params = {
+                shopInfoId:shopInfo.shopInfoId,
+                shopName: data.shopName.trim(),
+                businessHours: data.businessHours.trim(),
+                address: data.address.trim(),
+                contactMan:data.contactMan.trim(),
+                contactMobile:data.contactMobile.trim(),
+                longitude: data.longitude.trim(),
+                latitude: data.latitude.trim(),
+            };
+            if (data.status === '1') {
+                params.status = data.status;
+            } else {
+                params.status = 0;
+            }
+            if (file.length !== 0) {
+                params.storeImg = file[0].name;
+            } else {
+                params.storeImg = "";
+            }
+            if (regionName.length === 3) {
+                params.city = regionName[0];
+                params.district = regionName[1];
+                params.street = regionName[2];
+                params.region = region.join(",");
+            } else if (regionName.length === 4){
+                params.province = regionName[0];
+                params.city = regionName[1];
+                params.district = regionName[2];
+                params.street = regionName[3];
+                params.region = region.join(",");
+            }
+            return params;
+        }
+    });
+</script>

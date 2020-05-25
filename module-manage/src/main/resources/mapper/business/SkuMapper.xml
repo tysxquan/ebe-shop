@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxquan.manage.business.mapper.SkuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sxquan.manage.business.pojo.Sku">
+        <id column="sku_id" property="skuId" />
+        <result column="code" property="code" />
+        <result column="spu_id" property="spuId" />
+        <result column="title" property="title" />
+        <result column="image" property="image" />
+        <result column="origin_price" property="originPrice" />
+        <result column="sell_price" property="sellPrice" />
+        <result column="discount" property="discount" />
+        <result column="inventory" property="inventory" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        sku_id, code,spu_id, title, image, origin_price, sell_price, discount, inventory, status, create_time, update_time
+    </sql>
+    <select id="selectSkuList" resultType="com.sxquan.manage.business.pojo.Sku">
+        select * from `sku` s
+        <where>
+
+            <if test="sku.title != null">
+                AND title like  CONCAT('%',#{sku.title},'%')
+            </if>
+        </where>
+    </select>
+
+</mapper>
