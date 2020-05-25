@@ -43,7 +43,6 @@ public class ValidateCodeService {
 
         Captcha captcha = createCaptcha(code);
 
-
         // 验证码存入redis
         redisService.set(SystemConstant.CODE_PREFIX  + key, StringUtils.lowerCase(captcha.text()), code.getTime());
         captcha.out(response.getOutputStream());
@@ -52,8 +51,6 @@ public class ValidateCodeService {
     
     public void check(String key, String value) throws ShopException {
         Object codeInRedis = redisService.get(SystemConstant.CODE_PREFIX + key);
-        System.out.println(SystemConstant.CODE_PREFIX  + key);
-        System.out.println(codeInRedis);
         if (StringUtils.isBlank(value)) {
             throw new ShopException("请输入验证码");
         }

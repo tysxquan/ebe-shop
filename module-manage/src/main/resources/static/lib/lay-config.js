@@ -24,7 +24,6 @@ layui.config({
 	sliderVerify:'sliderVerify/sliderVerify', //滑动解锁
 	dropdown: 'dropdown/dropdown',//下拉选项
 	formSelects: 'formSelects/formSelects-v4.min',
-    view: 'admin/view', //通用异步请求
     conf: "admin/config", //全局变量
     adminLayer: "admin/adminLayer",//封装layer
 	validate: 'admin/validate',
