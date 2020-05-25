@@ -122,12 +122,12 @@ html {
 .ebe-tag-green {
 	background-color: rgba(0, 150, 136, 0.1)!important;
 	color: #009688;
-	border: 1px solid  rgba(0, 150, 136, 0.7);
+	border: 1px solid  rgba(0, 150, 136, 0.3);
 }
 .ebe-tag-red {
-	background-color: rgba(245,108,108, 0.2)!important;
+	background-color: rgba(245,108,108, 0.1)!important;
 	color: #fa541c;
-	border: 1px solid rgba(245,108,108, 0.7);
+	border: 1px solid rgba(245,108,108, 0.3);
 }
 .ebe-circle-badge{
 	display: inline-block;
@@ -142,11 +142,14 @@ html {
 	border:1px solid #e9e9eb;
 	color: #909399;
 }
+
 .ebe-tag-success {
 	background-color: #e6f9f4;
 	border:1px solid #ccf3e9;
 	color: #00c292;
 }
+
+
 .ebe-tag-warning {
 	background-color: #fffaf1;
 	border:1px solid #fff5e3;

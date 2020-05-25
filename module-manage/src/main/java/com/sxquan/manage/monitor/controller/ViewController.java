@@ -15,7 +15,7 @@ public class ViewController {
     @RequiresPermissions("operationLog:view")
     public String monitorOperationLog() {return "monitor/operationLog/operationLog";}
 
-    @GetMapping("logLogin")
+    @GetMapping("monitor/logLogin")
     @RequiresPermissions("logLogin:view")
     public String logLoginIndex(){
         return "monitor/logLogin/logLogin";

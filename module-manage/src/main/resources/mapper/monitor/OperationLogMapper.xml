@@ -10,6 +10,7 @@
         <result column="operation" property="operation" />
         <result column="method" property="method" />
         <result column="param" property="param" />
+        <result column="run_time" property="runTime" />
         <result column="ip" property="ip" />
         <result column="location" property="location" />
         <result column="result" property="result" />
@@ -18,7 +19,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        log_id, system_user_id, username, operation, method, param, ip, location, result, create_time
+        log_id, system_user_id, username, operation, method, param, time,ip, location, result, create_time
     </sql>
 
 </mapper>

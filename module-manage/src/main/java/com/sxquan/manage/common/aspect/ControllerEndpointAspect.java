@@ -44,17 +44,18 @@ public class ControllerEndpointAspect extends AspectSupport {
         ControllerEndpoint annotation = targetMethod.getAnnotation(ControllerEndpoint.class);
         String operation = annotation.operation();
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+        long start = System.currentTimeMillis();
         try {
             result = point.proceed();
             if (StringUtils.isNotBlank(operation)) {
-                systemLogService.saveLog(point, targetMethod, request, operation,true);
+                systemLogService.saveLog(point, targetMethod, request, operation,start,true);
             }
             return result;
         } catch (Throwable throwable) {
             String exceptionMessage = annotation.exceptionMessage();
             String message = throwable.getMessage();
             if (StringUtils.isNotBlank(operation)) {
-                systemLogService.saveLog(point, targetMethod, request, exceptionMessage, false);
+                systemLogService.saveLog(point, targetMethod, request, exceptionMessage,start, false);
             }
             log.error(ShopUtil.getTrace(throwable));
             String error = ShopUtil.containChinese(message) ? exceptionMessage + "，" + message : exceptionMessage;

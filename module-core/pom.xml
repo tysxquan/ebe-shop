@@ -36,6 +36,13 @@
             <artifactId>ip2region</artifactId>
             <version>1.7.2</version>
         </dependency>
+        <!--    分析浏览器信息工具    -->
+        <dependency>
+            <groupId>eu.bitwalker</groupId>
+            <artifactId>UserAgentUtils</artifactId>
+            <version>1.21</version>
+        </dependency>
+
 
         <!--   mybatis plus 代码生成器     -->
         <dependency>

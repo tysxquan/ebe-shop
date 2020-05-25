@@ -9,7 +9,8 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sxquan.core.entity.RequestPage;
-import com.sxquan.core.util.IPUtil;
+
+import com.sxquan.manage.common.util.IpAddrUtil;
 import com.sxquan.manage.monitor.mapper.OperationLogMapper;
 import com.sxquan.manage.monitor.pojo.OperationLog;
 import com.sxquan.manage.monitor.service.IOperationLogService;
@@ -40,7 +41,7 @@ import java.util.List;
 public class OperationLogServiceImpl extends ServiceImpl<OperationLogMapper, OperationLog> implements IOperationLogService {
 
     @Override
-    public void saveLog(ProceedingJoinPoint point, Method method, HttpServletRequest request, String operation, Boolean result) {
+    public void saveLog(ProceedingJoinPoint point, Method method, HttpServletRequest request, String operation, Long startTime,Boolean result) {
         OperationLog systemLog = new OperationLog();
         // 设置操作用户
         SystemUser user = (SystemUser) SecurityUtils.getSubject().getPrincipal();
@@ -48,16 +49,18 @@ public class OperationLogServiceImpl extends ServiceImpl<OperationLogMapper, Ope
             systemLog.setSystemUserId(user.getSystemUserId());
             systemLog.setUsername(user.getUsername());
         }
+        //设置耗时
+        systemLog.setRunTime(System.currentTimeMillis() - startTime);
         //设置方法名
         systemLog.setMethod(method.getDeclaringClass().getName() + StringPool.DOT + method.getName());
         //设置操作描述
         systemLog.setOperation(operation);
         //设置用户ip
-        String ip = IPUtil.getIpAddr(request);
+        String ip = IpAddrUtil.getIpAddr(request);
         systemLog.setIp(ip);
         //设置ip地址的位置
-        if (StringUtils.isNotBlank(ip) && ip.length() <= IPUtil.IP_LENGTH) {
-            systemLog.setLocation(IPUtil.getCityInfo(ip));
+        if (StringUtils.isNotBlank(ip) && ip.length() <= IpAddrUtil.IP_LENGTH) {
+            systemLog.setLocation(IpAddrUtil.getCityInfo(ip));
         }
         //设置请求参数
         LocalVariableTableParameterNameDiscoverer u = new LocalVariableTableParameterNameDiscoverer();

@@ -53,6 +53,10 @@ public class OperationLog implements Serializable {
     @TableField("param")
     private String param;
 
+    @ApiModelProperty(value = "耗时")
+    @TableField("run_time")
+    private Long runTime;
+
     @ApiModelProperty(value = "IP")
     @TableField("ip")
     private String ip;

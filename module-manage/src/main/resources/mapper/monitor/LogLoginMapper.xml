@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxquan.manage.monitor.mapper.LogLoginMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sxquan.manage.monitor.pojo.LogLogin">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="login_time" property="loginTime"/>
+        <result column="location" property="location"/>
+        <result column="ip" property="ip"/>
+        <result column="system" property="system"/>
+        <result column="browser" property="browser"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+            id, username, login_time, location, ip, system, browser
+    </sql>
+</mapper>

@@ -4,6 +4,8 @@ package com.sxquan.manage.system.controller;
 import com.sxquan.core.entity.ServerResponse;
 import com.sxquan.core.exception.ShopException;
 import com.sxquan.manage.common.service.ValidateCodeService;
+import com.sxquan.manage.monitor.pojo.LogLogin;
+import com.sxquan.manage.monitor.service.ILogLoginService;
 import com.sxquan.manage.system.pojo.SystemUser;
 import com.sxquan.manage.system.service.ISystemUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -34,10 +36,13 @@ import java.io.IOException;
 public class LoginController {
 
     @Autowired
-    ISystemUserService systemUserService;
+    private ISystemUserService systemUserService;
 
     @Autowired
-    ValidateCodeService validateCodeService;
+    private ValidateCodeService validateCodeService;
+
+    @Autowired
+    private ILogLoginService logLoginService;
 
     @PostMapping("/login")
     public ServerResponse login(
@@ -52,6 +57,12 @@ public class LoginController {
         subject.login(token);
         //更新用户登录时间
         systemUserService.updateLoginTime(username);
+
+        //记录登录日志
+        LogLogin logLogin = new LogLogin();
+        logLogin.setUsername(username);
+        logLogin.setSystemBrowserInfo(request);
+        logLoginService.addLogLogin(logLogin);
         return ServerResponse.success();
     }
 

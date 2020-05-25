@@ -81,6 +81,17 @@
     }}
     <span class="ebe-badge ebe-tag-{{result.color}}">{{ result.title }}</span>
 </script>
+<script type="text/html" id="log-time">
+    <div>
+        {{# if (d.runTime < 500) { }}
+        <span class="layui-badge ebe-tag-success">{{d.runTime}} ms</span>
+        {{# } else if (d.runTime < 1500) { }}
+        <span class="layui-badge ebe-tag-warning">{{d.runTime}} ms</span>
+        {{# } else { }}
+        <span class="layui-badge ebe-tag-danger">{{d.runTime}} ms</span>
+        {{# } }}
+    </div>
+</script>
 <script data-th-inline="none">
     layui.use(['form', 'table', 'layuimini', 'dropdown', 'laydate'], function () {
         var $ = layui.jquery,
@@ -101,8 +112,9 @@
             url: '/monitor/operationLog/list',
             cols: [[
                 {type: "checkbox", width: 50, fixed: "left"},
-                { title: 'ID', type: 'numbers'},
+                {title: 'ID', type: 'numbers'},
                 {field: 'username', title: '操作人'},
+                {field: 'runTime', title: '耗时',sort: true,templet: "#log-time"},
                 {field: 'operation', title: '操作描述'},
                 {field: 'method', title: '操作方法'},
                 {field: 'param', title: '方法参数'},

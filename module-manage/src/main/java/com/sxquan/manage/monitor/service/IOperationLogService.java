@@ -29,10 +29,11 @@ public interface IOperationLogService extends IService<OperationLog> {
      * @param method Method
      * @param request HttpServletRequest
      * @param operation 操作内容
+     * @param startTime 起始时间
      * @param result 操作结果
      */
     @Async(SystemConstant.ASYNC_POOL)
-    void saveLog(ProceedingJoinPoint point, Method method, HttpServletRequest request, String operation, Boolean result );
+    void saveLog(ProceedingJoinPoint point, Method method, HttpServletRequest request, String operation, Long startTime,Boolean result );
 
     /**
      * 查询当前用户的操作数据（最新10条）

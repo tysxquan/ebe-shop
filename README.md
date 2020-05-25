@@ -2,7 +2,7 @@
 
 **记得安装lombok插件**
 
-![https://img.shields.io/badge/springboot-2.2.5-red.svg?style=flat-square](https://img.shields.io/badge/springboot-2.2.5-red.svg?style=flat-square) ![https://img.shields.io/badge/shiro-1.4.2-blue.svg?longCache=true&style=flat-square](https://img.shields.io/badge/shiro-1.4.2-blue.svg?longCache=true&style=flat-square) ![https://img.shields.io/badge/layui-2.5.5-brightgreen.svg?longCache=true&style=flat-square](https://img.shields.io/badge/layui-2.5.5-green.svg?longCache=true&style=flat-square)  ![https://img.shields.io/badge/license-Apache%202.0-4EB1BA.svg?longCache=true&style=flat-square](https://img.shields.io/badge/license-Apache%202.0-4EB1BA.svg?longCache=true&style=flat-square)
+![https://img.shields.io/badge/springboot-2.2.5-red.svg?style=flat-square](https://img.shields.io/badge/springboot-2.2.5-red.svg?style=flat-square) ![https://img.shields.io/badge/shiro-1.4.2-blue.svg?longCache=true&style=flat-square](https://img.shields.io/badge/shiro-1.4.2-blue.svg?longCache=true&style=flat-square) ![https://img.shields.io/badge/layui-2.5.6-brightgreen.svg?longCache=true&style=flat-square](https://img.shields.io/badge/layui-2.5.6-green.svg?longCache=true&style=flat-square)  ![https://img.shields.io/badge/license-Apache%202.0-4EB1BA.svg?longCache=true&style=flat-square](https://img.shields.io/badge/license-Apache%202.0-4EB1BA.svg?longCache=true&style=flat-square)
 
 ebe-shop是一款简单美观高效的商城系统，使用SpringBoot、Shiro架构，数据持久化层为Mybatis+Mybatis-Plus构建及Layui+Thymeleaf模板引擎搭建的前端视图模型，适合新零售、商店、连锁商店等系统使用。
 
@@ -57,6 +57,7 @@ ebe-shop是一款简单美观高效的商城系统，使用SpringBoot、Shiro架
 - [x] 图片上传 --  完成
 - [x] 权限管理 --  完成
 - [x] 代码生成 --  完成
+- [x] 登录日志记录 -- 完成
 - [ ] 导出导入 --  进行
 - [ ] 接口限流  --  未开始
 
