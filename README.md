@@ -2,7 +2,7 @@
 
 **记得安装lombok插件**
 
-![https://img.shields.io/badge/springboot-2.2.5-red.svg?style=flat-square](https://img.shields.io/badge/springboot-2.2.5-red.svg?style=flat-square) ![https://img.shields.io/badge/shiro-1.4.0-blue.svg?longCache=true&style=flat-square](https://img.shields.io/badge/shiro-1.4.0-blue.svg?longCache=true&style=flat-square) ![https://img.shields.io/badge/layui-2.5.4-brightgreen.svg?longCache=true&style=flat-square](https://img.shields.io/badge/layui-2.5.4-green.svg?longCache=true&style=flat-square)  ![https://img.shields.io/badge/license-Apache%202.0-4EB1BA.svg?longCache=true&style=flat-square](https://img.shields.io/badge/license-Apache%202.0-4EB1BA.svg?longCache=true&style=flat-square)
+![https://img.shields.io/badge/springboot-2.2.5-red.svg?style=flat-square](https://img.shields.io/badge/springboot-2.2.5-red.svg?style=flat-square) ![https://img.shields.io/badge/shiro-1.4.2-blue.svg?longCache=true&style=flat-square](https://img.shields.io/badge/shiro-1.4.2-blue.svg?longCache=true&style=flat-square) ![https://img.shields.io/badge/layui-2.5.5-brightgreen.svg?longCache=true&style=flat-square](https://img.shields.io/badge/layui-2.5.5-green.svg?longCache=true&style=flat-square)  ![https://img.shields.io/badge/license-Apache%202.0-4EB1BA.svg?longCache=true&style=flat-square](https://img.shields.io/badge/license-Apache%202.0-4EB1BA.svg?longCache=true&style=flat-square)
 
 ebe-shop是一款简单美观高效的商城系统，使用SpringBoot、Shiro架构，数据持久化层为Mybatis+Mybatis-Plus构建及Layui+Thymeleaf模板引擎搭建的前端视图模型，适合新零售、商店、连锁商店等系统使用。
 
@@ -34,10 +34,10 @@ ebe-shop是一款简单美观高效的商城系统，使用SpringBoot、Shiro架
 
 | 账户  | 密码                       | 说明                                                     |
 | ----- | -------------------------- | -------------------------------------------------------- |
-| admin | qweasd（演示环境暂不开放） | 系统管理员，拥有所有操作权限 ^_^                         |
-| test  | qweasd                     | 注册账户，拥有查看，新增权限（新增用户除外）             |
 | Janc  | qweasd                     | 演示角色，拥有查看、修改、删除、新增权限（系统模块除外） |
+| test  | qweasd                     | 注册账户，拥有查看，新增权限（新增用户除外）             |
 | black | qweasd                     | 业务角色，负责业务、分类、规格模块（包含增删改查）       |
+| admin | qweasd（演示环境暂不开放） | 系统管理员，拥有所有操作权限 ^_^                         |
 
 #### 系统结构
 
