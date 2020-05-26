@@ -36,4 +36,6 @@ public class EbeProperties {
     private ShiroProperties shiro = new ShiroProperties();
 
     private ValidateCodeProperties code = new ValidateCodeProperties();
+
+    private SwaggerProperties swagger = new SwaggerProperties();
 }

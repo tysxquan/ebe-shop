@@ -21,4 +21,10 @@ public class ViewController {
         return "monitor/logLogin/logLogin";
     }
 
+    // @GetMapping("monitor/swagger")
+    // @RequiresPermissions("swagger:view")
+    // public String swaggerIndex(){
+    //     return "forward:/swagger-ui.html";
+    // }
+
 }

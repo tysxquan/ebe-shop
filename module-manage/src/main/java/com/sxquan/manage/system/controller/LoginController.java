@@ -61,7 +61,7 @@ public class LoginController {
         //记录登录日志
         LogLogin logLogin = new LogLogin();
         logLogin.setUsername(username);
-        logLogin.setSystemBrowserInfo(request);
+        logLogin.setSystemBrowserInfo();
         logLoginService.addLogLogin(logLogin);
         return ServerResponse.success();
     }
