@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sxquan.core.util.HttpContextUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +42,6 @@ public class LogLogin implements Serializable {
      * 登录时间
      */
     @TableField("login_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime loginTime;
 
     /**

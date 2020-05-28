@@ -48,15 +48,15 @@ public class ${className}Controller {
 
     @ResponseBody
     @GetMapping("all")
-    @RequiresPermissions("${className?uncap_first}:list")
+    @RequiresPermissions("${className?uncap_first}:view")
     public ServerResponse get${className}All(${className} ${className?uncap_first}) {
         return ServerResponse.success(${className?uncap_first}Service.find${className}All(${className?uncap_first}));
     }
 
     @ResponseBody
     @GetMapping("list")
-    @RequiresPermissions("${className?uncap_first}:list")
-    public ServerResponse ${className?uncap_first}List( ${className} ${className?uncap_first}, RequestPage request) {
+    @RequiresPermissions("${className?uncap_first}:view")
+    public ServerResponse ${className?uncap_first}List(${className} ${className?uncap_first}, RequestPage request) {
     IPage<${className}> page = this.${className?uncap_first}Service.find${className}List(${className?uncap_first}, request);
         return ServerResponse.success(new LayuiPage<>(page.getRecords(),page.getTotal()));
     }

@@ -77,7 +77,7 @@ public class ViewController {
         }
     }
 
-    @GetMapping("welcome")
+    @GetMapping("welcome.html")
     public String welcome() {return "welcome";}
 
     @GetMapping("system/user/userCentre/profile")
