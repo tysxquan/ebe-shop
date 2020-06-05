@@ -2,7 +2,8 @@ package com.sxquan.manage.order.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sxquan.manage.order.pojo.OrderItem;
+import com.sxquan.core.pojo.order.OrderItem;
+
 
 /**
  * <p>

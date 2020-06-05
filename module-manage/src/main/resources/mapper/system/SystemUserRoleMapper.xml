@@ -3,7 +3,7 @@
 <mapper namespace="com.sxquan.manage.system.mapper.SystemUserRoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.sxquan.manage.system.pojo.SystemUserRole">
+    <resultMap id="BaseResultMap" type="SystemUserRole">
         <result column="system_user_id" property="systemUserId" />
         <result column="role_id" property="roleId" />
     </resultMap>

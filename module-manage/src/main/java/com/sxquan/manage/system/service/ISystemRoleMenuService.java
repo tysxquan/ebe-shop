@@ -2,7 +2,7 @@ package com.sxquan.manage.system.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.sxquan.manage.system.pojo.SystemRoleMenu;
+import com.sxquan.core.pojo.system.SystemRoleMenu;
 
 import java.util.List;
 

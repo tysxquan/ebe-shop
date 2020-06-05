@@ -3,7 +3,7 @@
 <mapper namespace="com.sxquan.manage.business.mapper.SkuMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.sxquan.manage.business.pojo.Sku">
+    <resultMap id="BaseResultMap" type="com.sxquan.core.pojo.business.Sku">
         <id column="sku_id" property="skuId" />
         <result column="code" property="code" />
         <result column="spu_id" property="spuId" />
@@ -22,7 +22,7 @@
     <sql id="Base_Column_List">
         sku_id, code,spu_id, title, image, origin_price, sell_price, discount, inventory, status, create_time, update_time
     </sql>
-    <select id="selectSkuList" resultType="com.sxquan.manage.business.pojo.Sku">
+    <select id="selectSkuList" resultType="com.sxquan.core.pojo.business.Sku">
         select * from `sku` s
         <where>
 

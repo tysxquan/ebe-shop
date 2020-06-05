@@ -1,7 +1,7 @@
 package com.sxquan.manage.common.util;
 
 
-import com.sxquan.manage.system.pojo.SystemUser;
+import com.sxquan.core.pojo.system.SystemUser;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 

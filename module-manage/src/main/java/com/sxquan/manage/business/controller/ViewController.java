@@ -1,9 +1,9 @@
 package com.sxquan.manage.business.controller;
 
 
-import com.sxquan.manage.business.pojo.ShopInfo;
-import com.sxquan.manage.business.pojo.Sku;
-import com.sxquan.manage.business.pojo.Spu;
+import com.sxquan.core.pojo.business.ShopInfo;
+import com.sxquan.core.pojo.business.Sku;
+import com.sxquan.core.pojo.business.Spu;
 import com.sxquan.manage.business.service.IShopInfoService;
 import com.sxquan.manage.business.service.ISkuService;
 import com.sxquan.manage.business.service.ISpuService;
@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+;
 
 /**
  * @Description 视图映射

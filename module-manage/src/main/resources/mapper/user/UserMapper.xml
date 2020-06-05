@@ -3,7 +3,7 @@
 <mapper namespace="com.sxquan.manage.user.mapper.UserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.sxquan.manage.user.pojo.User">
+    <resultMap id="BaseResultMap" type="User">
         <id column="id" property="id" />
         <result column="username" property="username" />
         <result column="mobile" property="mobile" />

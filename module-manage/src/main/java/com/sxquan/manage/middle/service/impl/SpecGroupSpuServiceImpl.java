@@ -3,8 +3,8 @@ package com.sxquan.manage.middle.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sxquan.core.pojo.middle.SpecGroupSpu;
 import com.sxquan.manage.middle.mapper.SpecGroupSpuMapper;
-import com.sxquan.manage.middle.pojo.SpecGroupSpu;
 import com.sxquan.manage.middle.service.ISpecGroupSpuService;
 import org.springframework.stereotype.Service;
 

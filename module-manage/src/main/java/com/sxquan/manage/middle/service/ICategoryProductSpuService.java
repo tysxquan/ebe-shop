@@ -2,7 +2,8 @@ package com.sxquan.manage.middle.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.sxquan.manage.middle.pojo.CategoryProductSpu;
+import com.sxquan.core.pojo.middle.CategoryProductSpu;
+
 
 /**
  * <p>

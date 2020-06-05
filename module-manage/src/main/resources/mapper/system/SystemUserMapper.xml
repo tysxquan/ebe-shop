@@ -3,7 +3,7 @@
 <mapper namespace="com.sxquan.manage.system.mapper.SystemUserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.sxquan.manage.system.pojo.SystemUser">
+    <resultMap id="BaseResultMap" type="SystemUser">
         <id column="system_user_id" property="systemUserId" />
         <result column="username" property="username" />
         <result column="password" property="password" />
@@ -22,11 +22,11 @@
     <sql id="Base_Column_List">
         system_user_id, username, password, true_name, sex, mobile, avatar, description, status, last_login_time, create_time, update_time
     </sql>
-    <select id="findUserByUsername" parameterType="string" resultType="com.sxquan.manage.system.pojo.SystemUser">
+    <select id="findUserByUsername" parameterType="string" resultType="SystemUser">
         select <include refid="Base_Column_List"/>
             from `system_user` where username = #{username}
     </select>
-    <select id="findUserListPage" resultType="com.sxquan.manage.system.pojo.SystemUser">
+    <select id="findUserListPage" resultType="SystemUser">
 
     </select>
 

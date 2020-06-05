@@ -3,7 +3,7 @@
 <mapper namespace="com.sxquan.manage.order.mapper.PayLogMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.sxquan.manage.order.pojo.PayLog">
+    <resultMap id="BaseResultMap" type="PayLog">
         <id column="pay_id" property="payId" />
         <result column="transaction_id" property="transactionId" />
         <result column="total_fee" property="totalFee" />

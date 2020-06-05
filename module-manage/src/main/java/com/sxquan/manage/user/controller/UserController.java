@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.sxquan.core.entity.LayuiPage;
 import com.sxquan.core.entity.RequestPage;
 import com.sxquan.core.entity.ServerResponse;
-import com.sxquan.manage.user.pojo.User;
+import com.sxquan.core.pojo.user.User;
 import com.sxquan.manage.user.service.IUserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;

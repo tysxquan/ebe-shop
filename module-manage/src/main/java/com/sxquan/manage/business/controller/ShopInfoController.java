@@ -8,7 +8,7 @@ import com.sxquan.core.entity.ImageBO;
 import com.sxquan.core.entity.LayuiPage;
 import com.sxquan.core.entity.RequestPage;
 import com.sxquan.core.entity.ServerResponse;
-import com.sxquan.manage.business.pojo.ShopInfo;
+import com.sxquan.core.pojo.business.ShopInfo;
 import com.sxquan.manage.business.service.IShopInfoService;
 import com.sxquan.manage.common.annotation.ControllerEndpoint;
 import com.sxquan.manage.common.properties.EbeProperties;

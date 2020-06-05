@@ -3,7 +3,7 @@
 <mapper namespace="com.sxquan.manage.generator.mapper.GeneratorConfigMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.sxquan.manage.generator.pojo.GeneratorConfig">
+    <resultMap id="BaseResultMap" type="GeneratorConfig">
         <id column="id" property="id" />
         <result column="author" property="author" />
         <result column="base_package" property="basePackage" />

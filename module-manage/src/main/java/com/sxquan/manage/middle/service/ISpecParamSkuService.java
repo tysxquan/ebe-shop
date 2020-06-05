@@ -2,7 +2,7 @@ package com.sxquan.manage.middle.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.sxquan.manage.middle.pojo.SpecParamSku;
+import com.sxquan.core.pojo.middle.SpecParamSku;
 
 import java.util.List;
 

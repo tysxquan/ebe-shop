@@ -2,7 +2,8 @@ package com.sxquan.manage.monitor.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sxquan.manage.monitor.pojo.OperationLog;
+import com.sxquan.core.pojo.monitor.OperationLog;
+
 
 /**
  * <p>

@@ -3,7 +3,7 @@ package com.sxquan.manage.user.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sxquan.core.entity.RequestPage;
-import com.sxquan.manage.user.pojo.User;
+import com.sxquan.core.pojo.user.User;
 
 
 /**

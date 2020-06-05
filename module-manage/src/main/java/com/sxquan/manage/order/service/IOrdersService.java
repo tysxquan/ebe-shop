@@ -4,7 +4,7 @@ package com.sxquan.manage.order.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sxquan.core.entity.RequestPage;
-import com.sxquan.manage.order.pojo.Orders;
+import com.sxquan.core.pojo.order.Orders;
 import com.sxquan.manage.order.pojo.vo.OrderInfoVO;
 
 /**

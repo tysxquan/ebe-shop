@@ -1,7 +1,8 @@
 package com.sxquan.manage.monitor.mapper;
 
-import com.sxquan.manage.monitor.pojo.LogLogin;
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.sxquan.core.pojo.monitor.LogLogin;
 import org.springframework.stereotype.Repository;
 
 /**

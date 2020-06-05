@@ -3,8 +3,8 @@ package com.sxquan.manage.spec.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sxquan.core.pojo.spec.SpecGroupParam;
 import com.sxquan.manage.spec.mapper.SpecGroupParamMapper;
-import com.sxquan.manage.spec.pojo.SpecGroupParam;
 import com.sxquan.manage.spec.service.ISpecGroupParamService;
 import org.springframework.stereotype.Service;
 

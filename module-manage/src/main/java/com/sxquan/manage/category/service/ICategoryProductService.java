@@ -4,7 +4,7 @@ package com.sxquan.manage.category.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sxquan.core.entity.RequestPage;
-import com.sxquan.manage.category.pojo.CategoryProduct;
+import com.sxquan.core.pojo.category.CategoryProduct;
 
 import java.util.List;
 

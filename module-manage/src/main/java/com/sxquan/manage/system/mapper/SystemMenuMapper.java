@@ -2,7 +2,7 @@ package com.sxquan.manage.system.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sxquan.manage.system.pojo.SystemMenu;
+import com.sxquan.core.pojo.system.SystemMenu;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

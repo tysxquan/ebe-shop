@@ -2,7 +2,8 @@ package com.sxquan.manage.generator.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sxquan.manage.generator.pojo.GeneratorConfig;
+import com.sxquan.core.pojo.generator.GeneratorConfig;
+
 
 /**
  * <p>

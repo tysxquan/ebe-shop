@@ -1,8 +1,8 @@
 package com.sxquan.manage.spec.controller;
 
 
-import com.sxquan.manage.spec.pojo.SpecGroup;
-import com.sxquan.manage.spec.pojo.SpecParam;
+import com.sxquan.core.pojo.spec.SpecGroup;
+import com.sxquan.core.pojo.spec.SpecParam;
 import com.sxquan.manage.spec.service.ISpecGroupService;
 import com.sxquan.manage.spec.service.ISpecParamService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

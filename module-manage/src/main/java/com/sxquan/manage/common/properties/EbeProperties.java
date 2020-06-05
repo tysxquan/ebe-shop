@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 
 /**
- * Dispatching配置类
+ * 配置类
  * @Author sxquan
  * @Date 2019/12/20 15:20
  */

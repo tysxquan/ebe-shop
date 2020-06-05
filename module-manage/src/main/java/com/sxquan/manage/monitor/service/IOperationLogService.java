@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sxquan.core.constant.SystemConstant;
 import com.sxquan.core.entity.RequestPage;
-import com.sxquan.manage.monitor.pojo.OperationLog;
+import com.sxquan.core.pojo.monitor.OperationLog;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.scheduling.annotation.Async;
 

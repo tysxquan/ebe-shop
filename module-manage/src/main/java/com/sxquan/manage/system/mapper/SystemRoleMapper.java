@@ -2,7 +2,7 @@ package com.sxquan.manage.system.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sxquan.manage.system.pojo.SystemRole;
+import com.sxquan.core.pojo.system.SystemRole;
 
 import java.util.List;
 

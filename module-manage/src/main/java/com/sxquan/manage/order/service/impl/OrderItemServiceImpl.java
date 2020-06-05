@@ -3,8 +3,8 @@ package com.sxquan.manage.order.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sxquan.core.pojo.order.OrderItem;
 import com.sxquan.manage.order.mapper.OrderItemMapper;
-import com.sxquan.manage.order.pojo.OrderItem;
 import com.sxquan.manage.order.service.IOrderItemService;
 import org.springframework.stereotype.Service;
 

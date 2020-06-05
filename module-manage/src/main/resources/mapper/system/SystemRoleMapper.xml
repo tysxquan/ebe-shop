@@ -3,7 +3,7 @@
 <mapper namespace="com.sxquan.manage.system.mapper.SystemRoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.sxquan.manage.system.pojo.SystemRole">
+    <resultMap id="BaseResultMap" type="SystemRole">
         <id column="role_id" property="roleId" />
         <result column="role_name" property="roleName" />
         <result column="role_desc" property="roleDesc" />

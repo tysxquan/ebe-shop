@@ -54,7 +54,7 @@ public class CodeGenerator {
         gc.setFileOverride(true); // 默认 false ,是否覆盖已生成文件
         gc.setBaseResultMap(true);// XML ResultMap
         gc.setBaseColumnList(true);// XML columList
-        gc.setSwagger2(true); // 实体属性 Swagger2 注解
+        gc.setSwagger2(false); // 实体属性 Swagger2 注解
         gc.setIdType(IdType.AUTO); // 指定生成的主键类型
         mpg.setGlobalConfig(gc);
 
@@ -70,7 +70,7 @@ public class CodeGenerator {
         // 包配置
         PackageConfig pc = new PackageConfig();
         pc.setModuleName(scanner("模块名"));
-        pc.setParent("com.sxquan.student");
+        pc.setParent("com.sxquan.mobile");
         pc.setEntity("pojo");
         mpg.setPackageInfo(pc);
 

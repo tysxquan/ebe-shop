@@ -2,7 +2,8 @@ package com.sxquan.manage.order.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.sxquan.manage.order.pojo.PayLog;
+import com.sxquan.core.pojo.order.PayLog;
+
 
 /**
  * <p>

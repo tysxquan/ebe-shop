@@ -2,8 +2,8 @@ package com.sxquan.manage.generator.controller;
 
 
 import com.sxquan.core.entity.ServerResponse;
+import com.sxquan.core.pojo.generator.GeneratorConfig;
 import com.sxquan.manage.common.annotation.ControllerEndpoint;
-import com.sxquan.manage.generator.pojo.GeneratorConfig;
 import com.sxquan.manage.generator.service.IGeneratorConfigService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;

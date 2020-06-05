@@ -2,7 +2,7 @@ package com.sxquan.manage.category.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sxquan.manage.category.pojo.CategoryProduct;
+import com.sxquan.core.pojo.category.CategoryProduct;
 
 import java.util.List;
 

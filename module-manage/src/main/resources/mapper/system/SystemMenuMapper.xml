@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sxquan.manage.system.mapper.SystemMenuMapper">
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.sxquan.manage.system.pojo.SystemMenu">
+    <resultMap id="BaseResultMap" type="SystemMenu">
         <id column="menu_id" jdbcType="BIGINT" property="menuId" />
         <result column="parent_id" property="parentId" />
         <result column="menu_name"  property="menuName" />
@@ -32,7 +32,7 @@
             #{item}
         </foreach>
     </select>
-    <select id="findUserMenuByUserId" resultType="com.sxquan.manage.system.pojo.SystemMenu">
+    <select id="findUserMenuByUserId" resultType="SystemMenu">
          SELECT
             m.*
         FROM

@@ -2,7 +2,7 @@ package com.sxquan.manage.order.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.sxquan.manage.order.pojo.OrderItem;
+import com.sxquan.core.pojo.order.OrderItem;
 
 import java.util.List;
 

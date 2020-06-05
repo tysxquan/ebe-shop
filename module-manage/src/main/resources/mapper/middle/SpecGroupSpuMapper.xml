@@ -3,7 +3,7 @@
 <mapper namespace="com.sxquan.manage.middle.mapper.SpecGroupSpuMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.sxquan.manage.middle.pojo.SpecGroupSpu">
+    <resultMap id="BaseResultMap" type="SpecGroupSpu">
         <result column="spec_group_id" property="specGroupId" />
         <result column="spu_id" property="spuId" />
     </resultMap>

@@ -3,9 +3,9 @@ package com.sxquan.manage.system.controller;
 
 import com.sxquan.core.entity.ServerResponse;
 import com.sxquan.core.exception.ShopException;
+import com.sxquan.core.pojo.system.SystemMenu;
+import com.sxquan.core.pojo.system.SystemUser;
 import com.sxquan.manage.common.annotation.ControllerEndpoint;
-import com.sxquan.manage.system.pojo.SystemMenu;
-import com.sxquan.manage.system.pojo.SystemUser;
 import com.sxquan.manage.system.pojo.bo.MenuTreeBO;
 import com.sxquan.manage.system.service.ISystemMenuService;
 import org.apache.commons.lang3.ObjectUtils;

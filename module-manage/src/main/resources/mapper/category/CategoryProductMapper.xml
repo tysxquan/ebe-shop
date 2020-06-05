@@ -3,7 +3,7 @@
 <mapper namespace="com.sxquan.manage.category.mapper.CategoryProductMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.sxquan.manage.category.pojo.CategoryProduct">
+    <resultMap id="BaseResultMap" type="com.sxquan.core.pojo.category.CategoryProduct">
         <id column="category_id" property="categoryId" />
         <result column="parent_id" property="parentId" />
         <result column="category_name" property="categoryName" />

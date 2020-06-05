@@ -3,7 +3,7 @@
 <mapper namespace="com.sxquan.manage.business.mapper.RegionMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.sxquan.manage.business.pojo.Region">
+    <resultMap id="BaseResultMap" type="com.sxquan.core.pojo.business.Region">
         <id column="id" property="id" />
         <result column="city_code" property="cityCode" />
         <result column="parent_code" property="parentCode" />

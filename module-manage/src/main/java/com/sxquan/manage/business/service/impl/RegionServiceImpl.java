@@ -3,8 +3,8 @@ package com.sxquan.manage.business.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sxquan.core.pojo.business.Region;
 import com.sxquan.manage.business.mapper.RegionMapper;
-import com.sxquan.manage.business.pojo.Region;
 import com.sxquan.manage.business.service.IRegionService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;

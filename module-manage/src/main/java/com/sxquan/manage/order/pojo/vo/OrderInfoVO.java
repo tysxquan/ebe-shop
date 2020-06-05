@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.sxquan.manage.order.pojo.OrderItem;
+import com.sxquan.core.pojo.order.OrderItem;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -31,7 +31,12 @@ public class OrderInfoVO {
 
     @ApiModelProperty(value = "支付类型，1、在线支付，2、货到付款")
     @TableField("pay_type")
-    private String payType;
+    private Integer payType;
+
+
+    @ApiModelProperty(value = "配送方式：1-自提，2-商品配送")
+    @TableField("delivery_mode")
+    private Integer deliveryMode;
 
     @ApiModelProperty(value = "用户ID")
     @TableField("user_id")

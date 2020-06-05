@@ -2,7 +2,7 @@ package com.sxquan.manage.middle.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.sxquan.manage.middle.pojo.SpecGroupSpu;
+import com.sxquan.core.pojo.middle.SpecGroupSpu;
 
 import java.util.List;
 

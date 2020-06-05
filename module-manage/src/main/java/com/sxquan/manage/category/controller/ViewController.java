@@ -1,7 +1,7 @@
 package com.sxquan.manage.category.controller;
 
 
-import com.sxquan.manage.category.pojo.CategoryProduct;
+import com.sxquan.core.pojo.category.CategoryProduct;
 import com.sxquan.manage.category.service.ICategoryProductService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -4,7 +4,7 @@ package com.sxquan.manage.business.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sxquan.core.entity.RequestPage;
-import com.sxquan.manage.business.pojo.Sku;
+import com.sxquan.core.pojo.business.Sku;
 
 import java.util.List;
 

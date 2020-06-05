@@ -2,7 +2,8 @@ package com.sxquan.manage.user.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sxquan.manage.user.pojo.User;
+import com.sxquan.core.pojo.user.User;
+
 
 /**
  * <p>

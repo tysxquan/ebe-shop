@@ -7,7 +7,7 @@ import com.sxquan.core.entity.ImageBO;
 import com.sxquan.core.entity.LayuiPage;
 import com.sxquan.core.entity.RequestPage;
 import com.sxquan.core.entity.ServerResponse;
-import com.sxquan.manage.category.pojo.CategoryProduct;
+import com.sxquan.core.pojo.category.CategoryProduct;
 import com.sxquan.manage.category.service.ICategoryProductService;
 import com.sxquan.manage.common.annotation.ControllerEndpoint;
 import com.sxquan.manage.common.properties.EbeProperties;

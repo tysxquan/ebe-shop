@@ -3,7 +3,8 @@ package com.sxquan.manage.business.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.sxquan.manage.business.pojo.Sku;
+import com.sxquan.core.pojo.business.Sku;
+
 
 /**
  * <p>

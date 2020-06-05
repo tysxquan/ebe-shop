@@ -9,12 +9,11 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sxquan.core.entity.RequestPage;
-
+import com.sxquan.core.pojo.monitor.OperationLog;
+import com.sxquan.core.pojo.system.SystemUser;
 import com.sxquan.manage.common.util.IpAddrUtil;
 import com.sxquan.manage.monitor.mapper.OperationLogMapper;
-import com.sxquan.manage.monitor.pojo.OperationLog;
 import com.sxquan.manage.monitor.service.IOperationLogService;
-import com.sxquan.manage.system.pojo.SystemUser;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;

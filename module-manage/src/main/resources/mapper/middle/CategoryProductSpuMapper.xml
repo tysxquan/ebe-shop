@@ -3,7 +3,7 @@
 <mapper namespace="com.sxquan.manage.middle.mapper.CategoryProductSpuMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.sxquan.manage.middle.pojo.CategoryProductSpu">
+    <resultMap id="BaseResultMap" type="CategoryProductSpu">
         <result column="category_id" property="categoryId" />
         <result column="spu_id" property="spuId" />
         <result column="merger_category_id" property="mergerCategoryId" />

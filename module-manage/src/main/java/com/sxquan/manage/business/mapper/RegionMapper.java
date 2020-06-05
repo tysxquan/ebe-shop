@@ -2,7 +2,7 @@ package com.sxquan.manage.business.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sxquan.manage.business.pojo.Region;
+import com.sxquan.core.pojo.business.Region;
 
 import java.util.List;
 

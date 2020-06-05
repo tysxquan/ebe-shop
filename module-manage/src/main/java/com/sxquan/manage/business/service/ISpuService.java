@@ -3,7 +3,7 @@ package com.sxquan.manage.business.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sxquan.core.entity.RequestPage;
-import com.sxquan.manage.business.pojo.Spu;
+import com.sxquan.core.pojo.business.Spu;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@ package com.sxquan.manage.spec.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sxquan.manage.spec.pojo.SpecParam;
+import com.sxquan.core.pojo.spec.SpecParam;
 
 import java.util.List;
 

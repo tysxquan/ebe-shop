@@ -3,7 +3,7 @@
 <mapper namespace="com.sxquan.manage.monitor.mapper.OperationLogMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.sxquan.manage.monitor.pojo.OperationLog">
+    <resultMap id="BaseResultMap" type="OperationLog">
         <id column="log_id" property="logId" />
         <result column="system_user_id" property="systemUserId" />
         <result column="username" property="username" />

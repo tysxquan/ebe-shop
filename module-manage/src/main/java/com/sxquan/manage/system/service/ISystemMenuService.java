@@ -2,7 +2,7 @@ package com.sxquan.manage.system.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.sxquan.manage.system.pojo.SystemMenu;
+import com.sxquan.core.pojo.system.SystemMenu;
 import com.sxquan.manage.system.pojo.bo.MenuTreeBO;
 
 import java.util.List;

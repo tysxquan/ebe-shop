@@ -3,10 +3,10 @@ package com.sxquan.manage.system.controller;
 
 import com.sxquan.core.entity.ServerResponse;
 import com.sxquan.core.exception.ShopException;
+import com.sxquan.core.pojo.monitor.LogLogin;
+import com.sxquan.core.pojo.system.SystemUser;
 import com.sxquan.manage.common.service.ValidateCodeService;
-import com.sxquan.manage.monitor.pojo.LogLogin;
 import com.sxquan.manage.monitor.service.ILogLoginService;
-import com.sxquan.manage.system.pojo.SystemUser;
 import com.sxquan.manage.system.service.ISystemUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;

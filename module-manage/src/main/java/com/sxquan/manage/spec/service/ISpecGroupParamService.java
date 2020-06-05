@@ -2,7 +2,7 @@ package com.sxquan.manage.spec.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.sxquan.manage.spec.pojo.SpecGroupParam;
+import com.sxquan.core.pojo.spec.SpecGroupParam;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
 package com.sxquan.manage.common.shiro;
 
 
-import com.sxquan.manage.system.pojo.SystemMenu;
-import com.sxquan.manage.system.pojo.SystemRole;
-import com.sxquan.manage.system.pojo.SystemUser;
+import com.sxquan.core.pojo.system.SystemMenu;
+import com.sxquan.core.pojo.system.SystemRole;
+import com.sxquan.core.pojo.system.SystemUser;
 import com.sxquan.manage.system.service.ISystemMenuService;
 import com.sxquan.manage.system.service.ISystemRoleService;
 import com.sxquan.manage.system.service.ISystemUserService;

@@ -2,11 +2,11 @@ package com.sxquan.manage.generator.helper;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.io.Files;
+import com.sxquan.core.pojo.generator.GeneratorConfig;
 import com.sxquan.core.util.ShopUtil;
 import com.sxquan.manage.common.annotation.Helper;
 import com.sxquan.manage.common.constant.GeneratorConstant;
 import com.sxquan.manage.generator.pojo.Column;
-import com.sxquan.manage.generator.pojo.GeneratorConfig;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;

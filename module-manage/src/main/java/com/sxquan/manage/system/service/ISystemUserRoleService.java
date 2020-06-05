@@ -2,7 +2,7 @@ package com.sxquan.manage.system.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.sxquan.manage.system.pojo.SystemUserRole;
+import com.sxquan.core.pojo.system.SystemUserRole;
 
 import java.util.List;
 

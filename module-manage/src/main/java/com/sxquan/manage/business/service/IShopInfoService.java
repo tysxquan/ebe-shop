@@ -3,7 +3,8 @@ package com.sxquan.manage.business.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sxquan.core.entity.RequestPage;
-import com.sxquan.manage.business.pojo.ShopInfo;
+import com.sxquan.core.pojo.business.ShopInfo;
+
 
 /**
  * <p>

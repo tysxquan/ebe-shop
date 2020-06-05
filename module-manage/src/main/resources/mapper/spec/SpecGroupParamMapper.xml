@@ -3,7 +3,7 @@
 <mapper namespace="com.sxquan.manage.spec.mapper.SpecGroupParamMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.sxquan.manage.spec.pojo.SpecGroupParam">
+    <resultMap id="BaseResultMap" type="SpecGroupParam">
         <result column="spec_group_id" property="specGroupId"/>
         <result column="spec_param_id" property="specParamId"/>
     </resultMap>
@@ -12,7 +12,7 @@
     <sql id="Base_Column_List">
         spec_group_id, spec_param_id
     </sql>
-    <select id="selectSpecGroupParamBySkuId" resultType="com.sxquan.manage.spec.pojo.SpecGroupParam">
+    <select id="selectSpecGroupParamBySkuId" resultType="SpecGroupParam">
         select *
             FROM `spec_group_param` sgp,`spec_param_sku` sps
             WHERE sgp.spec_param_id = sps.spec_param_id AND sps.sku_id =#{skuId}

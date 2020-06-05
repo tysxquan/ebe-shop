@@ -2,7 +2,8 @@ package com.sxquan.manage.business.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sxquan.manage.business.pojo.ShopInfo;
+import com.sxquan.core.pojo.business.ShopInfo;
+
 
 /**
  * <p>

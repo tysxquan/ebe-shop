@@ -3,8 +3,8 @@ package com.sxquan.manage.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sxquan.core.pojo.system.SystemRoleMenu;
 import com.sxquan.manage.system.mapper.SystemRoleMenuMapper;
-import com.sxquan.manage.system.pojo.SystemRoleMenu;
 import com.sxquan.manage.system.service.ISystemRoleMenuService;
 import org.springframework.stereotype.Service;
 

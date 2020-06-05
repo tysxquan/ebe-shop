@@ -3,7 +3,7 @@
 <mapper namespace="com.sxquan.manage.business.mapper.ShopInfoMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.sxquan.manage.business.pojo.ShopInfo">
+    <resultMap id="BaseResultMap" type="com.sxquan.core.pojo.business.ShopInfo">
         <id column="shop_info_id" property="shopInfoId" />
         <result column="shop_name" property="shopName" />
         <result column="contact_man" property="contactMan" />

@@ -1,5 +1,6 @@
 package com.sxquan.manage.spec.service.impl;
 
+
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -7,9 +8,9 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sxquan.core.entity.RequestPage;
+import com.sxquan.core.pojo.spec.SpecGroupParam;
+import com.sxquan.core.pojo.spec.SpecParam;
 import com.sxquan.manage.spec.mapper.SpecParamMapper;
-import com.sxquan.manage.spec.pojo.SpecGroupParam;
-import com.sxquan.manage.spec.pojo.SpecParam;
 import com.sxquan.manage.spec.service.ISpecGroupParamService;
 import com.sxquan.manage.spec.service.ISpecParamService;
 import org.apache.commons.beanutils.ConvertUtils;

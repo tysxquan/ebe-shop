@@ -4,7 +4,7 @@ package com.sxquan.manage.system.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sxquan.core.entity.RequestPage;
-import com.sxquan.manage.system.pojo.SystemUser;
+import com.sxquan.core.pojo.system.SystemUser;
 
 import java.util.List;
 

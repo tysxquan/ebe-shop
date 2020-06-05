@@ -2,7 +2,8 @@ package com.sxquan.manage.middle.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sxquan.manage.middle.pojo.CategoryProductSpu;
+import com.sxquan.core.pojo.middle.CategoryProductSpu;
+
 
 /**
  * <p>

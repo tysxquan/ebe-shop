@@ -2,7 +2,7 @@ package com.sxquan.manage.business.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.sxquan.manage.business.pojo.Region;
+import com.sxquan.core.pojo.business.Region;
 
 import java.util.List;
 

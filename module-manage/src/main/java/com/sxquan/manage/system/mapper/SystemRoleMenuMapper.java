@@ -2,7 +2,8 @@ package com.sxquan.manage.system.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sxquan.manage.system.pojo.SystemRoleMenu;
+import com.sxquan.core.pojo.system.SystemRoleMenu;
+
 
 /**
  * <p>

@@ -3,7 +3,7 @@
 <mapper namespace="com.sxquan.manage.spec.mapper.SpecGroupMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.sxquan.manage.spec.pojo.SpecGroup">
+    <resultMap id="BaseResultMap" type="SpecGroup">
         <id column="spec_group_id" property="specGroupId" />
         <result column="group_name" property="groupName" />
         <result column="is_standard" property="standard" />
@@ -16,7 +16,7 @@
     <sql id="Base_Column_List">
         spec_group_id, group_name, is_standard, description, create_time, update_time
     </sql>
-    <select id="selectSpecGroupBySpuId" resultType="com.sxquan.manage.spec.pojo.SpecGroup">
+    <select id="selectSpecGroupBySpuId" resultType="SpecGroup">
         select * from `spec_group` sg,`spec_group_spu` sgs
         where sg.spec_group_id = sgs.spec_group_id
         AND sgs.spu_id = #{spuId}

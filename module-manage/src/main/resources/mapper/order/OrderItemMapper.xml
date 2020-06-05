@@ -3,7 +3,7 @@
 <mapper namespace="com.sxquan.manage.order.mapper.OrderItemMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.sxquan.manage.order.pojo.OrderItem">
+    <resultMap id="BaseResultMap" type="OrderItem">
         <id column="id" property="id" />
         <result column="order_id" property="orderId" />
         <result column="spu_id" property="spuId" />

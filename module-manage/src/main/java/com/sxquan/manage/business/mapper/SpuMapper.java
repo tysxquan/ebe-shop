@@ -4,7 +4,7 @@ package com.sxquan.manage.business.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.sxquan.manage.business.pojo.Spu;
+import com.sxquan.core.pojo.business.Spu;
 import org.springframework.stereotype.Component;
 
 /**

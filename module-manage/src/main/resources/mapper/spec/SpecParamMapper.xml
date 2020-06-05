@@ -3,7 +3,7 @@
 <mapper namespace="com.sxquan.manage.spec.mapper.SpecParamMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.sxquan.manage.spec.pojo.SpecParam">
+    <resultMap id="BaseResultMap" type="SpecParam">
         <id column="spec_param_id" property="specParamId" />
         <result column="param_name" property="paramName" />
         <result column="unit" property="unit" />
@@ -19,7 +19,7 @@
     <sql id="Base_Column_List">
         spec_param_id, param_name, unit, is_number, generic, searching, segments, create_time, update_time
     </sql>
-    <select id="selectParamByGroupId" resultType="com.sxquan.manage.spec.pojo.SpecParam">
+    <select id="selectParamByGroupId" resultType="SpecParam">
         select * from spec_param sp,spec_group_param sgp
         where sp.spec_param_id = sgp.spec_param_id
         AND sgp.spec_group_id = #{groupId}

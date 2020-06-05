@@ -4,7 +4,7 @@ package com.sxquan.manage.monitor.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sxquan.core.entity.RequestPage;
-import com.sxquan.manage.monitor.pojo.LogLogin;
+import com.sxquan.core.pojo.monitor.LogLogin;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@ package com.sxquan.manage.generator.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.sxquan.manage.generator.pojo.GeneratorConfig;
+import com.sxquan.core.pojo.generator.GeneratorConfig;
 
 /**
  * <p>
