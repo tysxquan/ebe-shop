@@ -119,8 +119,7 @@
             table = layui.table,
             layuimini = layui.layuimini,
             form = layui.form,
-            validate = layui.validate,
-            categoryIds,mergerCategoryName;
+            validate = layui.validate;
 
         form.verify(validate);
         form.render();
@@ -146,7 +145,7 @@
         var $selectY = selectY({
             elem: '#categoryId',
             //url为ajax 获取json数据，当url属性有值时，不提取data属性值
-            url: '/category/product/tree',
+            url: '/category/goods/tree',
             placeholder: '请选择分类',
             disabledTips: '当前区域没有分类',
             key: {
@@ -156,8 +155,6 @@
                 rootPId: '0'
             },
             success: function (e) {
-                mergerCategoryName = e.data;
-                categoryIds = e.ids;
             }
         });
         $('#reset').click(function () {
@@ -217,18 +214,17 @@
         function addParams(data) {
             var cover = $cover.getFiles('complete'),
                 bannerImages = $bannerImages.getFiles('complete'),
-                detailImg = $detailImg.getFiles('complete');
+                detailImg = $detailImg.getFiles('complete'),
+                category = $selectY.getDate();
             var params = {
                 title: data.title.trim(),
                 subhead: data.subhead.trim(),
                 originPrice: data.originPrice,
                 specGroup: data.specGroup,
                 unit:data.unit,
+                mergerCategoryId:category.ids.join(",")
             };
-            if (data.categoryId !== "") {
-                params.mergerCategoryId = categoryIds.join(",");
-                params.categoryId = categoryIds.pop();
-            }
+
             if (data.status === '1') {
                 params.status = 1;
             } else {

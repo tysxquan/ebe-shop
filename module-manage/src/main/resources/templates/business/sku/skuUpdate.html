@@ -154,14 +154,8 @@
             layuimini.put('/business/sku', params, function () {
                 layer.closeAll();
                 layuimini.alert.success('修改sku成功!');
-                var currTable = table.reload('skuTable');
-                var pageTemp = currTable.config.page;
-                var currTemp = Math.ceil((pageTemp.count + 1) / pageTemp.limit);
                 table.reload('skuTable', {
-                    data: data.field,
-                    page: {
-                        curr: currTemp
-                    }
+                    where: {key:{field:data.field}}
                 });
             });
             return false;

@@ -30,7 +30,7 @@ public class SpecParamController {
     @GetMapping("list")
     @RequiresPermissions("specGroup:update")
     public ServerResponse specParamList(SpecParam specParam, RequestPage requestPage) {
-        IPage<SpecParam> page = specParamService.ListSpecParam(specParam,requestPage);
+        IPage<SpecParam> page = specParamService.listSpecParam(specParam,requestPage);
         return ServerResponse.success(new LayuiPage<>(page.getRecords(),page.getTotal()));
     }
     @GetMapping("/form/{groupId}")

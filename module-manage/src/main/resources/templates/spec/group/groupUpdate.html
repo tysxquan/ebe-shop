@@ -69,7 +69,7 @@
                     </div>
                     <div class="layui-btn layui-btn-sm layui-btn-primary table-action action-more-update"
                          shiro:hasAnyPermissions="specParam:add,specParam:delete">
-                        <i class="layui-icon">&#xe875;</i>
+                        <i class="layui-icon layui-icon-unorderedlist"></i>
                     </div>
                 </div>
             </div>
@@ -234,14 +234,8 @@
             layuimini.put('/spec/group', params, function () {
                 layer.closeAll();
                 layuimini.alert.success('修改规格组成功!');
-                let currTable = table.reload('groupTable');
-                let pageTemp = currTable.config.page;
-                let currTemp = Math.ceil((pageTemp.count + 1) / pageTemp.limit);
                 table.reload('groupTable', {
-                    data: data.field,
-                    page: {
-                        curr: currTemp
-                    }
+                    where: {key:{field:data.field}}
                 });
             });
             return false;

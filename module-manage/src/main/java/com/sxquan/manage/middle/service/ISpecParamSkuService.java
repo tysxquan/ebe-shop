@@ -3,6 +3,7 @@ package com.sxquan.manage.middle.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sxquan.core.pojo.middle.SpecParamSku;
+import com.sxquan.core.pojo.spec.SpecGroupParam;
 
 import java.util.List;
 
@@ -28,5 +29,12 @@ public interface ISpecParamSkuService extends IService<SpecParamSku> {
      * @param skuIds
      */
     void deleteSpecParamSkuBySkuIds(List<String> skuIds);
+
+    /**
+     * 通过skuId查询
+     * @param skuId
+     * @return
+     */
+    List<SpecGroupParam> findSpecGroupParamBySkuId(Long skuId);
 
 }

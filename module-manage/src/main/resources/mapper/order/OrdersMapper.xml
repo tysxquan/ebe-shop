@@ -3,16 +3,18 @@
 <mapper namespace="com.sxquan.manage.order.mapper.OrdersMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="Orders">
+    <resultMap id="BaseResultMap" type="com.sxquan.core.pojo.order.Orders">
         <id column="id" property="id" />
-        <result column="order_id" property="orderId" />
+        <result column="order_code" property="orderCode" />
         <result column="pay_type" property="payType" />
         <result column="delivery_mode" property="deliveryMode" />
         <result column="user_id" property="userId" />
-        <result column="user_true_name" property="userTrueMame" />
-        <result column="user_receiver_area_name" property="userReceiverAreaName" />
-        <result column="user_address" property="userAddress" />
+        <result column="user_true_name" property="userTrueName" />
         <result column="user_mobile" property="userMobile" />
+        <result column="province_name" property="provinceName" />
+        <result column="city_name" property="cityName" />
+        <result column="county_name" property="countyName" />
+        <result column="user_address_detail" property="userAddressDetail" />
         <result column="shop_info_id" property="shopInfoId" />
         <result column="send_cost" property="sendCost" />
         <result column="total_money" property="totalMoney" />
@@ -34,13 +36,15 @@
 
     <resultMap id="OrderInfoResultMap" type="com.sxquan.manage.order.pojo.vo.OrderInfoVO">
         <id column="id" property="id" />
-        <result column="order_id" property="orderId" />
+        <result column="order_code" property="orderCode" />
         <result column="pay_type" property="payType" />
         <result column="user_id" property="userId" />
         <result column="delivery_mode" property="deliveryMode" />
         <result column="user_true_name" property="userTrueMame" />
-        <result column="user_receiver_area_name" property="userReceiverAreaName" />
-        <result column="user_address" property="userAddress" />
+        <result column="province_name" property="provinceName" />
+        <result column="city_name" property="cityName" />
+        <result column="county_name" property="countyName" />
+        <result column="user_address_detail" property="userAddressDetail" />
         <result column="user_mobile" property="userMobile" />
         <result column="shop_info_id" property="shopInfoId" />
         <result column="send_cost" property="sendCost" />
@@ -48,36 +52,38 @@
         <result column="discount_money" property="discountMoney" />
         <result column="coupon_id" property="couponId" />
         <result column="pay_money" property="payMoney" />
-        <result column="system_user_id" property="systemUserId" />
-        <result column="system_user_name" property="systemUserName" />
-        <result column="system_user_mobile" property="systemUserMobile" />
+        <result column="delivery_id" property="deliveryId" />
+        <result column="delivery_name" property="deliveryName" />
+        <result column="delivery_mobile" property="deliveryMobile" />
         <result column="payment_time" property="paymentTime" />
         <result column="status" property="status" />
+        <result column="remark" property="remark" />
         <result column="end_time" property="endTime" />
-        <result column="demand_time" property="demandTime" />
-        <result column="reserve_time" property="reserveTime" />
+        <result column="reserve_start_time" property="reserveStartTime" />
+        <result column="reserve_over_time" property="reserveOverTime" />
+        <result column="reserve_date" property="reserveDate" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
         <collection property="orderItems" ofType="OrderItem">
-            <result column="order_id" property="orderId" />
-            <result column="spu_id" property="spuId" />
+            <result column="order_code" property="orderCode" />
+            <result column="sku_id" property="skuId" />
             <result column="spec_info" property="specInfo" />
             <result column="title" property="title" />
             <result column="cover" property="cover" />
             <result column="price" property="price" />
             <result column="total_price" property="totalPrice" />
-            <result column="num" property="num" />
+            <result column="amount" property="amount" />
         </collection>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, order_id, pay_type, user_id, delivery_mode, user_true_name, user_mobile,user_receiver_area_name, user_address, shop_info_id, send_cost, total_money, discount_money, coupon_id, pay_money, system_user_id, system_user_name, system_user_mobile, payment_time, status, end_time, demand_time, reserve_time, create_time, update_time
+        id, order_code, pay_type, delivery_mode, user_id, user_true_name, user_mobile, province_name, city_name, county_name, user_address_detail, shop_info_id, send_cost, total_money, discount_money, coupon_id, pay_money, remark,delivery_id, delivery_name, delivery_mobile, payment_time, status, end_time, reserve_over_time, reserve_start_time, reserve_date, create_time, update_time
     </sql>
     <select id="selectOrderInfoByOrderId" resultMap="OrderInfoResultMap">
         SELECT * FROM `orders` o,order_item oi
-        WHERE o.order_id = oi.order_id
-        AND o.order_id = #{orderId}
+        WHERE o.order_code = oi.order_code
+        AND o.order_code = #{orderId}
     </select>
 
 

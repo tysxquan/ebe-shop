@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -25,9 +26,10 @@ public class OrderInfoVO {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
+
     @ApiModelProperty(value = "订单ID")
-    @TableField("order_id")
-    private String orderId;
+    @TableField("order_code")
+    private String orderCode;
 
     @ApiModelProperty(value = "支付类型，1、在线支付，2、货到付款")
     @TableField("pay_type")
@@ -50,13 +52,27 @@ public class OrderInfoVO {
     @TableField("user_mobile")
     private String userMobile;
 
-    @ApiModelProperty(value = "用户地区名称(省，市，县)街道")
-    @TableField("user_receiver_area_name")
-    private String userReceiverAreaName;
+    /**
+     * 收货地址第一级地址
+     */
+    @TableField("province_name")
+    private String provinceName;
+
+    /**
+     * 收货地址第二级地址
+     */
+    @TableField("city_name")
+    private String cityName;
+
+    /**
+     * 收货地址第三级地址
+     */
+    @TableField("county_name")
+    private String countyName;
 
     @ApiModelProperty(value = "用户详细地址")
-    @TableField("user_address")
-    private String userAddress;
+    @TableField("user_address_detail")
+    private String userAddressDetail;
 
     @ApiModelProperty(value = "商铺ID")
     @TableField("shop_info_id")
@@ -83,16 +99,16 @@ public class OrderInfoVO {
     private BigDecimal payMoney;
 
     @ApiModelProperty(value = "送货员ID")
-    @TableField("system_user_id")
-    private Long systemUserId;
+    @TableField("delivery_id")
+    private Long deliveryId;
 
     @ApiModelProperty(value = "送货员姓名")
-    @TableField("system_user_name")
-    private String systemUserName;
+    @TableField("delivery_name")
+    private String deliveryName;
 
     @ApiModelProperty(value = "送货员联系电话")
-    @TableField("system_user_mobile")
-    private String systemUserMobile;
+    @TableField("delivery_mobile")
+    private String deliveryMobile;
 
     @ApiModelProperty(value = "付款时间")
     @TableField("payment_time")
@@ -102,17 +118,27 @@ public class OrderInfoVO {
     @TableField("status")
     private Integer status;
 
+    /**
+     * 备注
+     */
+    @TableField("remark")
+    private String remark;
+
     @ApiModelProperty(value = "交易完成时间")
     @TableField("end_time")
     private LocalDateTime endTime;
 
-    @ApiModelProperty(value = "限定的时间")
-    @TableField("demand_time")
-    private LocalTime demandTime;
+    @ApiModelProperty(value = "预约配送的时间点（开始）")
+    @TableField("reserve_start_time")
+    private LocalTime reserveStartTime;
 
-    @ApiModelProperty(value = "预约时间")
-    @TableField("reserve_time")
-    private LocalDateTime reserveTime;
+    @ApiModelProperty(value = "预约配送的时间点（结束）")
+    @TableField("reserve_over_time")
+    private LocalTime reserveOverTime;
+
+    @ApiModelProperty(value = "预约日期")
+    @TableField("reserve_date")
+    private LocalDate reserveDate;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "创建时间")

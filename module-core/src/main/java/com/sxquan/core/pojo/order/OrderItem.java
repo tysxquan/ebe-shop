@@ -35,12 +35,12 @@ public class OrderItem implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "订单ID")
-    @TableField("order_id")
-    private String orderId;
+    @TableField("order_code")
+    private String orderCode;
 
-    @ApiModelProperty(value = "商品spu_id")
-    @TableField("spu_id")
-    private Long spuId;
+    @ApiModelProperty(value = "商品sku_id")
+    @TableField("sku_id")
+    private Long skuId;
 
     @ApiModelProperty(value = "规格信息")
     @TableField("spec_info")
@@ -63,8 +63,8 @@ public class OrderItem implements Serializable {
     private BigDecimal totalPrice;
 
     @ApiModelProperty(value = "下单数量")
-    @TableField("num")
-    private Integer num;
+    @TableField("amount")
+    private Integer amount;
 
 
 }

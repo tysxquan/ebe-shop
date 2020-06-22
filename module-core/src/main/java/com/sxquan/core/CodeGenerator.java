@@ -70,7 +70,7 @@ public class CodeGenerator {
         // 包配置
         PackageConfig pc = new PackageConfig();
         pc.setModuleName(scanner("模块名"));
-        pc.setParent("com.sxquan.mobile");
+        pc.setParent("com.sxquan.manage");
         pc.setEntity("pojo");
         mpg.setPackageInfo(pc);
 
@@ -127,7 +127,7 @@ public class CodeGenerator {
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-//        strategy.setSuperEntityClass("com.sxquan.core.pojo");
+       // strategy.setSuperEntityClass("com.sxquan.core.pojo");
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true); // 生成 @RestController 控制器
         strategy.setEntityBooleanColumnRemoveIsPrefix(true); // Boolean类型字段是否移除is前缀

@@ -16,6 +16,8 @@ import java.util.List;
  */
 public interface SpecParamMapper extends BaseMapper<SpecParam> {
 
+
+
     /**
      * 通过groupId查询规格
      * @param groupId

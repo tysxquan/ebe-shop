@@ -24,7 +24,7 @@ public interface ISpecParamService extends IService<SpecParam> {
      * @param requestPage 分页参数
      * @return
      */
-    IPage<SpecParam> ListSpecParam(SpecParam specParam, RequestPage requestPage);
+    IPage<SpecParam> listSpecParam(SpecParam specParam, RequestPage requestPage);
 
     /**
      * 添加规格参数

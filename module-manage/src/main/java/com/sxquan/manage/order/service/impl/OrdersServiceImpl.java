@@ -6,9 +6,9 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sxquan.core.entity.RequestPage;
+import com.sxquan.core.pojo.business.Sku;
 import com.sxquan.core.pojo.order.Orders;
 import com.sxquan.core.util.ShopUtil;
-import com.sxquan.manage.common.enums.SpuImageSrcEnum;
 import com.sxquan.manage.common.properties.EbeProperties;
 import com.sxquan.manage.order.mapper.OrdersMapper;
 import com.sxquan.manage.order.pojo.vo.OrderInfoVO;
@@ -43,7 +43,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
     public IPage<Orders> listOrder(Orders order, RequestPage requestPage) {
         IPage<Orders> page = new Page<>(requestPage.getPageNum(),requestPage.getPageSize());
         return baseMapper.selectPage(page,new LambdaQueryWrapper<Orders>()
-                .like(StringUtils.isNotBlank(order.getOrderId()),Orders::getOrderId,order.getOrderId()));
+                .like(StringUtils.isNotBlank(order.getOrderCode()),Orders::getOrderCode,order.getOrderCode()));
 
     }
 
@@ -53,7 +53,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         order.setUserTrueMame(ShopUtil.desensitizedIdName(order.getUserTrueMame()));
         order.setUserMobile(ShopUtil.desensitizedIdMobile(order.getUserMobile()));
         order.getOrderItems().forEach( x -> {
-            x.setCover(properties.getFileServer() + SpuImageSrcEnum.COVER.getSrc() + x.getCover());
+            x.setCover(properties.getFileServer() + Sku.IMAGE_SUB_PATH + x.getCover());
         });
         return order;
     }
@@ -64,7 +64,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         String[] split = orderIds.split(StringPool.COMMA);
         List<String> orderIdList = Arrays.asList(split);
         baseMapper.delete(new LambdaQueryWrapper<Orders>()
-                .in(Orders::getOrderId,orderIdList));
+                .in(Orders::getOrderCode,orderIdList));
         orderItemService.deleteOrderItemByOrderId(orderIdList);
     }
 }

@@ -7,13 +7,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sxquan.core.entity.RequestPage;
 import com.sxquan.core.pojo.business.Spu;
-import com.sxquan.core.pojo.middle.CategoryProductSpu;
+import com.sxquan.core.pojo.middle.CategoryGoodsSpu;
 import com.sxquan.core.pojo.middle.SpecGroupSpu;
 import com.sxquan.manage.business.mapper.SpuMapper;
 import com.sxquan.manage.business.service.ISpuService;
 import com.sxquan.manage.common.enums.SpuImageSrcEnum;
 import com.sxquan.manage.common.properties.EbeProperties;
-import com.sxquan.manage.middle.service.ICategoryProductSpuService;
+import com.sxquan.manage.middle.service.ICategoryGoodsSpuService;
 import com.sxquan.manage.middle.service.ISpecGroupSpuService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -45,7 +45,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
     private EbeProperties dispatching;
 
     @Autowired
-    private ICategoryProductSpuService categoryProductSpuService;
+    private ICategoryGoodsSpuService categoryGoodsSpuService;
 
     @Autowired
     private ISpecGroupSpuService specGroupSpuService;
@@ -97,9 +97,9 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
     @Transactional(rollbackFor = {Exception.class})
     public void addSpu(Spu spu) {
         this.save(spu);
-        CategoryProductSpu spuCategoryProduct = saveSpuCategoryProduct(spu);
+        CategoryGoodsSpu spuCategoryProduct = saveSpuCategoryGoods(spu);
         //分类关联
-        categoryProductSpuService.save(spuCategoryProduct);
+        categoryGoodsSpuService.save(spuCategoryProduct);
         //规格组关联
         saveSpuSpecGroup(spu);
     }
@@ -108,9 +108,9 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
     @Transactional(rollbackFor = {Exception.class})
     public void updateSpu(Spu spu) {
         this.updateById(spu);
-        CategoryProductSpu spuCategoryProduct = saveSpuCategoryProduct(spu);
+        CategoryGoodsSpu spuCategoryProduct = saveSpuCategoryGoods(spu);
         //更新分类中间表数据
-        categoryProductSpuService.updateCategoryProductBySpuId(spuCategoryProduct);
+        categoryGoodsSpuService.updateCategoryGoodsBySpuId(spuCategoryProduct);
         //删除规格组中间表数据
         specGroupSpuService.deleteSpecGroupSpuBySpuId(spu.getSpuId());
         //新增规格组中间表数据
@@ -131,9 +131,9 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
         if (StringUtils.isNotBlank(spu.getDetailImg())) {
             spu.setDetailImg(dispatching.getFileServer() + SpuImageSrcEnum.DETAIL_IMG.getSrc() + spu.getDetailImg());
         }
-        CategoryProductSpu categoryProductSpu = categoryProductSpuService.findCategoryProductSpuBySpuId(spuId);
-        spu.setMergerCategoryId(categoryProductSpu.getMergerCategoryId());
-        spu.setCategoryId(categoryProductSpu.getCategoryId());
+        CategoryGoodsSpu categoryGoodsSpu = categoryGoodsSpuService.findCategoryGoodsSpuBySpuId(spuId);
+        spu.setMergerCategoryId(categoryGoodsSpu.getCgId1()+StringPool.COMMA+categoryGoodsSpu.getCgId2());
+
         List<SpecGroupSpu> groupSpuList = specGroupSpuService.findSpecGroupSpuBySpuId(spuId);
         List<Long> collect = groupSpuList.stream().map(SpecGroupSpu::getSpecGroupId).collect(Collectors.toList());
         spu.setSpecGroup(StringUtils.join(collect,StringPool.COMMA));
@@ -156,12 +156,13 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
                 .eq(Spu::getDeleted,false));
     }
 
-    private CategoryProductSpu saveSpuCategoryProduct(Spu spu) {
-        CategoryProductSpu spuCategory = new CategoryProductSpu();
-        spuCategory.setCategoryId(spu.getCategoryId());
-        spuCategory.setMergerCategoryId(spu.getMergerCategoryId());
-        spuCategory.setSpuId(spu.getSpuId());
-        return spuCategory;
+    private CategoryGoodsSpu saveSpuCategoryGoods(Spu spu) {
+        CategoryGoodsSpu categoryGoodsSpu = new CategoryGoodsSpu();
+        String[] split = StringUtils.split(spu.getMergerCategoryId(), StringPool.COMMA);
+        categoryGoodsSpu.setCgId1(Long.parseLong(split[0]));
+        categoryGoodsSpu.setCgId2(Long.parseLong(split[1]));
+        categoryGoodsSpu.setSpuId(spu.getSpuId());
+        return categoryGoodsSpu;
     }
 
     private void saveSpuSpecGroup(Spu spu) {

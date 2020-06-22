@@ -1,8 +1,8 @@
 package com.sxquan.manage.category.controller;
 
 
-import com.sxquan.core.pojo.category.CategoryProduct;
-import com.sxquan.manage.category.service.ICategoryProductService;
+import com.sxquan.core.pojo.category.CategoryGoods;
+import com.sxquan.manage.category.service.ICategoryGoodsService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,43 +18,43 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class ViewController {
 
     @Autowired
-    ICategoryProductService categoryProductService;
+    ICategoryGoodsService categoryProductService;
 
-    @GetMapping("/category/product")
-    @RequiresPermissions("productCategory:view")
-    public String categoryProduct(){return "/category/product/product";}
+    @GetMapping("/category/goods")
+    @RequiresPermissions("goodsCategory:view")
+    public String categoryProduct(){return "/category/goods/goods";}
 
-    @GetMapping("/category/product/add")
-    @RequiresPermissions("productCategory:add")
-    public String categoryProductAdd(){return "/category/product/productAdd";}
+    @GetMapping("/category/goods/add")
+    @RequiresPermissions("goodsCategory:add")
+    public String categoryProductAdd(){return "/category/goods/goodsAdd";}
 
-    @GetMapping("/category/product/update/{categoryId}")
-    @RequiresPermissions("productCategory:update")
+    @GetMapping("/category/goods/update/{categoryId}")
+    @RequiresPermissions("goodsCategory:update")
     public String categoryProductUpdate(@PathVariable Long categoryId, Model model) {
-        CategoryProduct categoryProduct = categoryProductService.findCategoryProductById(categoryId);
-        model.addAttribute("categoryProduct",categoryProduct);
-        return "/category/product/productUpdate";
+        CategoryGoods categoryGoods = categoryProductService.findCategoryProductById(categoryId);
+        model.addAttribute("categoryGoods", categoryGoods);
+        return "/category/goods/goodsUpdate";
     }
 
-    @GetMapping("/category/product/children/{categoryId}")
-    @RequiresPermissions("productCategory:view")
+    @GetMapping("/category/goods/children/{categoryId}")
+    @RequiresPermissions("goodsCategory:view")
     public String categoryProductChildren(@PathVariable Long categoryId,Model model){
         model.addAttribute("categoryId",categoryId);
-        return "/category/product/children/childrenCategory";
+        return "/category/goods/children/childrenCategory";
     }
 
-    @GetMapping("/category/product/children/add")
-    @RequiresPermissions("productCategory:add")
+    @GetMapping("/category/goods/children/add")
+    @RequiresPermissions("goodsCategory:add")
     public String categoryProductChildrenAdd(Long parentId,Model model){
         model.addAttribute("parentId",parentId);
-        return "/category/product/children/childrenCategoryAdd";
+        return "/category/goods/children/childrenCategoryAdd";
     }
 
-    @GetMapping("/category/product/children/update/{categoryId}")
-    @RequiresPermissions("productCategory:update")
+    @GetMapping("/category/goods/children/update/{categoryId}")
+    @RequiresPermissions("goodsCategory:update")
     public String categoryProductChildrenUpdate(@PathVariable Long categoryId,Model model){
-        CategoryProduct childrenCategory = categoryProductService.findCategoryProductById(categoryId);
+        CategoryGoods childrenCategory = categoryProductService.findCategoryProductById(categoryId);
         model.addAttribute("childrenCategory",childrenCategory);
-        return "/category/product/children/childrenCategoryUpdate";
+        return "/category/goods/children/childrenCategoryUpdate";
     }
 }

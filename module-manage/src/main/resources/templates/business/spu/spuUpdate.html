@@ -119,8 +119,7 @@
             table = layui.table,
             layuimini = layui.layuimini,
             form = layui.form,
-            validate = layui.validate,
-            categoryIds,mergerCategoryName;
+            validate = layui.validate;
 
         form.verify(validate);
         form.render();
@@ -149,7 +148,7 @@
         var $selectY = selectY({
             elem: '#categoryId',
             //url为ajax 获取json数据，当url属性有值时，不提取data属性值
-            url: '/category/product/tree',
+            url: '/category/goods/tree',
             placeholder: '请选择分类',
             disabledTips: '当前区域没有分类',
             key: {
@@ -159,8 +158,7 @@
                 rootPId: '0'
             },
             success: function (e) {
-                mergerCategoryName = e.data;
-                categoryIds = e.ids;
+
             }
         });
         $('#reset').click(function () {
@@ -220,14 +218,8 @@
             layuimini.put('/business/spu', params, function () {
                 layer.closeAll();
                 layuimini.alert.success('修改SPU成功!');
-                var currTable = table.reload('spuTable');
-                var pageTemp = currTable.config.page;
-                var currTemp = Math.ceil((pageTemp.count + 1) / pageTemp.limit);
                 table.reload('spuTable', {
-                    data: data.field,
-                    page: {
-                        curr: currTemp
-                    }
+                    where: {key:{field:data.field}}
                 });
             });
             return false;
@@ -256,8 +248,7 @@
                 specGroup: data.specGroup,
                 unit:data.unit,
                 description: data.description,
-                mergerCategoryId: category.ids.join(","),
-                categoryId: category.ids.pop()
+                mergerCategoryId: category.ids.join(",")
             };
             if (data.status === '1') {
                 params.status = 1;

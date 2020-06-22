@@ -5,6 +5,7 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="SpecParam">
         <id column="spec_param_id" property="specParamId" />
+        <id column="spec_group_id" property="specGroupId" />
         <result column="param_name" property="paramName" />
         <result column="unit" property="unit" />
         <result column="is_number" property="number" />
@@ -17,12 +18,13 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        spec_param_id, param_name, unit, is_number, generic, searching, segments, create_time, update_time
+        spec_param_id, spec_group_id,param_name, unit, is_number, generic, searching, segments, create_time, update_time
     </sql>
     <select id="selectParamByGroupId" resultType="SpecParam">
         select * from spec_param sp,spec_group_param sgp
         where sp.spec_param_id = sgp.spec_param_id
         AND sgp.spec_group_id = #{groupId}
     </select>
+
 
 </mapper>

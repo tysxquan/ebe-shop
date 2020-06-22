@@ -123,7 +123,7 @@
             cols: [[
                 {type: "checkbox", width: 50, fixed: "left"},
                 {field: 'id', title: 'ID', type: 'numbers'},
-                {field: 'orderId', title: '订单编号'},
+                {field: 'orderCode', title: '订单编号'},
                 {field: 'sendCost', title: '配送费'},
                 {field: 'totalMoney', title: '总价'},
                 {title: '状态', templet: "#order-status",align:"center"},
@@ -143,7 +143,7 @@
                         layuimini.modal.confirm('删除订单', '确定删除所选订单？', function () {
                             var orderIds = [];
                             layui.each(checkStatus.data, function (key, item) {
-                                orderIds.push(item.orderId)
+                                orderIds.push(item.orderCode)
                             });
                             layuimini.delete('/order/' + orderIds.join(','), function () {
                                 table.reload('orderTable', {
@@ -183,7 +183,7 @@
             var data = obj.data,
                 layEvent = obj.event;
             if (layEvent === 'detail') {
-                layuimini.model.viewMax('订单信息', '/order/' + data.orderId);
+                layuimini.model.viewMax('订单信息', '/order/' + data.orderCode);
             }
             if (layEvent === 'delete') {
                 layuimini.modal.confirm('删除订单', '确定删除该订单？', function () {

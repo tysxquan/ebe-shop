@@ -19,6 +19,7 @@ public enum SpuImageSrcEnum {
      */
     DETAIL_IMG("detailImg","/images/spu/detailImg/");
 
+
     /**
      * 属性名
      */

@@ -24,7 +24,7 @@ public interface ISpecGroupService extends IService<SpecGroup> {
      * @param requestPage 分页参数
      * @return
      */
-    IPage<SpecGroup> ListSpecGroup(SpecGroup specGroup, RequestPage requestPage);
+    IPage<SpecGroup> listSpecGroup(SpecGroup specGroup, RequestPage requestPage);
 
     /**
      * 通过id查询详情

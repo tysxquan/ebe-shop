@@ -4,6 +4,7 @@ package com.sxquan.manage.middle.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sxquan.core.pojo.middle.SpecParamSku;
+import com.sxquan.core.pojo.spec.SpecGroupParam;
 import com.sxquan.manage.middle.mapper.SpecParamSkuMapper;
 import com.sxquan.manage.middle.service.ISpecParamSkuService;
 import org.springframework.stereotype.Service;
@@ -32,5 +33,10 @@ public class SpecParamSkuServiceImpl extends ServiceImpl<SpecParamSkuMapper, Spe
     public void deleteSpecParamSkuBySkuIds(List<String> skuIds) {
         baseMapper.delete(new LambdaQueryWrapper<SpecParamSku>()
                 .in(SpecParamSku::getSkuId,skuIds));
+    }
+
+    @Override
+    public List<SpecGroupParam> findSpecGroupParamBySkuId(Long skuId) {
+        return baseMapper.selectSpecGroupParamBySkuId(skuId);
     }
 }

@@ -22,15 +22,15 @@ import java.util.List;
 public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem> implements IOrderItemService {
 
     @Override
-    public List<OrderItem> findOrderItemByOrderId(String orderId) {
+    public List<OrderItem> findOrderItemByOrderId(String orderCode) {
 
         return baseMapper.selectList(new LambdaQueryWrapper<OrderItem>()
-                .eq(OrderItem::getOrderId,orderId));
+                .eq(OrderItem::getOrderCode,orderCode));
     }
 
     @Override
     public void deleteOrderItemByOrderId(List<String> orderIdLIst) {
       baseMapper.delete(new LambdaQueryWrapper<OrderItem>()
-            .in(OrderItem::getOrderId,orderIdLIst));
+            .in(OrderItem::getOrderCode,orderIdLIst));
     }
 }

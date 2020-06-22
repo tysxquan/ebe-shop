@@ -27,7 +27,7 @@ import java.util.List;
 public class SpecGroupServiceImpl extends ServiceImpl<SpecGroupMapper, SpecGroup> implements ISpecGroupService {
 
     @Override
-    public IPage<SpecGroup> ListSpecGroup(SpecGroup specGroup, RequestPage requestPage) {
+    public IPage<SpecGroup> listSpecGroup(SpecGroup specGroup, RequestPage requestPage) {
         Page<SpecGroup> page = new Page<>(requestPage.getPageNum(),requestPage.getPageSize());
         return baseMapper.selectPage(page,new LambdaQueryWrapper<SpecGroup>()
                 .like(StringUtils.isNotBlank(specGroup.getGroupName()),SpecGroup::getGroupName,specGroup.getGroupName())

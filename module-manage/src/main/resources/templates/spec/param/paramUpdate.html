@@ -47,14 +47,8 @@
             layuimini.put('/spec/param',params, function () {
                 layer.close(index);
                 layuimini.alert.success('修改规格成功!');
-                let currTable = table.reload('paramTable');
-                let pageTemp = currTable.config.page;
-                let currTemp = Math.ceil((pageTemp.count + 1) / pageTemp.limit);
                 table.reload('paramTable', {
-                    data: data.field,
-                    page: {
-                        curr: currTemp
-                    }
+                    where: {key:{field:data.field}}
                 });
             });
             return false;

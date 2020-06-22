@@ -4,14 +4,13 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -21,114 +20,180 @@ import java.time.LocalTime;
  * </p>
  *
  * @author sxquan
- * @since 2020-05-12
+ * @since 2020-06-19
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("orders")
-@ApiModel(value="Orders对象", description="订单主表")
 public class Orders implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @ApiModelProperty(value = "主键")
+    /**
+     * 主键
+     */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty(value = "订单ID")
-    @TableField("order_id")
-    private String orderId;
+    /**
+     * 订单编号
+     */
+    @TableField("order_code")
+    private String orderCode;
 
-    @ApiModelProperty(value = "支付类型，1、在线支付，2、货到付款")
+    /**
+     * 支付类型，1、在线支付，2、货到付款
+     */
     @TableField("pay_type")
     private Integer payType;
 
-    @ApiModelProperty(value = "配送方式：1-自提，2-商品配送")
+    /**
+     * 配送方式：1-自提，2-商品配送
+     */
     @TableField("delivery_mode")
     private Integer deliveryMode;
 
-    @ApiModelProperty(value = "用户ID")
+    /**
+     * 用户ID
+     */
     @TableField("user_id")
     private Long userId;
 
-    @ApiModelProperty(value = "用户姓名")
+    /**
+     * 用户姓名
+     */
     @TableField("user_true_name")
-    private String userTrueMame;
+    private String userTrueName;
 
-    @ApiModelProperty(value = "用户手机号")
+    /**
+     * 用户手机号码
+     */
     @TableField("user_mobile")
     private String userMobile;
 
-    @ApiModelProperty(value = "用户地区名称(省，市，县)街道")
-    @TableField("user_receiver_area_name")
-    private String userReceiverAreaName;
+    /**
+     * 收货地址第一级地址
+     */
+    @TableField("province_name")
+    private String provinceName;
 
-    @ApiModelProperty(value = "用户详细地址")
-    @TableField("user_address")
-    private String userAddress;
+    /**
+     * 收货地址第二级地址
+     */
+    @TableField("city_name")
+    private String cityName;
 
-    @ApiModelProperty(value = "商铺ID")
+    /**
+     * 收货地址第三级地址
+     */
+    @TableField("county_name")
+    private String countyName;
+
+    /**
+     * 用户详细地址
+     */
+    @TableField("user_address_detail")
+    private String userAddressDetail;
+
+    /**
+     * 商铺ID
+     */
     @TableField("shop_info_id")
     private Long shopInfoId;
 
-    @ApiModelProperty(value = "配送费")
+    /**
+     * 配送费
+     */
     @TableField("send_cost")
     private BigDecimal sendCost;
 
-    @ApiModelProperty(value = "总价")
+    /**
+     * 总价
+     */
     @TableField("total_money")
     private BigDecimal totalMoney;
 
-    @ApiModelProperty(value = "优惠金额")
+    /**
+     * 优惠金额
+     */
     @TableField("discount_money")
     private BigDecimal discountMoney;
 
-    @ApiModelProperty(value = "优惠劵ID")
+    /**
+     * 优惠劵ID
+     */
     @TableField("coupon_id")
     private String couponId;
 
-    @ApiModelProperty(value = "实付金额")
+    /**
+     * 实付金额
+     */
     @TableField("pay_money")
     private BigDecimal payMoney;
 
-    @ApiModelProperty(value = "送货员ID")
-    @TableField("system_user_id")
-    private Long systemUserId;
+    /**
+     * 送货员ID
+     */
+    @TableField("delivery_id")
+    private Long deliveryId;
 
-    @ApiModelProperty(value = "送货员姓名")
-    @TableField("system_user_name")
-    private String systemUserName;
+    /**
+     * 送货员姓名
+     */
+    @TableField("delivery_name")
+    private String deliveryName;
 
-    @ApiModelProperty(value = "送货员联系电话")
-    @TableField("system_user_mobile")
-    private String systemUserMobile;
+    /**
+     * 送货员联系电话
+     */
+    @TableField("delivery_mobile")
+    private String deliveryMobile;
 
-    @ApiModelProperty(value = "付款时间")
+    /**
+     * 付款时间
+     */
     @TableField("payment_time")
     private LocalDateTime paymentTime;
 
-    @ApiModelProperty(value = "状态;0：取消订单,1:等待买家付款,2:买家已付款,3:等待商家送货,4:商家已送达，5：确定收货，6：订单完成")
+    /**
+     * 备注
+     */
+    @TableField("remark")
+    private String remark;
+
+    /**
+     * 状态;0：取消订单,1:等待买家付款,2:买家已付款,3:等待商家送货,4:商家已送达，5：确定收货，6：订单完成
+     */
     @TableField("status")
     private Integer status;
 
-    @ApiModelProperty(value = "交易完成时间")
+    /**
+     * 交易完成时间
+     */
     @TableField("end_time")
     private LocalDateTime endTime;
 
-    @ApiModelProperty(value = "限定的时间")
-    @TableField("demand_time")
-    private LocalTime demandTime;
+    @ApiModelProperty(value = "预约配送的时间点（开始）")
+    @TableField("reserve_start_time")
+    private LocalTime reserveStartTime;
 
-    @ApiModelProperty(value = "预约时间")
-    @TableField("reserve_time")
-    private LocalDateTime reserveTime;
+    @ApiModelProperty(value = "预约配送的时间点（结束）")
+    @TableField("reserve_over_time")
+    private LocalTime reserveOverTime;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty(value = "创建时间")
+    @ApiModelProperty(value = "预约日期")
+    @TableField("reserve_date")
+    private LocalDate reserveDate;
+
+    /**
+     * 创建时间
+     */
     @TableField("create_time")
     private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "更新时间")
+    /**
+     * 更新时间
+     */
     @TableField("update_time")
     private LocalDateTime updateTime;
 

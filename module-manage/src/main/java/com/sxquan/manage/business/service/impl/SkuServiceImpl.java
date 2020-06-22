@@ -13,7 +13,6 @@ import com.sxquan.manage.business.mapper.SkuMapper;
 import com.sxquan.manage.business.service.ISkuService;
 import com.sxquan.manage.common.properties.EbeProperties;
 import com.sxquan.manage.middle.service.ISpecParamSkuService;
-import com.sxquan.manage.spec.service.ISpecGroupParamService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,16 +36,14 @@ import java.util.List;
 public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements ISkuService {
 
     @Autowired
-    ISpecParamSkuService specParamSkuService;
+    private ISpecParamSkuService specParamSkuService;
+
 
     @Autowired
-    ISpecGroupParamService specGroupParamService;
-
-    @Autowired
-    EbeProperties properties;
+    private EbeProperties properties;
 
     @Override
-    public IPage<Sku> ListSku(Sku sku, RequestPage requestPage) {
+    public IPage<Sku> listSku(Sku sku, RequestPage requestPage) {
         Page<Sku> page = new Page<>(requestPage.getPageNum(),requestPage.getPageSize());
         Page<Sku> selectPage = baseMapper.selectSkuList(page,sku);
         selectPage.getRecords().forEach( x -> {
@@ -68,7 +65,7 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements ISkuS
     @Override
     public Sku findSkuBySkuId(Long skuId) {
         Sku sku = baseMapper.selectById(skuId);
-        List<SpecGroupParam> paramIdByGroup = specGroupParamService.findSpecGroupParamBySkuId(skuId);
+        List<SpecGroupParam> paramIdByGroup = specParamSkuService.findSpecGroupParamBySkuId(skuId);
         sku.setGroupParam(paramIdByGroup);
         if (StringUtils.isNotBlank(sku.getImage())){
             sku.setImage(properties.getFileServer()+Sku.IMAGE_SUB_PATH+sku.getImage());

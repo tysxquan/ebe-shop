@@ -34,7 +34,7 @@ public class SpecGroupController {
     @GetMapping("list")
     @RequiresPermissions("specGroup:view")
     public ServerResponse specGroupList(SpecGroup specGroup, RequestPage requestPage) {
-        IPage<SpecGroup> page = specGroupService.ListSpecGroup(specGroup,requestPage);
+        IPage<SpecGroup> page = specGroupService.listSpecGroup(specGroup,requestPage);
         return ServerResponse.success(new LayuiPage<>(page.getRecords(),page.getTotal()));
     }
 

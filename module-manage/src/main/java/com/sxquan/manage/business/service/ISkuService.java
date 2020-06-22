@@ -24,7 +24,7 @@ public interface ISkuService extends IService<Sku> {
      * @param requestPage 分页条件
      * @return sku列表
      */
-    IPage<Sku> ListSku(Sku sku, RequestPage requestPage);
+    IPage<Sku> listSku(Sku sku, RequestPage requestPage);
 
     /**
      * 新增sku

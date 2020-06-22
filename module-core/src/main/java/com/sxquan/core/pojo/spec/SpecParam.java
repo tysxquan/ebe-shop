@@ -35,6 +35,9 @@ public class SpecParam implements Serializable {
     @TableId(value = "spec_param_id", type = IdType.AUTO)
     private Long specParamId;
 
+    @TableField(value = "spec_group_id")
+    private Long specGroupId;
+
     @ApiModelProperty(value = "参数名")
     @TableField("param_name")
     private String paramName;
@@ -67,8 +70,5 @@ public class SpecParam implements Serializable {
     @ApiModelProperty(value = "更新时间")
     @TableField("update_time")
     private LocalDateTime updateTime;
-
-    @TableField(exist = false)
-    private Long specGroupId;
 
 }

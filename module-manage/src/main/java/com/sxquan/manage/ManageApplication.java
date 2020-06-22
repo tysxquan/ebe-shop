@@ -1,11 +1,11 @@
 package com.sxquan.manage;
 
 
-        import org.mybatis.spring.annotation.MapperScan;
-        import org.springframework.boot.SpringApplication;
-        import org.springframework.boot.autoconfigure.SpringBootApplication;
-        import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-        import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @Title ManageApplication

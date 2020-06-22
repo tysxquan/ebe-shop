@@ -37,7 +37,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">订单编号：</label>
             <div class="layui-input-block">
-                <input type="text" name="orderId" data-th-value="*{orderId}"
+                <input type="text" name="orderId" data-th-value="*{orderCode}"
                        class="layui-input layui-disabled" disabled>
             </div>
         </div>
@@ -56,8 +56,8 @@
             <label class="layui-form-label">预约时间：</label>
             <div class="layui-input-inline">
                 <div class="header">
-                    <span class="name" data-th-text="*{reserveTime}"></span>
-
+                    <span class="name" data-th-text="*{reserveDate}"></span>
+                    <span  data-th-text="*{reserveStartTime} + ' - ' +*{reserveOverTime}"></span>
                 </div>
             </div>
         </div>
@@ -66,8 +66,8 @@
             <label class="layui-form-label">配送员：</label>
             <div class="layui-input-inline">
                 <div class="header">
-                    <span class="name" data-th-text="*{systemUserName}"></span>
-                    <span data-th-text="*{systemUserMobile}"></span>
+                    <span class="name" data-th-text="*{deliveryName}"></span>
+                    <span data-th-text="*{deliveryMobile}"></span>
                 </div>
             </div>
         </div>
@@ -79,8 +79,8 @@
                     <span data-th-text="*{userMobile}"></span>
                 </div>
                 <div class="detail">
-                    <span data-th-text="*{userReceiverAreaName}" style="margin-right: 10px;"></span>
-                    <span>**************</span>
+                    <span data-th-text="*{provinceName}+ *{cityName} + *{countyName}" style="margin-right: 10px;"></span>
+                    <span data-th-text="*{userAddressDetail}"></span>
                 </div>
             </div>
         </div>
@@ -137,7 +137,7 @@
             skin: 'line',
             cols: [
                 [
-                    {field: 'spuId', title: '商品编号'},
+                    {field: 'skuId', title: '商品编号'},
                     {field: 'cover',title: '图片',minWidth:140,templet:function (d) {
                             if (d.cover !== undefined) {
                                 return '<div ><img class="ebe-table-img" src="'+d.cover+'"></div>';
@@ -146,7 +146,7 @@
                         }},
                     {field: 'title', title: '标题'},
                     {field: 'price', title: '单价'},
-                    {field: 'num', title: '数量'},
+                    {field: 'amount', title: '数量'},
                     {field: 'totalPrice', title: '总价'},
                ]
             ],

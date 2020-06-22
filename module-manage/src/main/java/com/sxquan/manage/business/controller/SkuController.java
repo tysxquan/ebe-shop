@@ -40,7 +40,7 @@ public class SkuController {
     @GetMapping("list")
     @RequiresPermissions("sku:view")
     public ServerResponse skuList(Sku sku, RequestPage requestPage) {
-        IPage<Sku> page = skuService.ListSku(sku,requestPage);
+        IPage<Sku> page = skuService.listSku(sku,requestPage);
         return ServerResponse.success(new LayuiPage<>(page.getRecords(),page.getTotal()));
     }
 

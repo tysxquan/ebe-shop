@@ -116,9 +116,6 @@ public class Spu implements Serializable {
     @TableField("update_time")
     private LocalDateTime updateTime;
 
-    @TableField(exist = false)
-    private Long categoryId;
-
     @ApiModelProperty(value = "聚合分类id")
     @TableField(exist = false)
     private String mergerCategoryId;

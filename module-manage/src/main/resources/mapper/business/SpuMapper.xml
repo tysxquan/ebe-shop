@@ -5,7 +5,6 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.sxquan.core.pojo.business.Spu">
         <id column="spu_id" property="spuId" />
-        <result column="category_id" property="categoryId" />
         <result column="title" property="title" />
         <result column="subhead" property="subhead" />
         <result column="cover" property="cover" />
@@ -29,12 +28,12 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        spu_id, category_id, title, subhead, cover, banner_images, detail_img, origin_price, sell_price, discount, collect, limit_num, unit, total_sales, month_sales, praise_rate,description, status,is_deleted, create_time, update_time
+        spu_id, title, subhead, cover, banner_images, detail_img, origin_price, sell_price, discount, collect, limit_num, unit, total_sales, month_sales, praise_rate,description, status,is_deleted, create_time, update_time
     </sql>
 
     <select id="selectSpuList" resultType="Spu">
-        select * from `spu` s,`category_product_spu` cs,`category_product`c
-        where s.spu_id = cs.spu_id AND cs.category_id = c.category_id
+        select * from `spu` s,`category_goods_spu` cs,`category_goods`c
+        where s.spu_id = cs.spu_id AND cs.cg_id2 = c.category_id
         AND is_deleted = false
         <if test="spu.title != null">
             AND title like  CONCAT('%',#{spu.title},'%')
