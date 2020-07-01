@@ -30,6 +30,8 @@ ebe-shop是一款简单美观高效的商城系统，使用SpringBoot、Shiro架
 
 > 开发环境：IDE：IntelliJ IDEA、DB：Mysql 5.7.28、JDK：JAVA8
 
+> sql文件：ebe_base.sql为主要结构，region.sql为国内四级联动地址
+
 > 部署教程CSDN博客：https://blog.csdn.net/sx_4567/article/details/106225757
 
 **账户：**
