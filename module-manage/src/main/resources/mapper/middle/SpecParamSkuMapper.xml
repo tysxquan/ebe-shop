@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxquan.manage.middle.mapper.SpecParamSkuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sxquan.core.pojo.middle.SpecParamSku">
+        <result column="spec_param_id" property="specParamId" />
+        <result column="sku_id" property="skuId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        spec_param_id, sku_id
+    </sql>
+    <select id="selectSpecGroupParamBySkuId" resultType="SpecGroupParam">
+        select *
+            FROM `spec_param` sp,`spec_param_sku` sps
+            WHERE sp.spec_param_id = sps.spec_param_id AND sps.sku_id =#{skuId}
+
+    </select>
+
+</mapper>

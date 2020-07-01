@@ -109,7 +109,6 @@ public class ShiroRealm extends AuthorizingRealm {
      * 自定义方法：清除所有 授权缓存
      */
     public void clearAllCachedAuthorizationInfo() {
-        System.out.println(getAuthorizationCache());
         getAuthorizationCache().clear();
     }
 

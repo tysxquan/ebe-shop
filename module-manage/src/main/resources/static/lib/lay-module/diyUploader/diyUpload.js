@@ -314,9 +314,10 @@ layui.define(['jquery', 'adminLayer', 'webUploader', 'photoSwipe'], function (ex
             //绑定取消事件;
             let $del = $fileBox.find('.del').on('click', function () {
                 let imageName = webUploader.getFile(file_id).name;
+
                 adminLayer.modal.confirm("删除图片", "是否确定删除该图片", function () {
                     $.ajax({
-                        url: config.server,
+                        url: config.deleteUrl === "" ? config.server : config.deleteUrl,
                         data: config.imageName+"="+imageName,
                         type: 'DELETE',
                         success: function (r) {

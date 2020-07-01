@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxquan.manage.middle.mapper.CategoryGoodsSpuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sxquan.core.pojo.middle.CategoryGoodsSpu">
+        <result column="spu_id" property="spuId" />
+        <result column="cg_id1" property="cgId1" />
+        <result column="cg_id2" property="cgId2" />
+        <result column="cg_id3" property="cgId3" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        spu_id, cg_id1, cg_id2, cg_id3
+    </sql>
+
+</mapper>

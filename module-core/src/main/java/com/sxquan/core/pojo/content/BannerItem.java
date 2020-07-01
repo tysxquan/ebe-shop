@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @TableName("content_banner_item")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BannerItem implements Serializable {
 
     private static final long serialVersionUID = -1L;
@@ -36,8 +38,8 @@ public class BannerItem implements Serializable {
     /**
      * 名称
      */
-    @TableField("banner_name")
-    private String bannerName;
+    @TableField("banner_item_name")
+    private String bannerItemName;
 
     /**
      * 图片

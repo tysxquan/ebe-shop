@@ -148,15 +148,10 @@
                             layui.each(checkStatus.data, function (key, item) {
                                 paramIds.push(item.specParamId)
                             });
-                            let curr = $(".layui-laypage-skip").find("input").val(); //当前页码值
-                            let len = table.cache['groupTable'].length;
                             layuimini.delete('/spec/param/' + paramIds.join(','),function() {
-                                if (len === 1 && curr > 1) {
-                                    curr = curr - 1;
-                                }
                                 table.reload('paramTable', {
                                     page: {
-                                        curr: curr
+                                        curr:layuimini.judgeRemoveTablePage('paramTable',checkStatus.data.length)
                                     }
                                 }, 'data');
                                 layuimini.alert.success('删除规格成功');
@@ -195,16 +190,11 @@
                 layEvent = obj.event;
             if (layEvent === 'delete') {
                 layuimini.modal.confirm('删除规格', '确定删除该规格？', function () {
-                    let curr = $(".layui-laypage-skip").find("input").val(); //当前页码值
-                    let len = table.cache['paramTable'].length;
                     layuimini.delete('/spec/param/' + data.specParamId, function () {
                         layuimini.alert.success('删除规格成功');
-                        if (len === 1 && curr > 1) {
-                            curr = curr - 1;
-                        }
                         table.reload('paramTable', {
                             page: {
-                                curr: curr
+                                curr: layuimini.judgeRemoveTablePage('paramTable',1)
                             }
                         }, 'data');
                     });

@@ -1,0 +1,184 @@
+<style>
+    #banner-update {
+        padding: 20px 25px 120px 0;
+    }
+
+    #banner-update .layui-textarea, #banner-update .layui-input {
+        border-radius: 4px !important;
+    }
+    .layui-table img {
+        max-width: 150px;
+    }
+
+
+</style>
+<div class="layui-fluid" id="banner-update">
+    <form class="layui-form" action="" lay-filter="banner-update-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">名称：</label>
+            <div class="layui-input-block">
+                <input type="text" name="bannerName" minlength="2" maxlength="10"
+                       lay-verify="required|range" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">标题：</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" minlength="2" maxlength="50"
+                       lay-verify="range" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">图片：</label>
+            <div class="layui-input-inline">
+                <ul class="upload-ul clearfix"></ul>
+                <div class="upload-pick" id="img"></div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">描述：</label>
+            <div class="layui-input-block">
+                <input type="text" name="description" minlength="2" maxlength="120"
+                       lay-verify="range" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-ebe-btn">
+            <button class="layui-btn ebe-layer-btn" lay-submit="" lay-filter="banner-update-form-submit" id="submit">提交
+            </button>
+            <button type="reset" class="layui-btn ebe-layer-btn layui-btn-primary" id="reset">重置</button>
+        </div>
+    </form>
+
+    <div class="layui-form-item ebe-table" style="border-top: 2px solid #f1f1f1;margin-left: 30px;">
+        <div>
+            <div style="margin: 30px 0" class="flex align-center">
+                <div class="text-theme" style="margin-right: 30px" >Banner-Item列表</div>
+                <button type="button" class="ebe-btn " id="BtnBannerItemAdd">添加bannerItem</button>
+            </div>
+            <table class="layui-hide" id="bannerItemTable" lay-filter="bannerItemTable"></table>
+            <script type="text/html" id="bannerItemBar">
+                <span shiro:lacksPermission="bannerItem:add,bannerItem:delete">
+        				<span class="layui-badge-dot"></span> 无权限
+    				</span>
+                <a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit"
+                   shiro:hasPermission="bannerItem:update">编辑</a>
+                <a class="layui-btn layui-btn-xs layui-btn-red data-count-delete" lay-event="delete"
+                   shiro:hasPermission="bannerItem:delete">删除</a>
+            </script>
+        </div>
+    </div>
+
+</div>
+<script data-th-inline="javascript">
+    layui.use(['layuimini', 'form', 'validate', 'table', 'scrollTop', 'diyUploader'], function () {
+        var $ = layui.jquery,
+            layer = layui.layer,
+            scrollTop = layui.scrollTop,
+            diyUploader = layui.diyUploader,
+            table = layui.table,
+            layuimini = layui.layuimini,
+            form = layui.form,
+            banner = [[${banner}]],
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+        initValue();
+        //bannerItem表格
+        layuimini.table.init({
+            elem: '#bannerItemTable',
+            url: '/content/banner/'+banner.bannerId+'/bannerItem/list',
+            cols: [
+                [
+                {type: "checkbox", width: 50, fixed: "left"},
+                {field: 'id', title: 'ID', type: 'numbers'},
+                {field: 'img', title: '图片',minWidth:180,align:"center",templet:function (d) {
+                        if (d.img !== undefined || d.img === "") {
+                            return '<div ><img class="ebe-table-img" src="'+d.img+'"></div>';
+                        }
+                        return '';
+                    }},
+                {field: 'bannerItemName', title: '名称'},
+                {field: 'createTime', title: '创建时间', minWidth: 180, sort: true, align: "center"},
+                {title: '操作', minWidth: 180, toolbar: '#currentTableBar', fixed: "right", align: "center"}
+            ]
+            ]
+        });
+
+        $("#BtnBannerItemAdd").on("click",function () {
+            layuimini.model.openMax('新增BannerItem', '/content/banner/'+ banner.bannerId+'/bannerItemAdd');
+        });
+
+        table.on('tool(bannerItemTable)', function (obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            if (layEvent === 'delete') {
+                layuimini.modal.confirm('删除BannerItem', '确定删除该BannerItem?', function () {
+                    layuimini.delete('/content/bannerItem/' + data.id, function () {
+                        table.reload('bannerItemTable', {
+                            page: {
+                                curr: layuimini.judgeRemoveTablePage('bannerItemTable',1)
+                            }
+                        }, 'data');
+                        layuimini.alert.success('删除BannerItem成功');
+                    });
+                });
+            }
+            if (layEvent === 'edit') {
+                layuimini.model.openMax('修改BannerItem', '/content/banner/bannerItemUpdate/' + data.id);
+            }
+        });
+
+        //加载滚动图标
+        scrollTop.load();
+
+        //上传图片
+        var $imgUpload = diyUploader.diyUpload({
+            pick: {
+                id: $("#img"),
+                multiple: false,
+                label: "文件大小 ≤ 3Mb"
+            },
+            server: '/content/banner/image/upload',
+            fileVal: "imgFile",
+            deleteUrl:"/content/banner/image",
+            //队列数
+            fileNumLimit: 1,
+            initFileUrl: banner.img
+        });
+        function initValue() {
+            form.val("banner-update-form", {
+                "bannerName": banner.bannerName,
+                "title": banner.title,
+                "description": banner.description
+            });
+        }
+        form.on('submit(banner-update-form-submit)', function (data) {
+            layuimini.put('/content/banner', updateParams(data.field), function () {
+                layer.closeAll();
+                layuimini.alert.success('修改banner成功!');
+                table.reload('bannerTable', {
+                    where: {key:{field:data.field}}
+                }, 'data');
+            });
+            return false;
+        });
+
+        function updateParams(data) {
+            let file = $imgUpload.getFiles('complete');
+            var params = {
+                bannerId:banner.bannerId,
+                bannerName: data.bannerName.trim(),
+                title: data.title.trim(),
+                description: data.description.trim(),
+            };
+
+            if (file.length !== 0) {
+                params.img = file[0].name;
+            }
+            return params;
+        }
+    });
+</script>

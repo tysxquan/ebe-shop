@@ -1,0 +1,95 @@
+<style>
+    #banner-item-add {
+        padding: 20px 30px 0 0;
+    }
+
+    #banner-item-add .layui-textarea, #banner-item-add .layui-input {
+        border-radius: 4px !important;
+    }
+
+</style>
+<div class="layui-fluid" id="banner-item-add">
+    <form class="layui-form" action="" lay-filter="banner-item-add-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">名称：</label>
+            <div class="layui-input-block">
+                <input type="text" name="bannerItemName" minlength="2" maxlength="10"
+                       lay-verify="range" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ebe-required">图片：</label>
+            <div class="layui-input-inline">
+                <ul class="upload-ul clearfix"></ul>
+                <div class="upload-pick" id="imgItem"></div>
+            </div>
+        </div>
+        <div class="layui-form-item layui-ebe-btn">
+            <button class="layui-btn ebe-layer-btn" lay-submit="" lay-filter="banner-item-add-form-submit" id="submit">提交
+            </button>
+            <button type="reset" class="layui-btn ebe-layer-btn layui-btn-primary" id="reset">重置</button>
+        </div>
+
+    </form>
+
+</div>
+<script data-th-inline="javascript">
+    layui.use(['layuimini', 'form', 'validate', 'table', 'scrollTop','layer', 'diyUploader'], function () {
+        var $ = layui.jquery,
+            layer = layui.layer,
+            scrollTop = layui.scrollTop,
+            diyUploader = layui.diyUploader,
+            table = layui.table,
+            layuimini = layui.layuimini,
+            form = layui.form,
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        //加载滚动图标
+        scrollTop.load();
+
+        //上传图片
+        var $imgUpload = diyUploader.diyUpload({
+            pick: {
+                id: $("#imgItem"),
+                multiple: false,
+                label: "文件大小 ≤ 3Mb"
+            },
+            server: '/content/bannerItem/image/upload',
+            fileVal: "imgFile",
+            deleteUrl:"/content/bannerItem/image",
+            //队列数
+            fileNumLimit: 1,
+        });
+        form.on('submit(banner-item-add-form-submit)', function (data) {
+
+
+            layuimini.post('/content/bannerItem', addParams(data.field), function () {
+                layer.close(layer.index-1);
+                layuimini.alert.success('新增bannerItem成功!');
+                table.reload('bannerItemTable', {
+                    data: data.field,
+                    page: {
+                        curr: layuimini.judgeAddTablePage('bannerItemTable')
+                    }
+                });
+            });
+            return false;
+        });
+
+        function addParams(data) {
+            let file = $imgUpload.getFiles('complete');
+            var params = {
+                bannerItemName: data.bannerItemName.trim(),
+                bannerId: [[${bannerId}]]
+            };
+
+            if (file.length !== 0) {
+                params.img = file[0].name;
+            }
+            return params;
+        }
+    });
+</script>

@@ -6,6 +6,61 @@ html {
 	background-color: #f2f2f2;
 	color: #666
 }
+
+/*定义常用元素*/
+.flex {
+	display: flex;
+
+}
+
+.align-center {
+	align-items: center;
+}
+
+.text-theme {
+	color: #009688;
+}
+
+
+.ebe-btn {
+	display: inline-block;
+	line-height: 1;
+	white-space: nowrap;
+	cursor: pointer;
+	background: #fff;
+	border: 1px solid #009688;
+	color: #009688;
+	text-align: center;
+	box-sizing: border-box;
+	outline: none;
+	margin: 0;
+	-webkit-transition: .1s;
+	transition: .1s;
+	font-weight: 500;
+	padding: 12px 20px;
+	font-size: 14px;
+	border-radius:3px;
+}
+
+/* 中号*/
+.ebe-btn.btn-sm{
+	padding: 7px 12px;
+}
+
+.ebe-btn.line-red {
+	background: #fff;
+	border: 1px solid #f56c6c;
+	color: #f56c6c;
+}
+.ebe-btn.line-red:hover{
+	color: #ffffff;
+	background-color: #f56c6c;
+}
+
+.ebe-btn:hover {
+	color: #ffffff;
+	background-color: #009688;
+}
 /*叠加禁用样式*/
 .layui-disabled ,.layui-disabled:hover{
 	background-color: #f6f7fa;
