@@ -5,6 +5,7 @@ import com.sxquan.core.entity.ServerResponse;
 import com.sxquan.core.exception.ShopException;
 import com.sxquan.core.pojo.monitor.LogLogin;
 import com.sxquan.core.pojo.system.SystemUser;
+import com.sxquan.manage.common.annotation.Limit;
 import com.sxquan.manage.common.service.ValidateCodeService;
 import com.sxquan.manage.monitor.service.ILogLoginService;
 import com.sxquan.manage.system.service.ISystemUserService;
@@ -45,6 +46,7 @@ public class LoginController {
     private ILogLoginService logLoginService;
 
     @PostMapping("/login")
+    @Limit(key = "login", period = 60, count = 10, name = "登录接口", prefix = "limit")
     public ServerResponse login(
             @NotBlank(message = "{required}") String username,
             @NotBlank(message = "{required}") String password,
