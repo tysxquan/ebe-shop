@@ -59,8 +59,8 @@ public class LogLogin implements Serializable {
     /**
      * 操作系统
      */
-    @TableField("system")
-    private String system;
+    @TableField("systems")
+    private String systems;
 
     /**
      * 浏览器
@@ -159,11 +159,11 @@ public class LogLogin implements Serializable {
                     default:
                 }
             }
-            this.system = os;
+            this.systems = os;
             this.browser = StringUtils.replace(browser, "/", " ");
         } catch (Exception e) {
             log.error("获取登录信息失败：{}", e.getMessage());
-            this.system = "";
+            this.systems = "";
             this.browser = "";
         }
     }
