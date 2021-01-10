@@ -82,13 +82,13 @@ ebe-shop是一款简单美观高效的商城系统，使用SpringBoot、Shiro架
 
 #### 系统截图
 
-![ebe_home.png](https://gitee.com/sxquan/ebe-shop/tree/master/screenshots/ebe_home.png)
+![ebe_home.png](https://gitee.com/sxquan/ebe-shop/raw/master/screenshots/ebe_home.png)
 
-![ebe_user.png](https://gitee.com/sxquan/ebe-shop/tree/master/screenshots/ebe_user.png)
+![ebe_user.png](https://gitee.com/sxquan/ebe-shop/raw/master/screenshots/ebe_user.png)
 
-![ebe_update.png](https://gitee.com/sxquan/ebe-shop/tree/master/screenshots/ebe_update.png)
+![ebe_update.png](https://gitee.com/sxquan/ebe-shop/raw/master/screenshots/ebe_update.png)
 
-![ebe_personal.png](https://gitee.com/sxquan/ebe-shop/tree/master/screenshots/ebe_personal.png)
+![ebe_personal.png](https://gitee.com/sxquan/ebe-shop/raw/master/screenshots/ebe_personal.png)
 
 #### 
 
