@@ -18,7 +18,7 @@ ebe-shop是一款简单美观高效的商城系统，使用SpringBoot、Shiro架
 
 #### 说明
 
-> 后台系统演示地址：[http://47.97.213.152](http://47.97.213.152)
+> 后台系统演示地址：[http://116.62.203.222/](http://116.62.203.222/)
 
 > 国内镜像：[Gitee](https://gitee.com/sxquan/ebe-shop)
 
