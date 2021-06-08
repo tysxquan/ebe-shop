@@ -9,12 +9,12 @@
         <result column="login_time" property="loginTime"/>
         <result column="location" property="location"/>
         <result column="ip" property="ip"/>
-        <result column="system" property="system"/>
+        <result column="systems" property="systems"/>
         <result column="browser" property="browser"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="BaseColumnList">
-            id, username, login_time, location, ip, system, browser
+            id, username, login_time, location, ip, systems, browser
     </sql>
 </mapper>
